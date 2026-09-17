@@ -404,7 +404,7 @@ def annotate_cis(cis: dict, source_path: str) -> dict[str, Any]:
     in_scope = _has_cloud_iac(source_path)
     for c in cis.get("controls") or []:
         c["rationale"] = (
-            "CIS Microsoft Azure Foundations — control as listed in the XYZ Reality 2022 pack."
+            "CIS Microsoft Azure Foundations — control as listed in the CIS catalogue."
         )
         c["remediation"] = (
             "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID."

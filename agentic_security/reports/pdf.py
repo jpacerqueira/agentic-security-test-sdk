@@ -7,7 +7,7 @@ import re
 
 from agentic_security.brand import APP_NAME
 from agentic_security.plans import reports_for_pdf
-from agentic_security.reports.html import GENERATORS, esc
+from agentic_security.reports.html import GENERATORS, _client, esc
 
 _HEADER = re.compile(r"<header class=\"cover\">.*?</header>", re.DOTALL)
 _MAIN = re.compile(r"<main>(.*?)</main>", re.DOTALL)
@@ -134,6 +134,7 @@ def combined_html(run_dir: Path, meta: dict) -> tuple[str, list[str]]:
         present.append(name)
         sections.append(f'<article class="pdf-section" id="{esc(name)}">{_section_from_html(doc)}</article>')
     toc = "".join(f"<li>{esc(n)}</li>" for n in present)
+    who = _client(meta)
     html = f"""<!doctype html>
 <html lang="en">
 <head>
@@ -144,11 +145,11 @@ def combined_html(run_dir: Path, meta: dict) -> tuple[str, list[str]]:
 <article class="pdf-section pdf-toc">
   <header class="cover">
     <div class="dot"></div>
-    <p class="cls">Client confidential · {esc(APP_NAME)}</p>
+    <p class="cls">{esc(who)} confidential · {esc(APP_NAME)}</p>
     <h1>Output report</h1>
   </header>
   <p>Bound A4 pack for run <code>{esc(meta.get("run_id"))}</code>
-  · client <strong>{esc(meta.get("client_name"))}</strong>
+  · client <strong>{esc(who)}</strong>
   · plan <code>{esc(meta.get("plan"))}</code>.</p>
   <h2>Contents (executive summary first)</h2>
   <ol>{toc}</ol>

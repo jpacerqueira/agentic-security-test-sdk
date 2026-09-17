@@ -50,7 +50,7 @@ main { max-width: 1400px; margin: 0 auto; padding: 32px; }
 .hint { font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; color: var(--muted); }
 .warn { background: #FEF3E2; border-left: 3px solid var(--accent); padding: 10px 14px; }
 
-.plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 12px 0 36px; }
+.plans { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 12px 0 36px; }
 .plan-card { border: 1px solid var(--rule); padding: 18px; cursor: pointer; }
 .plan-card.selected { border-color: var(--ink); border-width: 2px; }
 .plan-card ul { padding-left: 1.1em; margin: 8px 0 0; }
@@ -135,6 +135,9 @@ button.danger { background: var(--accent); }
 #report-list button { background: var(--bg); color: var(--ink); border: 1px solid var(--rule); margin: 0 6px 6px 0; }
 #btn-output-pdf:disabled { opacity: 0.45; cursor: not-allowed; }
 
+@media (max-width: 1100px) {
+  .plans { grid-template-columns: repeat(2, 1fr); }
+}
 @media (max-width: 900px) {
   .plans, .demo-shell { grid-template-columns: 1fr; }
 }

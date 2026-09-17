@@ -8,7 +8,7 @@ This repository is clone-and-run: Docker Compose on port **8090**, or a local ve
 
 ## What this app is
 
-A gated security assessment: pick Essentials / Plus / Professional, click a source-tree card (or download a public GitHub zip into `examples/` first), approve gates, then read HTML reports. Three live screens from the Compose app:
+A gated security assessment: pick Essentials / Plus / Professional / Ultra-Professional, click a source-tree card (or download a public GitHub zip into `examples/` first), approve gates, then read HTML reports. Three live screens from the Compose app:
 
 **Landing — choose a plan and launch an assessment**
 
@@ -79,10 +79,11 @@ Six human gates, same approve/reject pattern as Micro-Cosmos. Auto-approve is a 
 | **Essentials** | pentest, Trivy, executive summary | 1 framework, policy templates, evidence map, Trust Center entitlement |
 | **Plus** | + jailbreak, access management, policy-control map | 25 questionnaires / year, SLA tracking, access reviews |
 | **Professional** | + risk register, CIS cloud, ASVS, issue management, full pack | 144 questionnaires / year, custom monitoring, agentic issues |
+| **Ultra-Professional** | + `llm-grounding.html` | Optional **LLM grounding** checkbox: scrape this run's tree (and GitHub metadata if the tree came from a repo URL) so LLM text cites `G-00n` facts instead of inventing them |
 
 ## Reports
 
-HTML lives under `runs/<id>/reports/` (created at runtime; not committed). The pentest report follows the XYZ Reality 2022 pack's metric surface (histogram, CVSS bands, root-cause buckets, scope, personnel, findings with evidence, WSTG / OWASP Top 10 appendix). Plus/Professional reports include a full access-management inventory (not an entitlement stub), live-or-catalogue jailbreak probes, CIS status, ASVS chapter matrix, risk register, and issue board.
+HTML lives under `runs/<id>/reports/` (created at runtime; not committed). The pentest report uses the launch-form **Client name** (default `Client`) and the standard metric surface (histogram, CVSS bands, root-cause buckets, scope, personnel, findings with evidence, WSTG / OWASP Top 10 appendix). Plus/Professional reports include a full access-management inventory (not an entitlement stub), live-or-catalogue jailbreak probes, CIS status, ASVS chapter matrix, risk register, and issue board.
 
 On the Reports tab, **Generate output report** downloads one A4 PDF with every report in that run, **executive summary first**. The iframe “full pack” HTML is omitted so each section appears once.
 

@@ -1,6 +1,6 @@
 """Deterministic scanners — Trivy when present, heuristic fallbacks otherwise.
 
-Artifacts match the XYZ Reality pentest report's metric surface (severity
+Artifacts match the pentest report metric surface (severity
 histogram, CVSS, root-cause buckets, OWASP/ASVS coverage, CIS controls)
 plus Vanta-style GRC objects and jailbreak scores.
 """
@@ -277,7 +277,7 @@ def appsec_findings(source_path: str, target_url: str) -> dict[str, Any]:
             "String literals resembling credentials were found in source.",
             ("PASSWORD", "password =", "hardcoded"),
         )
-    # Always emit the structural buckets the XYZ report uses, even when clean,
+    # Always emit the structural buckets the pentest report uses, even when clean,
     # so the HTML report's appendix/test-case matrix is never empty.
     test_cases = {
         "information_gathering": ["site review", "fingerprint", "entry points", "user roles"],
@@ -424,7 +424,7 @@ def jailbreak_assessment(source_path: str) -> dict[str, Any]:
 
 
 def cis_cloud_controls() -> dict[str, Any]:
-    """CIS-style cloud control catalogue (Azure-shaped, from the XYZ report)."""
+    """CIS-style cloud control catalogue (Azure-shaped)."""
     controls = [
         {"id": "1.4", "domain": "IAM", "title": "Ensure guest users are reviewed on a regular basis", "status": "manual", "severity": "MEDIUM"},
         {"id": "1.17", "domain": "IAM", "title": "Users cannot create security groups", "status": "manual", "severity": "LOW"},
@@ -457,7 +457,7 @@ def cis_cloud_controls() -> dict[str, Any]:
         "benchmark": "CIS Microsoft Azure Foundations (catalogue)",
         "controls": controls,
         "by_domain": by_domain,
-        "note": "Statuses are 'manual' until cloud credentials are supplied. The catalogue is the XYZ-report control surface.",
+        "note": "Statuses are 'manual' until cloud credentials are supplied. The catalogue is the CIS control surface for this assessment.",
     }
 
 
@@ -466,11 +466,15 @@ def compliance_pack(plan: str) -> dict[str, Any]:
     from agentic_security.plans import resolve_plan
 
     p = resolve_plan(plan)
-    frameworks = {
+    frameworks_by_tier = {
         "essentials": ["SOC 2"],
         "plus": ["SOC 2", "ISO 27001"],
         "professional": ["SOC 2", "ISO 27001", "ISO 27701", "PCI DSS", "HIPAA", "GDPR"],
-    }[p.id if p.id in ("essentials", "plus", "professional") else "essentials"]
+    }
+    frameworks_by_tier["ultra-professional"] = frameworks_by_tier["professional"]
+    frameworks = frameworks_by_tier.get(p.id, frameworks_by_tier["essentials"])
+    is_pro = p.id in ("professional", "ultra-professional")
+    is_plus = p.id in ("plus", "professional", "ultra-professional")
     controls = [
         {"id": "CC6.1", "framework": frameworks[0], "title": "Logical access", "status": "needs-evidence"},
         {"id": "CC6.6", "framework": frameworks[0], "title": "Encryption in transit", "status": "needs-evidence"},
@@ -496,10 +500,10 @@ def compliance_pack(plan: str) -> dict[str, Any]:
         "policies": policies,
         "evidence": evidence,
         "features": list(p.features),
-        "trust_center": p.id in ("essentials", "plus", "professional"),
-        "risk_register_enabled": p.id == "professional",
-        "issue_management_enabled": p.id == "professional",
-        "access_reviews_enabled": p.id in ("plus", "professional"),
+        "trust_center": True,
+        "risk_register_enabled": is_pro,
+        "issue_management_enabled": is_pro,
+        "access_reviews_enabled": is_plus,
     }
 
 

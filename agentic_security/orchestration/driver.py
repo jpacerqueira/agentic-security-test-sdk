@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+import asyncio
+
 from agentic_security.orchestration.pipeline import (
     PipelineEvent,
     PipelinePhase,
     SecurityOrchestrator,
 )
-from agentic_security import inventories, llm, llm_enrich, scanners
+from agentic_security import grounding, inventories, llm, llm_enrich, scanners
 from agentic_security.reports.html import write_all_reports
 
 
@@ -45,6 +47,18 @@ async def run_full_pipeline(orch: SecurityOrchestrator):
         async for ev in phase(PipelinePhase.SCOPE):
             yield ev
         scope = scanners.discover_scope(orch.source_path, orch.target_url, orch.client_name)
+        if orch.llm_grounding:
+            pack = await asyncio.to_thread(
+                grounding.collect_grounding_for_run,
+                orch.source_path,
+                orch.target_url,
+                orch.client_name,
+            )
+            orch.grounding_pack = pack
+            orch.write_json("grounding.json", pack)
+            yield PipelineEvent(
+                kind="artifact", phase=PipelinePhase.SCOPE, payload={"key": "grounding.json"}
+            )
         scope = await llm_enrich.maybe_enrich(orch, "scope", scope)
         orch.write_json("scope.json", scope)
         yield PipelineEvent(kind="artifact", phase=PipelinePhase.SCOPE, payload={"key": "scope.json"})

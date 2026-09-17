@@ -1,7 +1,8 @@
-"""Vanta-shaped plan entitlements: Essentials, Plus, Professional.
+"""Vanta-shaped plan entitlements: Essentials, Plus, Professional, Ultra-Professional.
 
-Enterprise is out of the launch surface (fully custom) — the three public
-tiers match https://www.vanta.com/lp/demo "Find your plan".
+Enterprise is out of the launch surface (fully custom). The first three public
+tiers match https://www.vanta.com/lp/demo "Find your plan". Ultra-Professional
+is this product's extra: optional per-run LLM grounding on top of Professional.
 """
 
 from __future__ import annotations
@@ -107,13 +108,47 @@ PROFESSIONAL = Plan(
     includes=("essentials", "plus"),
 )
 
+ULTRA_PROFESSIONAL = Plan(
+    id="ultra-professional",
+    name="Ultra-Professional",
+    tagline="Professional plus optional LLM grounding — facts scraped for this run, not invented.",
+    audience="Teams who need LLM narrative tied to this assessment's evidence pack.",
+    questionnaires_per_year=144,
+    frameworks="all",
+    reports=(
+        "pentest-assessment.html",
+        "trivy-scan.html",
+        "executive-summary.html",
+        "jailbreak-assessment.html",
+        "access-management.html",
+        "policy-control-map.html",
+        "risk-register.html",
+        "cis-cloud.html",
+        "owasp-asvs.html",
+        "issue-management.html",
+        "llm-grounding.html",
+        "full-security-report.html",
+    ),
+    features=(
+        "Everything in Professional",
+        "Optional per-run LLM grounding (launch checkbox)",
+        "Runtime scrape of this source tree, tailored to the assessment",
+        "GitHub metadata when the tree was fetched from a repo URL",
+        "LLM text must cite grounding fact ids or say unknown",
+        "llm-grounding.html evidence report",
+    ),
+    includes=("essentials", "plus", "professional"),
+)
+
 PLANS: dict[str, Plan] = {
     ESSENTIALS.id: ESSENTIALS,
     PLUS.id: PLUS,
     PROFESSIONAL.id: PROFESSIONAL,
+    ULTRA_PROFESSIONAL.id: ULTRA_PROFESSIONAL,
 }
 
-PLAN_ORDER = (ESSENTIALS, PLUS, PROFESSIONAL)
+PLAN_ORDER = (ESSENTIALS, PLUS, PROFESSIONAL, ULTRA_PROFESSIONAL)
+GROUNDING_PLAN_ID = ULTRA_PROFESSIONAL.id
 
 
 def resolve_plan(plan_id: str) -> Plan:
@@ -122,6 +157,11 @@ def resolve_plan(plan_id: str) -> Plan:
 
 def reports_for(plan_id: str) -> tuple[str, ...]:
     return resolve_plan(plan_id).reports
+
+
+def grounding_entitled(plan_id: str) -> bool:
+    """LLM grounding is an Ultra-Professional extra — not available on lower tiers."""
+    return resolve_plan(plan_id).id == GROUNDING_PLAN_ID
 
 
 def reports_for_pdf(plan_id: str) -> tuple[str, ...]:

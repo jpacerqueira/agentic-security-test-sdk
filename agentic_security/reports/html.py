@@ -1,4 +1,4 @@
-"""HTML reports — Micro-Cosmos design tokens, XYZ pentest metric surface, Vanta GRC, Trivy."""
+"""HTML reports — Micro-Cosmos design tokens, pentest metric surface, Vanta GRC, Trivy."""
 
 from __future__ import annotations
 
@@ -22,6 +22,11 @@ def esc(s: Any) -> str:
     return html.escape("" if s is None else str(s))
 
 
+def _client(meta: dict | None) -> str:
+    """Launch-form Client name. Empty values fall back to Client."""
+    return ((meta or {}).get("client_name") or "").strip() or "Client"
+
+
 def _load(run_dir: Path, name: str) -> dict:
     p = run_dir / name
     if not p.exists():
@@ -32,7 +37,9 @@ def _load(run_dir: Path, name: str) -> dict:
         return {}
 
 
-def shell(title: str, body: str, classification: str = "Client confidential") -> str:
+def shell(title: str, body: str, *, client: str = "Client", classification: str | None = None) -> str:
+    who = (client or "").strip() or "Client"
+    cls = classification or f"{who} confidential"
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -72,7 +79,7 @@ code {{ font-family:"IBM Plex Mono",monospace; background:var(--sage); padding:0
 <body>
 <header class="cover">
   <div class="dot"></div>
-  <p class="cls">{esc(classification)} · {esc(APP_NAME)}</p>
+  <p class="cls">{esc(cls)} · {esc(APP_NAME)}</p>
   <h1>{esc(title)}</h1>
 </header>
 <main>
@@ -120,8 +127,9 @@ def pentest_html(run_dir: Path, meta: dict) -> str:
     by = appsec.get("by_severity") or {}
     body = []
     body.append("<h2>1. Executive summary</h2>")
+    client = _client(meta) or (scope.get("client") or "").strip() or "Client"
     overview = scope.get("executive_overview") or appsec.get("llm_narrative") or (
-        f"Penetration test and security assessment for {meta.get('client_name') or scope.get('client')} "
+        f"Penetration test and security assessment for {client} "
         "covering grey-box / black-box application and API testing, vulnerability scans of the source tree "
         "(Trivy), jailbreak surface mapping, and CIS cloud-control catalogue."
     )
@@ -138,7 +146,7 @@ def pentest_html(run_dir: Path, meta: dict) -> str:
     ]))
     body.append("<h2>2. Project overview</h2>")
     body.append("<h3>2.1 Vulnerabilities</h3>")
-    body.append("<p>Counts by CVSS v3 band used in the XYZ Reality-style pentest report.</p>")
+    body.append("<p>Counts by CVSS v3 band.</p>")
     bands = appsec.get("cvss_bands") or {}
     body.append(_table(["Band", "Score"], [[k, v] for k, v in bands.items()]))
     body.append("<h3>2.2 Root cause analysis</h3>")
@@ -239,7 +247,11 @@ def pentest_html(run_dir: Path, meta: dict) -> str:
     body.append("<h3>6.4 Root causes</h3><p>Insecure configuration · Improper patch management · "
                 "Lack of adequate security awareness · Improper security architecture · Insecure coding practices.</p>")
     body.append("<h3>6.5 Terminology</h3><p>Black-box, grey-box, CVSS, NVD, application-layer vs network-layer testing.</p>")
-    return shell("Application pentest & security assessment", "\n".join(body))
+    return shell(
+        f"Application pentest & security assessment — {client}",
+        "\n".join(body),
+        client=client,
+    )
 
 
 def trivy_html(run_dir: Path, meta: dict) -> str:
@@ -247,7 +259,7 @@ def trivy_html(run_dir: Path, meta: dict) -> str:
     by = t.get("by_severity") or {}
     body = [
         f"<p>Scanner: <code>{esc(t.get('scanner'))}</code>. {esc(t.get('note') or '')} "
-        f"Client <strong>{esc(meta.get('client_name'))}</strong>.</p>",
+        f"Client <strong>{esc(_client(meta))}</strong>.</p>",
         _stats([(k.title(), by.get(k, 0)) for k in ("CRITICAL", "HIGH", "MEDIUM", "LOW", "UNKNOWN")]),
         "<p>Upgrade the listed packages to the fixed versions. HIGH+ items also appear on the remediation SLA board.</p>",
         _table(
@@ -268,7 +280,7 @@ def trivy_html(run_dir: Path, meta: dict) -> str:
             empty="No CVE rows. Install Trivy on PATH for a live scan.",
         ),
     ]
-    return shell("Trivy / dependency vulnerability scan", "\n".join(body))
+    return shell("Trivy / dependency vulnerability scan", "\n".join(body), client=_client(meta))
 
 
 def exec_html(run_dir: Path, meta: dict) -> str:
@@ -278,7 +290,7 @@ def exec_html(run_dir: Path, meta: dict) -> str:
     risks = _load(run_dir, "risk_register.json")
     by = appsec.get("by_severity") or {}
     body = [
-        f"<p>Client <strong>{esc(meta.get('client_name'))}</strong> · plan <code>{esc(meta.get('plan'))}</code> · run <code>{esc(meta.get('run_id'))}</code>.</p>",
+        f"<p>Client <strong>{esc(_client(meta))}</strong> · plan <code>{esc(meta.get('plan'))}</code> · run <code>{esc(meta.get('run_id'))}</code>.</p>",
         _stats([
             ("App findings", len(appsec.get("findings") or [])),
             ("Trivy CVEs", trivy.get("vulnerability_count", 0)),
@@ -298,7 +310,7 @@ def exec_html(run_dir: Path, meta: dict) -> str:
             ],
         ),
     ]
-    return shell("Executive summary", "\n".join(body))
+    return shell("Executive summary", "\n".join(body), client=_client(meta))
 
 
 def jail_html(run_dir: Path, meta: dict) -> str:
@@ -345,7 +357,7 @@ def jail_html(run_dir: Path, meta: dict) -> str:
         [[m.get("file"), m.get("marker")] for m in (j.get("source_markers") or [])],
         empty="No LLM-client markers in the tree.",
     ))
-    return shell("Jailbreak & prompt-injection assessment", "\n".join(body))
+    return shell("Jailbreak & prompt-injection assessment", "\n".join(body), client=_client(meta))
 
 
 def cis_html(run_dir: Path, meta: dict) -> str:
@@ -370,7 +382,7 @@ def cis_html(run_dir: Path, meta: dict) -> str:
             ],
         ),
     ]
-    return shell("CIS cloud security controls", "\n".join(body))
+    return shell("CIS cloud security controls", "\n".join(body), client=_client(meta))
 
 
 def compliance_html(run_dir: Path, meta: dict, title: str, kind: str) -> str:
@@ -555,7 +567,7 @@ def compliance_html(run_dir: Path, meta: dict, title: str, kind: str) -> str:
         body.append("<h2>Features in this tier</h2><ul>" + "".join(
             f"<li>{esc(f)}</li>" for f in (pack.get("features") or [])
         ) + "</ul>")
-    return shell(title, "\n".join(body))
+    return shell(title, "\n".join(body), client=_client(meta))
 
 
 def full_html(run_dir: Path, meta: dict, files: list[str]) -> str:
@@ -565,7 +577,48 @@ def full_html(run_dir: Path, meta: dict, files: list[str]) -> str:
         for f in files if f != "full-security-report.html"
     )
     body = f"<h2>Report index</h2><table>{rows}</table>{iframes}"
-    return shell("Full security report", body)
+    return shell("Full security report", body, client=_client(meta))
+
+
+def grounding_html(run_dir: Path, meta: dict) -> str:
+    pack = _load(run_dir, "grounding.json")
+    client = meta.get("client_name") or pack.get("client") or "Client"
+    facts = pack.get("facts") or []
+    inv = pack.get("inventory") or {}
+    if not pack:
+        body = (
+            "<p class='callout'>LLM grounding was not enabled for this run. "
+            "On Ultra-Professional, tick <strong>LLM grounding</strong> at launch "
+            "to scrape this assessment's source tree and (when present) GitHub "
+            "metadata.</p>"
+        )
+        return shell("LLM grounding pack", body, client=_client(meta))
+    rows = [
+        [f.get("id"), f.get("kind"), f.get("path"), (f.get("text") or "")[:280]]
+        for f in facts
+    ]
+    gh = pack.get("github_meta") or {}
+    gh_block = ""
+    if gh.get("full_name"):
+        gh_block = (
+            f"<h2>GitHub metadata</h2><p>{esc(gh.get('full_name'))} — "
+            f"{esc(gh.get('description'))} ({esc(gh.get('language'))})</p>"
+        )
+    elif gh.get("error"):
+        gh_block = f"<p class='hint'>GitHub metadata skipped: {esc(gh.get('error'))}</p>"
+    body = f"""
+<p>Facts scraped for <strong>{esc(client)}</strong> from <code>{esc(pack.get('source_path'))}</code>
+at run time. LLM narrative on this tier must cite <code>G-00n</code> ids or say unknown.</p>
+<p class="callout">{esc(pack.get('contract'))}</p>
+<div class="statrow">
+  <div class="stat"><b>{inv.get('files') or 0}</b><span>Files inventoried</span></div>
+  <div class="stat"><b>{len(facts)}</b><span>Grounding facts</span></div>
+</div>
+{gh_block}
+<h2>Facts</h2>
+{_table(["ID", "Kind", "Path", "Excerpt"], rows)}
+"""
+    return shell("LLM grounding pack", body, client=_client(meta))
 
 
 GENERATORS = {
@@ -579,6 +632,7 @@ GENERATORS = {
     "risk-register.html": lambda d, m: compliance_html(d, m, "Risk register", "risk-register.html"),
     "owasp-asvs.html": lambda d, m: compliance_html(d, m, "OWASP ASVS / WSTG coverage", "owasp-asvs.html"),
     "issue-management.html": lambda d, m: compliance_html(d, m, "Agentic issue management", "issue-management.html"),
+    "llm-grounding.html": grounding_html,
 }
 
 
@@ -587,7 +641,7 @@ def write_all_reports(orch) -> list[str]:
     reports_dir = run_dir / "reports"
     reports_dir.mkdir(exist_ok=True)
     meta = {
-        "client_name": orch.client_name,
+        "client_name": (orch.client_name or "").strip() or "Client",
         "plan": orch.plan,
         "run_id": orch.run_id,
     }
@@ -613,7 +667,7 @@ def write_all_reports(orch) -> list[str]:
 class _ReportOrch:
     def __init__(self, run_dir: Path, meta: dict):
         self.run_dir = run_dir
-        self.client_name = meta.get("client_name") or "Client"
+        self.client_name = (meta.get("client_name") or "").strip() or "Client"
         self.plan = meta.get("plan") or "essentials"
         self.run_id = meta.get("run_id") or run_dir.name
 

@@ -1,11 +1,11 @@
 ---
 name: plans-and-gates
-description: Three public plans (Essentials, Plus, Professional) gate which HTML reports exist; six human gates copy Micro-Cosmos auto_approve persistence, not stop_requested (2026-09-17)
+description: Four public plans (Essentials, Plus, Professional, Ultra-Professional); six human gates copy Micro-Cosmos auto_approve persistence, not stop_requested (2026-09-17)
 metadata:
   type: project
 ---
 
-Plans live in `agentic_security/plans.py`. Writer must not emit a Professional report on an Essentials run.
+Plans live in `agentic_security/plans.py`. Writer must not emit a Professional report on an Essentials run. Ultra-Professional is Professional plus `llm-grounding.html` and an optional launch checkbox; see `memory/llm-grounding.md`.
 
 Gates (`gate_1` … `gate_5`, including `gate_4_5` planning) all funnel through `SecurityOrchestrator.wait_gate`. Auto-approve is a launch-time flag that requires a reviewer name (same rule as Micro-Cosmos). Rejection stops the pipeline after emitting `gate_resolved`.
 

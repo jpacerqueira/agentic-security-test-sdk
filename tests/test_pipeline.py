@@ -43,8 +43,8 @@ async def test_pipeline_auto_approves(tmp_path: Path):
         skip_llm=True,
         auto_approve_gates=True,
         reviewer_name="Jane",
-        client_name="XYZ Reality Ltd",
-        target_url="https://cloud.xyzreality.com",
+        client_name="Client",
+        target_url="https://app.example.com",
         source_path="examples/sample-web-api",
     )
     events = [ev async for ev in run_full_pipeline(orch)]
@@ -58,6 +58,8 @@ async def test_pipeline_auto_approves(tmp_path: Path):
     assert "CVSS" in html
     assert "2.5 Personnel" in html
     assert "AS-001" in html
+    assert "Client" in html
+    assert "Client confidential" in html
     access = (tmp_path / "t1" / "reports" / "access-management.html").read_text()
     assert "Identity inventory" in access
     assert "Joiner" in access
@@ -72,6 +74,30 @@ async def test_pipeline_auto_approves(tmp_path: Path):
     assert "V2" in asvs
     assert (tmp_path / "t1" / "access_management.json").exists()
     assert orch.plan == "professional"
+
+
+async def test_reports_use_launch_client_name(tmp_path: Path):
+    from agentic_security.orchestration.driver import run_full_pipeline
+    from agentic_security.orchestration.pipeline import SecurityOrchestrator
+
+    orch = SecurityOrchestrator(
+        run_id="t-client",
+        run_dir=tmp_path / "t-client",
+        plan="professional",
+        skip_llm=True,
+        auto_approve_gates=True,
+        reviewer_name="Jane",
+        client_name="Acme Holdings",
+        target_url="https://app.example.com",
+        source_path="examples/sample-web-api",
+    )
+    async for _ in run_full_pipeline(orch):
+        pass
+    pentest = (tmp_path / "t-client" / "reports" / "pentest-assessment.html").read_text()
+    exec_sum = (tmp_path / "t-client" / "reports" / "executive-summary.html").read_text()
+    assert "Acme Holdings" in pentest
+    assert "Acme Holdings confidential" in pentest
+    assert "Acme Holdings" in exec_sum
 
 
 async def test_consecutive_deterministic_then_llm_then_deterministic(tmp_path: Path, monkeypatch):

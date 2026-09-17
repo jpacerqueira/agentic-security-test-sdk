@@ -8,22 +8,23 @@ Product version: **0.0.1**
 
 Image: `agentic-security-test-sdk-agentic-security`  
 Python: 3.12.14 · pytest 9.1.1  
-Run: 2026-09-17 · **34 passed, 0 failed, 0 skipped** · 31.44s
+Run: 2026-09-17 · **47 passed, 0 failed, 0 skipped** · 33.31s
 
-See [README.md](README.md) for the 34-row grid.
+See [README.md](README.md) for the 47-row grid.
 
 ## Totals (Compose)
 
 | Result | Count |
 |---|---|
-| passed | 34 |
+| passed | 47 |
 | failed | 0 |
 | skipped | 0 |
 | errors | 0 |
 
 ## Live smoke (same container, after rebuild)
 
-- Landing `/` still has `#skip-llm-input` / `.skip-llm-toggle`
+- Landing `/` has four plan cards including Ultra-Professional; `#grounding-field` is Ultra-Professional only
+- Launch form Client name defaults to `Client`; reports use that name (or the value filled at start)
 - Run page has no `#run-skip-llm` / `.skip-llm-toggle`; header `.mode-badge` is text only
 - `POST /runs/{id}/mode` → **404**
 

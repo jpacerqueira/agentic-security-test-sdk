@@ -23,7 +23,7 @@ from agentic_security.orchestration.pipeline import (
     PipelinePhase,
     SecurityOrchestrator,
 )
-from agentic_security.plans import PLAN_ORDER, resolve_plan
+from agentic_security.plans import PLAN_ORDER, grounding_entitled, resolve_plan
 from agentic_security.settings import get_settings
 
 ROOT = Path(__file__).resolve().parent
@@ -67,9 +67,10 @@ class Run:
         self.skip_llm = kw.get("skip_llm", True)
         self.auto_approve_gates = kw.get("auto_approve_gates", False)
         self.reviewer_name = kw.get("reviewer_name") or kw.get("auto_approve_reviewer_name") or ""
-        self.client_name = kw.get("client_name") or "Client"
+        self.client_name = (kw.get("client_name") or "Client").strip() or "Client"
         self.target_url = kw.get("target_url") or ""
         self.source_path = kw.get("source_path") or ""
+        self.llm_grounding = bool(kw.get("llm_grounding"))
         self.created = kw.get("created") or datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
         self.run_dir = Path(settings.runs_dir) / self.run_id
         self.run_dir.mkdir(parents=True, exist_ok=True)
@@ -85,6 +86,7 @@ class Run:
             client_name=self.client_name,
             target_url=self.target_url,
             source_path=self.source_path,
+            llm_grounding=self.llm_grounding,
         )
         events_path = self.run_dir / "events.jsonl"
         if events_path.exists():
@@ -106,6 +108,7 @@ class Run:
                     "client_name": self.client_name,
                     "target_url": self.target_url,
                     "source_path": self.source_path,
+                    "llm_grounding": self.llm_grounding,
                     "created": self.created,
                 },
                 indent=2,
@@ -225,6 +228,7 @@ async def create_run(
     skip_llm: str = Form(""),
     auto_approve_gates: str = Form("false"),
     auto_approve_reviewer_name: str = Form(""),
+    llm_grounding: str = Form("false"),
 ):
     if auto_approve_gates.lower() == "true" and not auto_approve_reviewer_name.strip():
         return HTMLResponse("<div class='warn'>Approver name is required when auto-approve is on.</div>", 400)
@@ -239,10 +243,11 @@ async def create_run(
         plan=plan,
         source_path=source_path,
         target_url=target_url,
-        client_name=client_name,
+        client_name=(client_name or "").strip() or "Client",
         skip_llm=_parse_skip_llm(skip_llm),
         auto_approve_gates=auto_approve_gates.lower() == "true",
         reviewer_name=auto_approve_reviewer_name.strip(),
+        llm_grounding=llm_grounding.lower() == "true" and grounding_entitled(plan),
     )
     RUNS[run_id] = run
     asyncio.create_task(run.start())

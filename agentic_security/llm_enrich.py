@@ -6,6 +6,7 @@ from typing import Any
 import logging
 
 from agentic_security import llm
+from agentic_security.grounding import format_grounding_prompt
 
 log = logging.getLogger("agentic_security.llm_enrich")
 
@@ -19,7 +20,8 @@ _ASSISTANT_SYSTEM = (
 
 async def enrich_scope(scope: dict, source_excerpt: str) -> dict:
     data = await llm.generate_json(
-        "Write engagement fields for a security assessment.\n"
+        "Write engagement fields for a security assessment. "
+        "If a grounding contract is present, obey it: cite G-00n ids; never invent.\n"
         f"Known scope JSON:\n{scope}\nSource excerpt:\n{source_excerpt[:4000]}\n"
         'Return JSON: {"executive_overview": str, "assets_in_scope": [str], '
         '"assets_out_of_scope": [str], "constraints": [str]}'
@@ -35,7 +37,8 @@ async def enrich_appsec(appsec: dict, source_excerpt: str) -> dict:
     findings = appsec.get("findings") or []
     data = await llm.generate_json(
         "You are a pentest report writer. Given heuristic findings and source, "
-        "add a short executive narrative and, per finding id, extra recommendation.\n"
+        "add a short executive narrative and, per finding id, extra recommendation. "
+        "If a grounding contract is present, obey it: cite G-00n ids; never invent.\n"
         f"Findings: {[{'id': f.get('id'), 'title': f.get('title')} for f in findings]}\n"
         f"Source excerpt:\n{source_excerpt[:5000]}\n"
         'Return JSON: {"narrative": str, "attack_path": str, "extras": '
@@ -114,7 +117,8 @@ async def enrich_plan(plan: dict, appsec: dict) -> dict:
 
 async def enrich_access(access: dict, source_excerpt: str) -> dict:
     data = await llm.generate_json(
-        "Complete an access-management narrative for this inventory.\n"
+        "Complete an access-management narrative for this inventory. "
+        "If a grounding contract is present, obey it: cite G-00n ids; never invent.\n"
         f"Identities: {access.get('identities')}\n"
         f"Source excerpt:\n{source_excerpt[:3000]}\n"
         'Return JSON: {"narrative": str, "priority_actions": [str]}'
@@ -162,6 +166,10 @@ async def maybe_enrich(orch, kind: str, payload: dict[str, Any]) -> dict[str, An
     payload["mode"] = "llm"
     payload["llm_ready"] = msg
     excerpt = source_excerpt(orch.source_path)
+    grounded = format_grounding_prompt(getattr(orch, "grounding_pack", None))
+    if grounded:
+        excerpt = f"{grounded}\n\nSource excerpt:\n{excerpt}"
+        payload["grounded"] = True
     try:
         if kind == "scope":
             return await enrich_scope(payload, excerpt)

@@ -9,6 +9,7 @@
     <span>{{ run.client_name }}</span>
     <span title="Source tree">{{ run.source_path }}</span>
     <span class="mode-badge">{% if run.skip_llm %}Deterministic{% else %}LLM (Ollama / ADK LiteLLM){% endif %}</span>
+    {% if run.llm_grounding %}<span class="mode-badge">LLM grounding</span>{% endif %}
   </div>
 </div>
 <div class="phase-strip" id="phase-strip">

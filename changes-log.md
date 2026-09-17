@@ -14,7 +14,7 @@ Created a security-only ADK-style pipeline with Micro-Cosmos look and feel.
 - Security review, vulnerability review, jailbreak assessment
 - Gate reviews and a plan of identified issues
 - Vanta-like Essentials / Plus / Professional (https://www.vanta.com/lp/demo)
-- HTML reports covering the XYZ Reality 2022 pentest pack metrics, Vanta GRC objects, and Trivy-style scans
+- HTML reports covering pentest pack metrics, Vanta GRC objects, and Trivy-style scans
 - README, Claude skills, this log
 - Files only — no git
 
@@ -32,7 +32,7 @@ Created a security-only ADK-style pipeline with Micro-Cosmos look and feel.
 | `transferable-skills/` | How-to + four memory files |
 | `CLAUDE.md` / `README.md` | Operator map |
 
-### Report coverage vs XYZ pack
+### Report coverage vs pentest pack
 
 Executive summary, vulnerability chart buckets, root-cause analysis, scope (domains), objectives, confidentiality, disclaimer, methodology (OWASP/PTES/OSSTMM/CIS), narrative of tests, vulnerability matrix, per-finding CVSS (base, vector, impact, exploitability), WSTG appendix, OWASP Top 10, tools, root-cause glossary, terminology. Cloud CIS catalogue taken from the Azure section of that pack (IAM, storage, key vault, logging, networking, VM, App Service).
 
@@ -185,5 +185,54 @@ On a run the Deterministic/LLM switch should not exist. The toggle belongs only 
 Compose `pytest -v -W error::DeprecationWarning` after rebuild. Landing still has `.skip-llm-toggle`. Run page has no `#run-skip-llm`. `POST /runs/{id}/mode` is 404.
 
 Compose **34 passed, 0 skipped** (2026-09-17, 31.44s).
+
+---
+
+## 2026-09-17 — Ultra-Professional with optional LLM grounding
+
+### Ask
+
+Avoid LLM hallucinations with per-run grounding: scrape facts tailored to this assessment at runtime. Optional, top tier only, an extra beyond Professional. Name: **Ultra-Professional with LLM grounding**.
+
+### What landed
+
+| Path | Role |
+|---|---|
+| `plans.py` | Fourth plan `ultra-professional`; `grounding_entitled()` |
+| `grounding.py` | Local tree scrape + `api.github.com` meta (SSRF-closed) |
+| `driver.py` | Writes `grounding.json` when `orch.llm_grounding` |
+| `llm_enrich.py` | Prepends cite-or-unknown contract to LLM excerpts |
+| `reports/html.py` | `llm-grounding.html` |
+| `landing.html` / `landing.js` | Checkbox shown only for Ultra-Professional |
+| `create_run` | Flag ignored unless `grounding_entitled(plan)` |
+
+Lower tiers cannot turn grounding on. Deterministic Ultra-Professional still writes the pack; LLM mode uses it in prompts.
+
+### Verification
+
+Compose `pytest -v -W error::DeprecationWarning` after rebuild. Landing has four plan cards; `#grounding-field` appears after selecting Ultra-Professional. Run header shows **LLM grounding** only when the extra was on.
+
+---
+
+## 2026-09-17 — Reports use launch Client name
+
+### Ask
+
+Company names in output reports should disappear. Replace them with the **Client name** filled at the start of the pipeline run (launch form, default `Client`). Public git must not carry those company names.
+
+### What landed
+
+| Path | Role |
+|---|---|
+| `create_run` / `Run` / `SecurityOrchestrator` | Blank client name becomes `Client` |
+| `reports/html.py` `_client()` | Cover classification `{client} confidential`; pentest title includes the name |
+| `reports/pdf.py` | Output pack chrome uses the same name |
+| `scanners.py` / `inventories.py` | CIS notes no longer name a company |
+
+Every HTML/PDF report is bound to `orch.client_name` from launch. Re-run an assessment to refresh already-written files under `runs/`.
+
+### Verification
+
+Compose **47 passed, 0 skipped** (2026-09-17, 33.31s). `test_reports_use_launch_client_name` and `test_create_run_blank_client_defaults_to_client`.
 
 

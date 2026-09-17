@@ -11,8 +11,9 @@ Project skills for Macro-Search - Agentic Security Scan. They travel as markdown
 | File | When |
 |---|---|
 | `memory/product-shape.md` | What this app is (and is not) |
-| `memory/report-metrics.md` | XYZ pentest + Trivy + Vanta metrics that HTML must carry |
-| `memory/plans-and-gates.md` | Essentials/Plus/Professional entitlements and the six gates |
+| `memory/report-metrics.md` | Pentest + Trivy + Vanta metrics that HTML must carry |
+| `memory/plans-and-gates.md` | Essentials/Plus/Professional/Ultra-Professional and the six gates |
+| `memory/llm-grounding.md` | Optional Ultra-Professional scrape + cite-or-unknown LLM contract |
 | `memory/no-git-in-this-tree.md` | Working tree vs public-git clone |
 | `memory/ollama-adk-litellm.md` | ADK LiteLlm → Ollama `/v1` |
 | `memory/complete-reports.md` | Full GRC/pentest HTML, not stubs |

@@ -3,9 +3,28 @@ document.querySelectorAll(".plan-card").forEach((card) => {
     document.querySelectorAll(".plan-card").forEach((c) => c.classList.remove("selected"));
     card.classList.add("selected");
     document.getElementById("plan-input").value = card.dataset.plan;
+    syncGroundingField();
   });
 });
-document.querySelector(".plan-card")?.classList.add("selected");
+
+const groundingField = document.getElementById("grounding-field");
+const groundingBox = document.getElementById("llm-grounding-input");
+const groundingHidden = document.getElementById("llm-grounding-hidden");
+
+function syncGroundingField() {
+  const ultra = document.getElementById("plan-input")?.value === "ultra-professional";
+  if (groundingField) groundingField.hidden = !ultra;
+  if (!ultra && groundingBox) groundingBox.checked = false;
+  if (groundingHidden) groundingHidden.value = ultra && groundingBox?.checked ? "true" : "false";
+}
+
+groundingBox?.addEventListener("change", syncGroundingField);
+const firstPlan = document.querySelector(".plan-card");
+if (firstPlan) {
+  firstPlan.classList.add("selected");
+  document.getElementById("plan-input").value = firstPlan.dataset.plan;
+}
+syncGroundingField();
 
 const picker = document.getElementById("demo-picker");
 const sourcePath = document.getElementById("source-path");
@@ -92,6 +111,7 @@ syncSkipLlm();
 
 form?.addEventListener("submit", (evt) => {
   syncSkipLlm();
+  syncGroundingField();
   if (!sourcePath.value) {
     evt.preventDefault();
     if (selectedLabel) selectedLabel.textContent = "Select a source tree card (or download a GitHub zip first).";

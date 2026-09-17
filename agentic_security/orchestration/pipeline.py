@@ -71,6 +71,7 @@ class SecurityOrchestrator:
         client_name: str = "Client",
         target_url: str = "",
         source_path: str = "",
+        llm_grounding: bool = False,
     ) -> None:
         self.run_id = run_id
         self.run_dir = Path(run_dir)
@@ -79,9 +80,11 @@ class SecurityOrchestrator:
         self.skip_llm = skip_llm
         self.auto_approve_gates = auto_approve_gates
         self.reviewer_name = reviewer_name
-        self.client_name = client_name
+        self.client_name = (client_name or "Client").strip() or "Client"
         self.target_url = target_url
         self.source_path = source_path
+        self.llm_grounding = llm_grounding
+        self.grounding_pack: dict[str, Any] = {}
         self.current_phase = PipelinePhase.SCOPE
         self.artifacts: dict[str, Any] = {}
         self._gate_events: dict[str, asyncio.Event] = {g["id"]: asyncio.Event() for g in GATES}

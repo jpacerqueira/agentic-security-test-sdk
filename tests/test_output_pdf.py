@@ -24,8 +24,8 @@ async def test_output_pdf_is_a4_pack(tmp_path: Path):
         skip_llm=True,
         auto_approve_gates=True,
         reviewer_name="Jane",
-        client_name="XYZ Reality Ltd",
-        target_url="https://cloud.xyzreality.com",
+        client_name="Client",
+        target_url="https://app.example.com",
         source_path="examples/sample-web-api",
     )
     async for _ in run_full_pipeline(orch):

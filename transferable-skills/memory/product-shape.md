@@ -7,6 +7,6 @@ metadata:
 
 Joao asked for a new application inside `agentic-security-test-sdk` that only does security review, vulnerability review, and jailbreak assessment, starting from the Micro-Cosmos look and feel, with gate reviews and a plan of identified issues, plus Vanta-like Essentials / Plus / Professional capacity.
 
-It is **not** Micro-Cosmos: no Observer IR graph, no seam TDD loop, no language translation. Reports are the product.
+It is **not** Micro-Cosmos: no Observer IR graph, no seam TDD loop, no language translation. Reports are the product. The launch-form **Client name** (default `Client`) is the only organisation name that appears in report chrome.
 
-Reference pentest pack: `/Users/joaocerqueira/Downloads/XYZReality-PentestReport_2022.pdf` (Hacker Academy Ltd for XYZ Reality Ltd, Dec 2022). Vanta public plan page: https://www.vanta.com/lp/demo
+Vanta public plan page: https://www.vanta.com/lp/demo

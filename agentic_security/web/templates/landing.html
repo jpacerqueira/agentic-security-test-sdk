@@ -68,6 +68,14 @@
       <button type="button" data-modal-action="confirm">Start LLM assessment</button>
       <button type="button" data-modal-action="cancel">Cancel</button>
     </div>
+    <div class="demo-field" id="grounding-field" hidden>
+      <input type="hidden" name="llm_grounding" id="llm-grounding-hidden" value="false">
+      <label class="auto-approve-toggle" for="llm-grounding-input">
+        <input type="checkbox" id="llm-grounding-input">
+        <span class="toggle-label-text">LLM grounding (this run)</span>
+      </label>
+      <p class="hint">Ultra-Professional only. Scrapes this source tree (and GitHub metadata if the tree came from a repo URL) so LLM text must cite those facts instead of inventing them.</p>
+    </div>
     <div class="demo-field">
       <label class="auto-approve-toggle">
         <input type="checkbox" name="auto_approve_gates" value="true">

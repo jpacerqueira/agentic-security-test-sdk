@@ -23,7 +23,7 @@ Scanners: `agentic_security/scanners.py` (deterministic; Trivy subprocess if ins
 LLM: `agentic_security/settings.py` `build_llm()` → `google.adk.models.lite_llm.LiteLlm(model="openai/<tag>", api_base=LLM_BASE_URL)`.  
 Inventories: `agentic_security/inventories.py` (access, ASVS, risk, issues).  
 Reports: `agentic_security/reports/html.py`. Combined A4 PDF: `agentic_security/reports/pdf.py` (`GET /runs/{id}/output-report.pdf`).  
-Plans: `agentic_security/plans.py` (`reports_for_pdf` puts executive summary first).
+Plans: `agentic_security/plans.py` (`reports_for_pdf` puts executive summary first). Ultra-Professional adds optional LLM grounding (`agentic_security/grounding.py`) — launch checkbox only; lower tiers cannot enable it.
 
 ## Run modes
 
@@ -31,12 +31,12 @@ Landing toggle (same Micro-Cosmos `skip-llm-toggle` pattern): checked = **Determ
 
 ## Report metrics (must not regress)
 
-Pentest HTML must include: severity histogram, CVSS bands, root-cause buckets, scope domains, **§2.5 personnel**, objectives, confidentiality/disclaimer, methodology, narrative, vulnerability matrix with **AS-00n** ids, per-finding CVSS + evidence snippets, WSTG appendix, OWASP Top 10.
+Pentest HTML must include: severity histogram, CVSS bands, root-cause buckets, scope domains, **§2.5 personnel**, objectives, confidentiality/disclaimer, methodology, narrative, vulnerability matrix with **AS-00n** ids, per-finding CVSS + evidence snippets, WSTG appendix, OWASP Top 10. Cover classification and titles use the launch-form **Client name** (default `Client`) — never a hardcoded company.
 
 Access-management HTML must include identity inventory, connectors, reviews, JML, break-glass — never an entitlement-only stub.
 
 ## UI
 
-Landing `/` = plan cards + **Choose a source tree** (example cards; click one to analyse that tree) + **Source from new URL REPO** (`POST /examples/fetch-github` downloads a public GitHub zip into `examples/`, then click the new card). There is no Target URL field and no auto-select of `sample-web-api`. Launch form (mode toggle + auto-approve) requires a selected `source_path`.  
-Run `/runs/{id}` = phase pills, Gates / Reports / Artifacts tabs, SSE `/runs/{id}/events`. Header shows a static mode label (not a toggle). Reports tab **Generate output report** downloads one A4 PDF (executive summary first). Runs restore from `runs/<id>/run_meta.json` after a container rebuild.  
+Landing `/` = plan cards (including **Ultra-Professional**) + **Choose a source tree** (example cards; click one to analyse that tree) + **Source from new URL REPO** (`POST /examples/fetch-github` downloads a public GitHub zip into `examples/`, then click the new card). There is no Target URL field and no auto-select of `sample-web-api`. Launch form (mode toggle + auto-approve; **LLM grounding** checkbox only when Ultra-Professional is selected) requires a selected `source_path`.  
+Run `/runs/{id}` = phase pills, Gates / Reports / Artifacts tabs, SSE `/runs/{id}/events`. Header shows a static mode label (not a toggle) and an **LLM grounding** badge when that extra was on. Reports tab **Generate output report** downloads one A4 PDF (executive summary first). Runs restore from `runs/<id>/run_meta.json` after a container rebuild.  
 Login cookie session, default `demo` / `demobxyz`.
