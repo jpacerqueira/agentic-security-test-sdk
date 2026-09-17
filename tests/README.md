@@ -11,7 +11,7 @@ Python 3.12.14 · pytest 9.1.1 · 2026-09-17 · **30.55s**
 | `test_github_examples.py` | 15 | GitHub zip → examples/; landing picker; run page has no mode toggle; `#run-progress` / `#run-status` |
 | `test_grounding.py` | 12 | Ultra-Professional entitlements; scrape pack; launch-only checkbox; Client name default |
 | `test_llm.py` | 5 | OpenAI-compat id, LiteLlm prefix, Compose gemma4 defaults, Ollama native base, `/v1` log file |
-| `test_pipeline.py` | 7 | Plans, scanners, Professional run, launch Client name, consecutive det→LLM→det |
+| `test_pipeline.py` | 8 | Plans, scanners, Professional run, launch Client name, consecutive det→LLM→det, gates 1–6 |
 | `test_reports_complete.py` | 5 | Access/ASVS/risk/issues, JSON parse, skip_llm toggle, backfill |
 | `test_output_pdf.py` | 2 | PDF order; WeasyPrint A4 pack |
 | `test_run_mode.py` | 2 | skip_llm false is LLM; skip_llm fixed at run creation |
@@ -56,15 +56,16 @@ Python 3.12.14 · pytest 9.1.1 · 2026-09-17 · **30.55s**
 | 36 | `test_pipeline.py` | `test_scope_discovers_example` | **passed** | Scope reads sample-web-api |
 | 37 | `test_pipeline.py` | `test_appsec_flags_pickle_and_tls` | **passed** | AS- ids, evidence, WSTG, Top 10 |
 | 38 | `test_pipeline.py` | `test_jailbreak_catalogue_has_six_probes` | **passed** | Six probe families |
-| 39 | `test_pipeline.py` | `test_pipeline_auto_approves` | **passed** | Full Professional deterministic run; default Client |
-| 40 | `test_pipeline.py` | `test_reports_use_launch_client_name` | **passed** | Custom launch name in HTML cover |
-| 41 | `test_pipeline.py` | `test_consecutive_deterministic_then_llm_then_deterministic` | **passed** | Three successive runs complete after mode flips |
-| 42 | `test_reports_complete.py` | `test_access_inventory_is_not_a_stub` | **passed** | Identities, reviews, JML |
-| 43 | `test_reports_complete.py` | `test_asvs_and_risk_and_issues_complete` | **passed** | 14 ASVS chapters, residual, ISS-001 |
-| 44 | `test_reports_complete.py` | `test_classify_refusal_and_json_parse` | **passed** | Refusal helper + JSON fence |
-| 45 | `test_reports_complete.py` | `test_parse_skip_llm_toggle` | **passed** | true/false/1 |
-| 46 | `test_reports_complete.py` | `test_backfill_rewrites_access_report` | **passed** | Backfill identity inventory HTML |
-| 47 | `test_run_mode.py` | `test_parse_skip_llm_false_is_llm` | **passed** | `false` means LLM |
-| 48 | `test_run_mode.py` | `test_skip_llm_is_fixed_at_run_creation` | **passed** | skip_llm written at create; no apply_mode |
+| 39 | `test_pipeline.py` | `test_gates_are_integers_one_to_six` | **passed** | `gate_1`…`gate_6`; 4.5→5, 5→6 |
+| 40 | `test_pipeline.py` | `test_pipeline_auto_approves` | **passed** | Full Professional deterministic run; default Client |
+| 41 | `test_pipeline.py` | `test_reports_use_launch_client_name` | **passed** | Custom launch name in HTML cover |
+| 42 | `test_pipeline.py` | `test_consecutive_deterministic_then_llm_then_deterministic` | **passed** | Three successive runs complete after mode flips |
+| 43 | `test_reports_complete.py` | `test_access_inventory_is_not_a_stub` | **passed** | Identities, reviews, JML |
+| 44 | `test_reports_complete.py` | `test_asvs_and_risk_and_issues_complete` | **passed** | 14 ASVS chapters, residual, ISS-001 |
+| 45 | `test_reports_complete.py` | `test_classify_refusal_and_json_parse` | **passed** | Refusal helper + JSON fence |
+| 46 | `test_reports_complete.py` | `test_parse_skip_llm_toggle` | **passed** | true/false/1 |
+| 47 | `test_reports_complete.py` | `test_backfill_rewrites_access_report` | **passed** | Backfill identity inventory HTML |
+| 48 | `test_run_mode.py` | `test_parse_skip_llm_false_is_llm` | **passed** | `false` means LLM |
+| 49 | `test_run_mode.py` | `test_skip_llm_is_fixed_at_run_creation` | **passed** | skip_llm written at create; no apply_mode |
 
-**48 passed · 0 failed · 0 skipped · 0 errors** (original Compose container)
+**49 passed · 0 failed · 0 skipped · 0 errors** (original Compose container)

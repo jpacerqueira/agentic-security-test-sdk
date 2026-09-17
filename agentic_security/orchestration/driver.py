@@ -105,7 +105,7 @@ async def run_full_pipeline(orch: SecurityOrchestrator):
         plan = await llm_enrich.maybe_enrich(orch, "plan", plan)
         orch.write_json("remediation_plan.json", plan)
 
-        async for ev in gate("gate_4_5", PipelinePhase.GATE_4_5):
+        async for ev in gate("gate_5", PipelinePhase.GATE_5):
             yield ev
 
         async for ev in phase(PipelinePhase.COMPLIANCE):
@@ -123,7 +123,7 @@ async def run_full_pipeline(orch: SecurityOrchestrator):
         orch.write_json("asvs_coverage.json", asvs)
         yield PipelineEvent(kind="artifact", phase=PipelinePhase.COMPLIANCE, payload={"key": "compliance.json"})
 
-        async for ev in gate("gate_5", PipelinePhase.GATE_5):
+        async for ev in gate("gate_6", PipelinePhase.GATE_6):
             yield ev
 
         async for ev in phase(PipelinePhase.WRITER):

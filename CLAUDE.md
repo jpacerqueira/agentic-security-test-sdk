@@ -14,8 +14,8 @@ Sister product to Micro-Cosmos. Same visual language, **no source-to-source tran
 
 ```
 Scope → Gate 1 → Vuln/Trivy → Gate 2 → AppSec → Gate 3
-→ Jailbreak → Gate 4 → CIS cloud → Gate 4.5 Planning
-→ Compliance pack (plan-gated) → Gate 5 → Writer → Done
+→ Jailbreak → Gate 4 → CIS cloud → Gate 5 Planning
+→ Compliance pack (plan-gated) → Gate 6 → Writer → Done
 ```
 
 Gates: `agentic_security/orchestration/pipeline.py` `GATES`.  

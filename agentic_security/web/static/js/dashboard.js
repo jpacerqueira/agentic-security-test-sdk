@@ -112,7 +112,7 @@ pdfBtn?.addEventListener("click", () => {
       URL.revokeObjectURL(url);
     })
     .catch(() => {
-      alert("Output report is not ready yet. Approve Gate 5 and wait for HTML reports.");
+      alert("Output report is not ready yet. Approve Gate 6 and wait for HTML reports.");
     })
     .finally(() => {
       pdfBtn.disabled = false;
@@ -139,7 +139,7 @@ es.onmessage = (msg) => {
       card.classList.add("resolved");
     }
     markPhase(ev.phase, ev.payload.decision === "rejected" ? "rejected" : "done");
-    if (ev.payload.gate_id === "gate_5" && ev.payload.decision !== "rejected") {
+    if (ev.payload.gate_id === "gate_6" && ev.payload.decision !== "rejected") {
       refreshReports();
     }
   }

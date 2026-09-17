@@ -38,7 +38,7 @@
   <article class="gate-card" id="gate-{{ g.id }}">
     <div class="gate-step-bar" aria-hidden="true"><span></span></div>
     <h3>{{ g.title }}</h3>
-    <p class="hint">{{ g.id }}</p>
+    <p class="hint">Gate {{ loop.index }}</p>
     <form class="gate-actions" hx-post="/runs/{{ run.run_id }}/gates/{{ g.id }}/approve" hx-target="this" hx-swap="outerHTML">
       <input name="reviewer_name" placeholder="Reviewer" value="{{ run.reviewer_name }}">
       <input name="notes" placeholder="Notes">
@@ -57,7 +57,7 @@
   </div>
 </div>
 <div id="pane-reports" class="pane hidden">
-  <p class="hint">HTML reports for this plan appear here once Gate 5 is approved and the writer finishes.</p>
+  <p class="hint">HTML reports for this plan appear here once Gate 6 is approved and the writer finishes.</p>
   <p>
     <button type="button" id="btn-output-pdf" disabled>
       Generate output report

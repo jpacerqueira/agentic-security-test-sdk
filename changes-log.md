@@ -287,4 +287,21 @@ README adds **Completed run** (green banner below gates, 14/14). Landing uses `.
 
 Compose pytest after rebuild. Browser: three matching switches under Client name; Ultra-Professional reveals the grounding switch.
 
+---
+
+## 2026-09-17 — Gates numbered 1–6 (4.5 → 5, 5 → 6)
+
+### Ask
+
+Rename gates to consecutive integers. Planning 4.5 becomes Gate 5; report release 5 becomes Gate 6.
+
+### What landed
+
+`PipelinePhase` / `GATES` ids are `gate_1` … `gate_6`. Phase strip labels **Gate 5** (remediation plan) and **Gate 6** (report release). Run cards show `Gate n`. Reports unlock after Gate 6.
+
+### Verification
+
+Compose pytest including `test_gates_are_integers_one_to_six`.
+
+
 

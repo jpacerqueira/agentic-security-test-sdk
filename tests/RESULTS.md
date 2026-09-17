@@ -8,15 +8,15 @@ Product version: **0.0.1**
 
 Image: `agentic-security-test-sdk-agentic-security`  
 Python: 3.12.14 · pytest 9.1.1  
-Run: 2026-09-17 · **48 passed, 0 failed, 0 skipped** · 30.55s
+Run: 2026-09-17 · **49 passed, 0 failed, 0 skipped**
 
-See [README.md](README.md) for the 48-row grid.
+See [README.md](README.md) for the 49-row grid.
 
 ## Totals (Compose)
 
 | Result | Count |
 |---|---|
-| passed | 48 |
+| passed | 49 |
 | failed | 0 |
 | skipped | 0 |
 | errors | 0 |

@@ -18,7 +18,7 @@ A gated security assessment: pick Essentials / Plus / Professional / Ultra-Profe
 
 ![Completed run](images/Macro-Search_-_Agentic_Security_Scan_-_completed_run.png)
 
-**Executive summary** — run Reports tab after Gate 5: **Generate output report** (A4 PDF, executive summary first), Client name on the cover, Ultra-Professional + LLM grounding when that extra was on.
+**Executive summary** — run Reports tab after Gate 6: **Generate output report** (A4 PDF, executive summary first), Client name on the cover, Ultra-Professional + LLM grounding when that extra was on.
 
 ![Executive summary](images/Macro-Search_-_Agentic_Security_Scan_-_Executive-Summary.png)
 
@@ -73,12 +73,12 @@ Scope → Gate 1
 → Trivy / vuln scan → Gate 2
 → AppSec (OWASP WSTG / ASVS / CVSS findings) → Gate 3
 → Jailbreak catalogue (live probes in LLM mode) → Gate 4
-→ CIS cloud controls → Gate 4.5 (remediation plan)
-→ Trust / GRC pack (plan-gated) → Gate 5
+→ CIS cloud controls → Gate 5 (remediation plan)
+→ Trust / GRC pack (plan-gated) → Gate 6
 → HTML reports
 ```
 
-Six human gates, same approve/reject pattern as Micro-Cosmos. Auto-approve is a launch-time toggle that needs an approver name.
+Six human gates, numbered **1–6** (the former planning checkpoint 4.5 is Gate 5; report release is Gate 6). Same approve/reject pattern as Micro-Cosmos. Auto-approve is a launch-time toggle that needs an approver name.
 
 ## Plans (Vanta-shaped)
 

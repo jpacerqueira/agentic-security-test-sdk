@@ -18,9 +18,9 @@ class PipelinePhase(str, Enum):
     JAILBREAK = "jailbreak"
     GATE_4 = "gate_4"
     CIS_CLOUD = "cis_cloud"
-    GATE_4_5 = "gate_4_5"
-    COMPLIANCE = "compliance"
     GATE_5 = "gate_5"
+    COMPLIANCE = "compliance"
+    GATE_6 = "gate_6"
     WRITER = "writer"
     DONE = "done"
 
@@ -35,9 +35,9 @@ PHASE_LABELS = {
     PipelinePhase.JAILBREAK: "Jailbreak",
     PipelinePhase.GATE_4: "Gate 4",
     PipelinePhase.CIS_CLOUD: "CIS / cloud",
-    PipelinePhase.GATE_4_5: "Planning",
-    PipelinePhase.COMPLIANCE: "Trust / GRC",
     PipelinePhase.GATE_5: "Gate 5",
+    PipelinePhase.COMPLIANCE: "Trust / GRC",
+    PipelinePhase.GATE_6: "Gate 6",
     PipelinePhase.WRITER: "Reports",
     PipelinePhase.DONE: "Done",
 }
@@ -47,8 +47,8 @@ GATES = (
     {"id": "gate_2", "title": "Vulnerability scan findings", "phase": "gate_2"},
     {"id": "gate_3", "title": "Application & API findings", "phase": "gate_3"},
     {"id": "gate_4", "title": "Jailbreak & LLM-risk findings", "phase": "gate_4"},
-    {"id": "gate_4_5", "title": "Remediation plan", "phase": "gate_4_5"},
-    {"id": "gate_5", "title": "Report release", "phase": "gate_5"},
+    {"id": "gate_5", "title": "Remediation plan", "phase": "gate_5"},
+    {"id": "gate_6", "title": "Report release", "phase": "gate_6"},
 )
 
 

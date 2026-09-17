@@ -32,6 +32,23 @@ def test_jailbreak_catalogue_has_six_probes():
     assert len(j["probes"]) == 6
 
 
+def test_gates_are_integers_one_to_six():
+    from agentic_security.orchestration.pipeline import GATES, PHASE_LABELS, PipelinePhase
+
+    assert [g["id"] for g in GATES] == [
+        "gate_1",
+        "gate_2",
+        "gate_3",
+        "gate_4",
+        "gate_5",
+        "gate_6",
+    ]
+    assert PHASE_LABELS[PipelinePhase.GATE_5] == "Gate 5"
+    assert PHASE_LABELS[PipelinePhase.GATE_6] == "Gate 6"
+    assert GATES[4]["title"] == "Remediation plan"
+    assert GATES[5]["title"] == "Report release"
+
+
 async def test_pipeline_auto_approves(tmp_path: Path):
     from agentic_security.orchestration.driver import run_full_pipeline
     from agentic_security.orchestration.pipeline import SecurityOrchestrator
