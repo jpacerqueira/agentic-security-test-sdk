@@ -216,3 +216,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Macro-Search - Agentic Security Scan
+.env
+runs/*
+!runs/.gitkeep
+.DS_Store
+.venv/
+*.egg-info/

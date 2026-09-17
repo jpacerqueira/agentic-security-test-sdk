@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Run {{ run.run_id }} · {{ app_name }}{% endblock %}
+{% block body_class %}run-page{% endblock %}
+{% block body %}
+<div class="run-header">
+  <h1>Assessment {{ run.run_id }}</h1>
+  <div class="meta">
+    <span>{{ plan.name }}</span>
+    <span>{{ run.client_name }}</span>
+    <span>{% if run.skip_llm %}Deterministic{% else %}LLM{% endif %}</span>
+  </div>
+</div>
+<div class="phase-strip" id="phase-strip">
+  {% for p in phases %}
+  <span class="phase-pill" data-phase="{{ p.value }}">{{ phase_labels[p] }}</span>
+  {% endfor %}
+</div>
+<div class="tabs">
+  <button type="button" class="tab on" data-tab="gates">Gates</button>
+  <button type="button" class="tab" data-tab="reports">Reports</button>
+  <button type="button" class="tab" data-tab="artifacts">Artifacts</button>
+</div>
+<div id="pane-gates" class="pane">
+  {% for g in gates %}
+  <article class="gate-card" id="gate-{{ g.id }}">
+    <h3>{{ g.title }}</h3>
+    <p class="hint">{{ g.id }}</p>
+    <form class="gate-actions" hx-post="/runs/{{ run.run_id }}/gates/{{ g.id }}/approve" hx-target="this" hx-swap="outerHTML">
+      <input name="reviewer_name" placeholder="Reviewer" value="{{ run.reviewer_name }}">
+      <input name="notes" placeholder="Notes">
+      <button type="submit">Approve</button>
+    </form>
+    <form class="gate-actions" hx-post="/runs/{{ run.run_id }}/gates/{{ g.id }}/reject" hx-target="previous .gate-actions" hx-swap="none">
+      <input name="reviewer_name" placeholder="Reviewer" value="{{ run.reviewer_name }}">
+      <input name="notes" placeholder="Rejection notes">
+      <button type="submit" class="danger">Reject</button>
+    </form>
+  </article>
+  {% endfor %}
+</div>
+<div id="pane-reports" class="pane hidden">
+  <p class="hint">HTML reports for this plan appear here once Gate 5 is approved and the writer finishes.</p>
+  <ul id="report-list"></ul>
+  <iframe id="report-frame" title="Report preview"></iframe>
+</div>
+<div id="pane-artifacts" class="pane hidden">
+  <ul id="artifact-list"></ul>
+</div>
+<script>
+  window.AS_RUN_ID = {{ run.run_id | tojson }};
+</script>
+<script src="/static/js/dashboard.js"></script>
+{% endblock %}

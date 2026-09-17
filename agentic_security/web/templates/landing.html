@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Launch assessment · {{ app_name }}{% endblock %}
+{% block body %}
+<section class="demo-hero">
+  <p class="classification">Find your plan · then launch an assessment</p>
+  <h1>{{ app_name }}</h1>
+  <p class="lede">Security review, vulnerability review, and jailbreak assessment — with gate reviews and a remediation plan. Reports speak the language of a pentest pack, a Trivy scan, and a Vanta-style trust program.</p>
+</section>
+
+<section class="plans">
+  {% for p in plans %}
+  <article class="plan-card" data-plan="{{ p.id }}">
+    <p class="classification">{{ p.id }}</p>
+    <h2>{{ p.name }}</h2>
+    <p>{{ p.tagline }}</p>
+    <ul>
+      {% for f in p.features %}
+      <li>{{ f }}</li>
+      {% endfor %}
+    </ul>
+    <p class="hint">{{ p.reports | length }} HTML reports in this tier.</p>
+  </article>
+  {% endfor %}
+</section>
+
+<div class="demo-shell">
+  <div>
+    <h2>Choose a source tree</h2>
+    <div class="demo-picker">
+      {% for ex in examples %}
+      <button type="button" class="demo-card" data-path="{{ ex.path }}">
+        <div class="demo-card-name">{{ ex.name }}</div>
+        <p class="hint">{{ ex.path }}</p>
+      </button>
+      {% endfor %}
+    </div>
+  </div>
+  <form class="demo-form" method="post" action="/runs">
+    <h2>Launch analysis</h2>
+    <input type="hidden" name="plan" id="plan-input" value="essentials">
+    <input type="hidden" name="source_path" id="source-path" value="">
+    <label>Client name <input name="client_name" value="Client"></label>
+    <label>Target URL <input name="target_url" placeholder="https://app.example.com"></label>
+    <div class="demo-field">
+      <span class="toggle-label-text">Mode</span>
+      <label class="skip-llm-toggle" for="skip-llm-input">
+        <input type="checkbox" id="skip-llm-input" name="skip_llm" value="true"
+               {% if skip_llm_default %}checked{% endif %}>
+        <span class="toggle-label-text">
+          <span class="mode-llm">LLM (Ollama / ADK LiteLLM)</span>
+          <span class="mode-det">Deterministic</span>
+        </span>
+      </label>
+      <p class="hint">Checked = scanners only. Unchecked = Google ADK LiteLlm against local Ollama OpenAI-compatible /v1.</p>
+    </div>
+    <div class="llm-confirm-inline" hidden>
+      <p>This run will call the local Ollama model through ADK LiteLLM. Continue?</p>
+      <button type="button" data-modal-action="confirm">Start LLM assessment</button>
+      <button type="button" data-modal-action="cancel">Cancel</button>
+    </div>
+    <div class="demo-field">
+      <label class="auto-approve-toggle">
+        <input type="checkbox" name="auto_approve_gates" value="true">
+        <span class="toggle-label-text">Auto-approve gates</span>
+      </label>
+      <input name="auto_approve_reviewer_name" placeholder="Approver name (required if on)">
+    </div>
+    <button type="submit">Start assessment</button>
+  </form>
+</div>
+<script src="/static/js/landing.js"></script>
+{% endblock %}

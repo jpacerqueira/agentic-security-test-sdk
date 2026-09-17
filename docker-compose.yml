@@ -1,0 +1,20 @@
+services:
+  agentic-security:
+    build: .
+    ports:
+      - "8090:8090"
+    environment:
+      SKIP_LLM: ${SKIP_LLM:-true}
+      LLM_BASE_URL: ${LLM_BASE_URL:-http://host.docker.internal:11434/v1}
+      LLM_API_KEY: ${LLM_API_KEY:-ollama}
+      LLM_ENGINE: ${LLM_ENGINE:-ollama}
+      MODEL_REASONING: ${MODEL_REASONING:-gemma4:latest}
+      MODEL_FAST: ${MODEL_FAST:-gemma4:latest}
+      LLM_TIMEOUT: ${LLM_TIMEOUT:-180}
+      LLM_READY_TIMEOUT_SECONDS: ${LLM_READY_TIMEOUT_SECONDS:-120}
+      RUNS_DIR: /app/runs
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./examples:/app/examples
+      - ./runs:/app/runs
