@@ -130,6 +130,7 @@ button.danger { background: var(--accent); }
 #report-frame { width: 100%; min-height: 70vh; border: 1px solid var(--rule); margin-top: 12px; }
 #report-list, #artifact-list { list-style: none; padding: 0; }
 #report-list button { background: var(--bg); color: var(--ink); border: 1px solid var(--rule); margin: 0 6px 6px 0; }
+#btn-output-pdf:disabled { opacity: 0.45; cursor: not-allowed; }
 
 @media (max-width: 900px) {
   .plans, .demo-shell { grid-template-columns: 1fr; }

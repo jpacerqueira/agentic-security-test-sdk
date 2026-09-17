@@ -122,3 +122,17 @@ def resolve_plan(plan_id: str) -> Plan:
 
 def reports_for(plan_id: str) -> tuple[str, ...]:
     return resolve_plan(plan_id).reports
+
+
+def reports_for_pdf(plan_id: str) -> tuple[str, ...]:
+    """HTML reports to bind into the A4 output PDF.
+
+    Executive summary is always first. The full-pack HTML (iframes of the
+    other files) is omitted so the PDF contains each report once, in full.
+    """
+    lead = "executive-summary.html"
+    skip = {"full-security-report.html"}
+    files = [f for f in reports_for(plan_id) if f not in skip]
+    if lead in files:
+        files = [lead] + [f for f in files if f != lead]
+    return tuple(files)

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from contextlib import asynccontextmanager
 from pathlib import Path
 import asyncio
 import json
@@ -7,7 +8,7 @@ import uuid
 from datetime import datetime
 
 from fastapi import FastAPI, Form, Request
-from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.middleware.sessions import SessionMiddleware
@@ -22,6 +23,14 @@ from agentic_security.settings import get_settings
 ROOT = Path(__file__).resolve().parent
 TEMPLATES = Jinja2Templates(directory=str(ROOT / "templates"))
 TEMPLATES.env.globals["app_name"] = APP_NAME
+
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    _restore_all()
+    yield
+
+
 class AuthMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
         path = request.url.path
@@ -32,7 +41,7 @@ class AuthMiddleware(BaseHTTPMiddleware):
         return await call_next(request)
 
 
-app = FastAPI(title=APP_NAME)
+app = FastAPI(title=APP_NAME, lifespan=lifespan)
 app.add_middleware(AuthMiddleware)
 app.add_middleware(SessionMiddleware, secret_key=get_settings().session_secret)
 app.mount("/static", StaticFiles(directory=str(ROOT / "static")), name="static")
@@ -127,8 +136,7 @@ def _get_run(run_id: str) -> Run | None:
     return RUNS.get(run_id) or _try_restore(run_id)
 
 
-@app.on_event("startup")
-async def _restore_all():
+def _restore_all() -> None:
     settings = get_settings()
     root = Path(settings.runs_dir)
     if not root.is_dir():
@@ -299,9 +307,42 @@ async def run_file(run_id: str, filename: str):
 
 @app.get("/runs/{run_id}/reports")
 async def list_reports(run_id: str):
+    from agentic_security.plans import reports_for_pdf
+
     run = _get_run(run_id)
     if not run:
         return JSONResponse({"files": []})
     d = run.run_dir / "reports"
-    files = sorted(p.name for p in d.glob("*.html")) if d.is_dir() else []
-    return JSONResponse({"files": files})
+    ordered = list(reports_for_pdf(run.plan))
+    existing = {p.name for p in d.glob("*.html")} if d.is_dir() else set()
+    files = [f for f in ordered if f in existing]
+    for name in sorted(existing):
+        if name not in files and name != "full-security-report.html":
+            files.append(name)
+    return JSONResponse({"files": files, "pdf": (d / "output-report.pdf").exists() if d.is_dir() else False})
+
+
+@app.get("/runs/{run_id}/output-report.pdf")
+async def output_report_pdf(run_id: str):
+    from agentic_security.reports.pdf import write_output_pdf
+
+    run = _get_run(run_id)
+    if not run:
+        return HTMLResponse("unknown run", 404)
+    reports_dir = run.run_dir / "reports"
+    if not reports_dir.is_dir() or not any(reports_dir.glob("*.html")):
+        return HTMLResponse("reports not ready", 409)
+    path = await asyncio.to_thread(
+        write_output_pdf,
+        run.run_dir,
+        {
+            "client_name": run.client_name,
+            "plan": run.plan,
+            "run_id": run.run_id,
+        },
+    )
+    return FileResponse(
+        path,
+        media_type="application/pdf",
+        filename=f"{run.run_id}-output-report.pdf",
+    )

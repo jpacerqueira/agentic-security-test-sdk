@@ -85,10 +85,34 @@ Incomplete reports on run `55c27510`. Use local Ollama through Google ADK LiteLl
 | Landing `.skip-llm-toggle` | Checked = deterministic; confirm when LLM |
 | Dockerfile `[llm]` extra | Clone-and-`docker compose up --build` includes ADK+LiteLLM+Trivy |
 
-### Still out of this cut
+### Verification
+
+Host: `pytest -v -W error::DeprecationWarning` — **12 passed, 0 skipped** (2026-09-17). FastAPI `on_event` replaced with `lifespan`. LiteLlm model id is tested without skipping when ADK is absent (`openai_model_id()`).
 
 - Live Azure/CIS API audits (catalogue + not-in-scope when no IaC)
 - Enterprise custom GRC
 - Questionnaire runtime (templates + entitlement counts)
+
+---
+
+## 2026-09-17 — Generate output report (A4 PDF)
+
+### Ask
+
+Reports tab button that downloads one A4 PDF of every report, executive summary first. Implement in the original Compose app, then one commit in `public-git/agentic-security-test-sdk`.
+
+### What landed
+
+| Path | Role |
+|---|---|
+| `plans.reports_for_pdf()` | Executive summary first; skip `full-security-report.html` |
+| `agentic_security/reports/pdf.py` | WeasyPrint combined HTML → A4 `output-report.pdf` |
+| `GET /runs/{id}/output-report.pdf` | Builds and streams the PDF |
+| Reports tab `#btn-output-pdf` | Client download of `{run_id}-output-report.pdf` |
+| Dockerfile | cairo/pango/gdk-pixbuf + Liberation/DejaVu fonts |
+
+### Verification
+
+Host pytest (no Pango): 13 passed. Compose image: `pytest -v -W error::DeprecationWarning` — **14 passed, 0 skipped**. Smoke: `GET /healthz` 200; authenticated `GET /runs/55c27510/output-report.pdf` 200 `%PDF-1.7`. Reports tab **Generate output report** builds and downloads the A4 pack (executive summary first).
 
 

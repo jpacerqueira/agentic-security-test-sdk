@@ -3,6 +3,7 @@ const strip = document.getElementById("phase-strip");
 const reportList = document.getElementById("report-list");
 const reportFrame = document.getElementById("report-frame");
 const artifactList = document.getElementById("artifact-list");
+const pdfBtn = document.getElementById("btn-output-pdf");
 
 function markPhase(phase, status) {
   const pill = strip.querySelector(`[data-phase="${phase}"]`);
@@ -37,8 +38,36 @@ function refreshReports() {
         reportList.appendChild(li);
       });
       if ((data.files || [])[0]) reportFrame.src = `/runs/${runId}/files/${data.files[0]}`;
+      if (pdfBtn) pdfBtn.disabled = !(data.files || []).length;
     });
 }
+
+pdfBtn?.addEventListener("click", () => {
+  pdfBtn.disabled = true;
+  pdfBtn.textContent = "Building A4 PDF…";
+  fetch(`/runs/${runId}/output-report.pdf`)
+    .then((r) => {
+      if (!r.ok) throw new Error("pdf failed");
+      return r.blob();
+    })
+    .then((blob) => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${runId}-output-report.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    })
+    .catch(() => {
+      alert("Output report is not ready yet. Approve Gate 5 and wait for HTML reports.");
+    })
+    .finally(() => {
+      pdfBtn.disabled = false;
+      pdfBtn.textContent = "Generate output report";
+    });
+});
 
 const es = new EventSource(`/runs/${runId}/events`);
 es.onmessage = (msg) => {
@@ -55,6 +84,9 @@ es.onmessage = (msg) => {
       card.classList.add("resolved");
     }
     markPhase(ev.phase, ev.payload.decision === "rejected" ? "rejected" : "done");
+    if (ev.payload.gate_id === "gate_5" && ev.payload.decision !== "rejected") {
+      refreshReports();
+    }
   }
   if (ev.kind === "artifact") {
     const li = document.createElement("li");

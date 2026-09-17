@@ -18,6 +18,7 @@ Project skills for Macro-Search - Agentic Security Scan. They travel as markdown
 | `memory/complete-reports.md` | Full GRC/pentest HTML, not stubs |
 | `memory/skip-llm-toggle.md` | Deterministic / LLM launch toggle |
 | `memory/git-home-public-clone.md` | v0.0.1 clone/commit home |
+| `memory/output-report-pdf.md` | Combined A4 PDF (executive summary first) |
 
 ## Adding a skill
 

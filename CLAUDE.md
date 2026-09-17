@@ -22,8 +22,8 @@ Gates: `agentic_security/orchestration/pipeline.py` `GATES`.
 Scanners: `agentic_security/scanners.py` (deterministic; Trivy subprocess if installed).  
 LLM: `agentic_security/settings.py` `build_llm()` → `google.adk.models.lite_llm.LiteLlm(model="openai/<tag>", api_base=LLM_BASE_URL)`.  
 Inventories: `agentic_security/inventories.py` (access, ASVS, risk, issues).  
-Reports: `agentic_security/reports/html.py`.  
-Plans: `agentic_security/plans.py`.
+Reports: `agentic_security/reports/html.py`. Combined A4 PDF: `agentic_security/reports/pdf.py` (`GET /runs/{id}/output-report.pdf`).  
+Plans: `agentic_security/plans.py` (`reports_for_pdf` puts executive summary first).
 
 ## Run modes
 
@@ -38,5 +38,5 @@ Access-management HTML must include identity inventory, connectors, reviews, JML
 ## UI
 
 Landing `/` = plan cards + example picker + launch form (mode toggle + auto-approve).  
-Run `/runs/{id}` = phase pills, Gates / Reports / Artifacts tabs, SSE `/runs/{id}/events`. Runs restore from `runs/<id>/run_meta.json` after a container rebuild.  
+Run `/runs/{id}` = phase pills, Gates / Reports / Artifacts tabs, SSE `/runs/{id}/events`. Reports tab **Generate output report** downloads one A4 PDF (executive summary first). Runs restore from `runs/<id>/run_meta.json` after a container rebuild.  
 Login cookie session, default `demo` / `demobxyz`.

@@ -30,6 +30,11 @@ class Settings(BaseSettings):
 
     default_plan: str = "essentials"
 
+    def openai_model_id(self, role: str = "reasoning") -> str:
+        """LiteLLM OpenAI-compat model string: openai/<ollama tag>."""
+        name = self.model_reasoning if role == "reasoning" else self.model_fast
+        return f"openai/{name}"
+
     def build_llm(self, role: str = "reasoning"):
         """ADK LiteLlm pointed at an OpenAI-compatible /v1 endpoint (Ollama).
 
@@ -51,7 +56,7 @@ class Settings(BaseSettings):
             self.llm_base_url,
         )
         return LiteLlm(
-            model=f"openai/{model_name}",
+            model=self.openai_model_id(role),
             api_base=self.llm_base_url,
             api_key=self.llm_api_key or "ollama",
             drop_params=True,

@@ -82,6 +82,8 @@ Six human gates, same approve/reject pattern as Micro-Cosmos. Auto-approve is a 
 
 HTML lives under `runs/<id>/reports/` (created at runtime; not committed). The pentest report follows the XYZ Reality 2022 pack's metric surface (histogram, CVSS bands, root-cause buckets, scope, personnel, findings with evidence, WSTG / OWASP Top 10 appendix). Plus/Professional reports include a full access-management inventory (not an entitlement stub), live-or-catalogue jailbreak probes, CIS status, ASVS chapter matrix, risk register, and issue board.
 
+On the Reports tab, **Generate output report** downloads one A4 PDF with every report in that run, **executive summary first**. The iframe “full pack” HTML is omitted so each section appears once.
+
 ## Layout
 
 | Path | Role |
@@ -90,7 +92,7 @@ HTML lives under `runs/<id>/reports/` (created at runtime; not committed). The p
 | `examples/sample-web-api/` | Deliberate pickle / TLS / password fixture |
 | `images/` | Product screenshots used in this README |
 | `tests/` | Pytest suite + markup results |
-| `docker-compose.yml` / `Dockerfile` | Compose on 8090; image includes Trivy and the `[llm]` extra |
+| `docker-compose.yml` / `Dockerfile` | Compose on 8090; image includes Trivy, WeasyPrint (A4 PDF), and the `[llm]` extra |
 | `.env.example` | Ollama / skip_llm / demo credentials |
 | `transferable-skills/` | Project skills for later agent sessions |
 

@@ -7,7 +7,6 @@ runs
 *.egg-info
 .DS_Store
 .env
-tests
 transferable-skills
 images
 changes-log.md
