@@ -23,6 +23,7 @@ from agentic_security.orchestration.pipeline import (
     PHASE_LABELS,
     PipelinePhase,
     SecurityOrchestrator,
+    list_run_artifacts,
 )
 from agentic_security.plans import PLAN_ORDER, grounding_entitled, resolve_plan
 from agentic_security.settings import get_settings
@@ -342,6 +343,14 @@ async def run_file(run_id: str, filename: str):
     from fastapi.responses import FileResponse
 
     return FileResponse(path)
+
+
+@app.get("/runs/{run_id}/artifacts")
+async def list_artifacts(run_id: str):
+    run = _get_run(run_id)
+    if not run:
+        return JSONResponse({"files": []}, status_code=404)
+    return JSONResponse({"files": list_run_artifacts(run.run_dir)})
 
 
 @app.get("/runs/{run_id}/reports")

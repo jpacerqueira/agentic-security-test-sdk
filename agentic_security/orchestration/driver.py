@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 
 from agentic_security.orchestration.pipeline import (
+    KEY_TO_GATE,
     PipelineEvent,
     PipelinePhase,
     SecurityOrchestrator,
@@ -15,6 +16,13 @@ async def run_full_pipeline(orch: SecurityOrchestrator):
     async def phase(p: PipelinePhase):
         orch.current_phase = p
         yield PipelineEvent(kind="phase_started", phase=p)
+
+    def artifact(phase: PipelinePhase, key: str) -> PipelineEvent:
+        return PipelineEvent(
+            kind="artifact",
+            phase=phase,
+            payload={"key": key, "gate_id": KEY_TO_GATE.get(key, "")},
+        )
 
     async def gate(gate_id: str, phase: PipelinePhase):
         orch.current_phase = phase
@@ -56,12 +64,10 @@ async def run_full_pipeline(orch: SecurityOrchestrator):
             )
             orch.grounding_pack = pack
             orch.write_json("grounding.json", pack)
-            yield PipelineEvent(
-                kind="artifact", phase=PipelinePhase.SCOPE, payload={"key": "grounding.json"}
-            )
+            yield artifact(PipelinePhase.SCOPE, "grounding.json")
         scope = await llm_enrich.maybe_enrich(orch, "scope", scope)
         orch.write_json("scope.json", scope)
-        yield PipelineEvent(kind="artifact", phase=PipelinePhase.SCOPE, payload={"key": "scope.json"})
+        yield artifact(PipelinePhase.SCOPE, "scope.json")
 
         async for ev in gate("gate_1", PipelinePhase.GATE_1):
             yield ev
@@ -70,7 +76,7 @@ async def run_full_pipeline(orch: SecurityOrchestrator):
             yield ev
         trivy = scanners.run_trivy(orch.source_path)
         orch.write_json("trivy_report.json", trivy)
-        yield PipelineEvent(kind="artifact", phase=PipelinePhase.VULN_SCAN, payload={"key": "trivy_report.json"})
+        yield artifact(PipelinePhase.VULN_SCAN, "trivy_report.json")
 
         async for ev in gate("gate_2", PipelinePhase.GATE_2):
             yield ev
@@ -80,7 +86,7 @@ async def run_full_pipeline(orch: SecurityOrchestrator):
         appsec = scanners.appsec_findings(orch.source_path, orch.target_url)
         appsec = await llm_enrich.maybe_enrich(orch, "appsec", appsec)
         orch.write_json("appsec_findings.json", appsec)
-        yield PipelineEvent(kind="artifact", phase=PipelinePhase.APPSEC, payload={"key": "appsec_findings.json"})
+        yield artifact(PipelinePhase.APPSEC, "appsec_findings.json")
 
         async for ev in gate("gate_3", PipelinePhase.GATE_3):
             yield ev
@@ -90,7 +96,7 @@ async def run_full_pipeline(orch: SecurityOrchestrator):
         jail = scanners.jailbreak_assessment(orch.source_path)
         jail = await llm_enrich.maybe_enrich(orch, "jailbreak", jail)
         orch.write_json("jailbreak_assessment.json", jail)
-        yield PipelineEvent(kind="artifact", phase=PipelinePhase.JAILBREAK, payload={"key": "jailbreak_assessment.json"})
+        yield artifact(PipelinePhase.JAILBREAK, "jailbreak_assessment.json")
 
         async for ev in gate("gate_4", PipelinePhase.GATE_4):
             yield ev
@@ -99,11 +105,12 @@ async def run_full_pipeline(orch: SecurityOrchestrator):
             yield ev
         cis = inventories.annotate_cis(scanners.cis_cloud_controls(), orch.source_path)
         orch.write_json("cis_cloud.json", cis)
-        yield PipelineEvent(kind="artifact", phase=PipelinePhase.CIS_CLOUD, payload={"key": "cis_cloud.json"})
+        yield artifact(PipelinePhase.CIS_CLOUD, "cis_cloud.json")
 
         plan = scanners.remediation_plan(appsec, trivy, cis, jail)
         plan = await llm_enrich.maybe_enrich(orch, "plan", plan)
         orch.write_json("remediation_plan.json", plan)
+        yield artifact(PipelinePhase.GATE_5, "remediation_plan.json")
 
         async for ev in gate("gate_5", PipelinePhase.GATE_5):
             yield ev
@@ -121,7 +128,11 @@ async def run_full_pipeline(orch: SecurityOrchestrator):
         orch.write_json("issues.json", issues)
         asvs = inventories.asvs_matrix(appsec)
         orch.write_json("asvs_coverage.json", asvs)
-        yield PipelineEvent(kind="artifact", phase=PipelinePhase.COMPLIANCE, payload={"key": "compliance.json"})
+        yield artifact(PipelinePhase.COMPLIANCE, "compliance.json")
+        yield artifact(PipelinePhase.COMPLIANCE, "access_management.json")
+        yield artifact(PipelinePhase.COMPLIANCE, "risk_register.json")
+        yield artifact(PipelinePhase.COMPLIANCE, "issues.json")
+        yield artifact(PipelinePhase.COMPLIANCE, "asvs_coverage.json")
 
         async for ev in gate("gate_6", PipelinePhase.GATE_6):
             yield ev
@@ -130,6 +141,9 @@ async def run_full_pipeline(orch: SecurityOrchestrator):
             yield ev
         written = write_all_reports(orch)
         orch.write_json("reports_index.json", {"files": written})
+        yield artifact(PipelinePhase.WRITER, "reports_index.json")
+        for name in written:
+            yield artifact(PipelinePhase.WRITER, name)
 
         orch.current_phase = PipelinePhase.DONE
         yield PipelineEvent(

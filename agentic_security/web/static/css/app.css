@@ -175,6 +175,11 @@ button.danger { background: var(--accent); }
   0%, 100% { opacity: 1; }
   50% { opacity: 0.45; }
 }
+.gate-artifacts, #artifact-list { list-style: none; padding: 0; margin: 8px 0 0; }
+.gate-artifacts li, #artifact-list li { margin: 0 0 6px; }
+.gate-artifacts a, #artifact-list a {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; text-transform: uppercase;
+}
 .gate-actions { display: flex; gap: 8px; margin-top: 8px; }
 .gate-actions input { flex: 1; font: inherit; padding: 6px 8px; border: 1px solid var(--rule); }
 #report-frame { width: 100%; min-height: 70vh; border: 1px solid var(--rule); margin-top: 12px; }

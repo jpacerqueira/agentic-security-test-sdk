@@ -303,5 +303,22 @@ Rename gates to consecutive integers. Planning 4.5 becomes Gate 5; report releas
 
 Compose pytest including `test_gates_are_integers_one_to_six`.
 
+---
+
+## 2026-09-18 — Artifacts on each gate for approve/reject
+
+### Ask
+
+Artifacts tab was empty. Show run artifacts at each gate so a reviewer can analyse them then approve or reject.
+
+### What landed
+
+`GET /runs/{id}/artifacts` lists JSON/HTML on disk. Driver emits an `artifact` event for every write (including remediation plan, access, risk, issues, ASVS, reports). Gate cards and the Artifacts tab share those links.
+
+### Verification
+
+Compose pytest: `test_artifacts_listed_from_disk`, `test_pipeline_auto_approves` (artifact keys).
+
+
 
 

@@ -70,8 +70,42 @@ document.querySelectorAll(".tab").forEach((tab) => {
     document.querySelectorAll(".pane").forEach((p) => p.classList.add("hidden"));
     document.getElementById(`pane-${tab.dataset.tab}`).classList.remove("hidden");
     if (tab.dataset.tab === "reports") refreshReports();
+    if (tab.dataset.tab === "artifacts") refreshArtifacts();
   });
 });
+
+const seenArtifacts = new Set();
+
+function addArtifact(key, gateId) {
+  if (!key || seenArtifacts.has(key) || !artifactList) return;
+  seenArtifacts.add(key);
+  const href = `/runs/${runId}/files/${encodeURIComponent(key)}`;
+  const li = document.createElement("li");
+  const a = document.createElement("a");
+  a.href = href;
+  a.textContent = key;
+  a.target = "_blank";
+  a.rel = "noopener";
+  li.appendChild(a);
+  artifactList.appendChild(li);
+  if (gateId) {
+    const ul = document.getElementById(`gate-artifacts-${gateId}`);
+    if (ul) {
+      const gli = document.createElement("li");
+      const ga = a.cloneNode(true);
+      gli.appendChild(ga);
+      ul.appendChild(gli);
+    }
+  }
+}
+
+function refreshArtifacts() {
+  fetch(`/runs/${runId}/artifacts`)
+    .then((r) => r.json())
+    .then((data) => {
+      (data.files || []).forEach((f) => addArtifact(f.key, f.gate_id));
+    });
+}
 
 function refreshReports() {
   fetch(`/runs/${runId}/reports`)
@@ -131,6 +165,7 @@ es.onmessage = (msg) => {
     markPhase(ev.phase, "open");
     document.getElementById(`gate-${ev.payload.gate_id}`)?.classList.add("open");
     setRunStatus("running");
+    refreshArtifacts();
   }
   if (ev.kind === "gate_resolved") {
     const card = document.getElementById(`gate-${ev.payload.gate_id}`);
@@ -144,9 +179,7 @@ es.onmessage = (msg) => {
     }
   }
   if (ev.kind === "artifact") {
-    const li = document.createElement("li");
-    li.innerHTML = `<a href="/runs/${runId}/files/${ev.payload.key}">${ev.payload.key}</a>`;
-    artifactList.appendChild(li);
+    addArtifact(ev.payload.key, ev.payload.gate_id);
     markPhase(ev.phase, "done");
   }
   if (ev.kind === "llm_wait") {
@@ -158,9 +191,11 @@ es.onmessage = (msg) => {
     markPhase("writer", "done");
     setRunStatus("completed");
     refreshReports();
+    refreshArtifacts();
   }
   if (ev.kind === "pipeline_stopped") {
     setRunStatus("stopped", ev.payload?.reason || "rejected");
   }
 };
 updateProgress();
+refreshArtifacts();

@@ -39,6 +39,8 @@
     <div class="gate-step-bar" aria-hidden="true"><span></span></div>
     <h3>{{ g.title }}</h3>
     <p class="hint">Gate {{ loop.index }}</p>
+    <p class="hint">Review artifacts below, then approve or reject.</p>
+    <ul class="gate-artifacts" id="gate-artifacts-{{ g.id }}"></ul>
     <form class="gate-actions" hx-post="/runs/{{ run.run_id }}/gates/{{ g.id }}/approve" hx-target="this" hx-swap="outerHTML">
       <input name="reviewer_name" placeholder="Reviewer" value="{{ run.reviewer_name }}">
       <input name="notes" placeholder="Notes">
@@ -68,6 +70,7 @@
   <iframe id="report-frame" title="Report preview"></iframe>
 </div>
 <div id="pane-artifacts" class="pane hidden">
+  <p class="hint">JSON written before each gate (and HTML after Gate 6). Use them to analyse the run, then approve or reject on Gates.</p>
   <ul id="artifact-list"></ul>
 </div>
 <script>

@@ -67,6 +67,23 @@ async def test_pipeline_auto_approves(tmp_path: Path):
     events = [ev async for ev in run_full_pipeline(orch)]
     kinds = [e.kind for e in events]
     assert "pipeline_completed" in kinds
+    from agentic_security.orchestration.pipeline import list_run_artifacts
+
+    keys = {f["key"] for f in list_run_artifacts(tmp_path / "t1")}
+    for name in (
+        "scope.json",
+        "trivy_report.json",
+        "appsec_findings.json",
+        "jailbreak_assessment.json",
+        "remediation_plan.json",
+        "compliance.json",
+        "reports_index.json",
+        "pentest-assessment.html",
+    ):
+        assert name in keys
+    art_keys = [e.payload.get("key") for e in events if e.kind == "artifact"]
+    assert "remediation_plan.json" in art_keys
+    assert "access_management.json" in art_keys
     assert (tmp_path / "t1" / "reports" / "pentest-assessment.html").exists()
     assert (tmp_path / "t1" / "reports" / "trivy-scan.html").exists()
     assert (tmp_path / "t1" / "reports" / "full-security-report.html").exists()

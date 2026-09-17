@@ -51,6 +51,47 @@ GATES = (
     {"id": "gate_6", "title": "Report release", "phase": "gate_6"},
 )
 
+# Files a reviewer should open before approve/reject on that gate.
+GATE_ARTIFACTS: dict[str, tuple[str, ...]] = {
+    "gate_1": ("scope.json", "grounding.json"),
+    "gate_2": ("trivy_report.json",),
+    "gate_3": ("appsec_findings.json",),
+    "gate_4": ("jailbreak_assessment.json",),
+    "gate_5": ("cis_cloud.json", "remediation_plan.json"),
+    "gate_6": (
+        "compliance.json",
+        "access_management.json",
+        "risk_register.json",
+        "issues.json",
+        "asvs_coverage.json",
+        "reports_index.json",
+    ),
+}
+KEY_TO_GATE = {key: gid for gid, keys in GATE_ARTIFACTS.items() for key in keys}
+_SKIP_LIST = frozenset({"events.jsonl", "run_meta.json"})
+
+
+def list_run_artifacts(run_dir: Path) -> list[dict[str, str]]:
+    """JSON (and reports) on disk — used so the Artifacts tab is not SSE-only."""
+    root = Path(run_dir)
+    out: list[dict[str, str]] = []
+    seen: set[str] = set()
+    for path in sorted(root.glob("*.json")):
+        if path.name in _SKIP_LIST:
+            continue
+        seen.add(path.name)
+        out.append({"key": path.name, "gate_id": KEY_TO_GATE.get(path.name, "")})
+    reports = root / "reports"
+    if reports.is_dir():
+        for path in sorted(reports.iterdir()):
+            if path.suffix.lower() not in {".html", ".pdf", ".json"}:
+                continue
+            if path.name in seen:
+                continue
+            seen.add(path.name)
+            out.append({"key": path.name, "gate_id": "gate_6"})
+    return out
+
 
 @dataclass
 class PipelineEvent:

@@ -220,5 +220,31 @@ def test_run_page_has_no_mode_toggle(client):
     assert "gate_4_5" not in html
     assert "Gate 5" in html
     assert "Gate 6" in html
+    assert 'id="artifact-list"' in html
+    assert 'id="gate-artifacts-gate_1"' in html
     mode = c.post(f"/runs/{run_id}/mode", data={"skip_llm": "false"})
     assert mode.status_code == 404
+
+
+def test_artifacts_listed_from_disk(client):
+    c, app_module, _tmp = client
+    src = Path("examples/sample-web-api")
+    resp = c.post(
+        "/runs",
+        data={
+            "plan": "essentials",
+            "source_path": str(src),
+            "skip_llm": "true",
+            "client_name": "Acme",
+        },
+        follow_redirects=False,
+    )
+    assert resp.status_code == 303
+    run_id = resp.headers["location"].rsplit("/", 1)[-1]
+    run = app_module.RUNS[run_id]
+    run.orchestrator.write_json("scope.json", {"client": "Acme"})
+    listed = c.get(f"/runs/{run_id}/artifacts")
+    assert listed.status_code == 200
+    keys = [f["key"] for f in listed.json()["files"]]
+    assert "scope.json" in keys
+    assert listed.json()["files"][0]["gate_id"] == "gate_1"
