@@ -26,9 +26,16 @@
 <div class="demo-shell">
   <div>
     <h2>Choose a source tree</h2>
-    <div class="demo-picker">
+    <form id="github-fetch-form" class="github-fetch">
+      <label>Source from new URL REPO
+        <input id="github-url" name="github_url" placeholder="https://github.com/owner/repo" autocomplete="off">
+      </label>
+      <button type="submit" id="github-fetch-btn">Download zip into examples</button>
+      <p class="hint" id="github-fetch-status">Public GitHub only. The archive is extracted under examples/, then click the new card to analyse that tree. The run does not use a static example unless you click one.</p>
+    </form>
+    <div class="demo-picker" id="demo-picker">
       {% for ex in examples %}
-      <button type="button" class="demo-card" data-path="{{ ex.path }}">
+      <button type="button" class="demo-card" data-path="{{ ex.path }}" data-github-url="{{ ex.github_url or '' }}">
         <div class="demo-card-name">{{ ex.name }}</div>
         <p class="hint">{{ ex.path }}</p>
       </button>
@@ -39,8 +46,9 @@
     <h2>Launch analysis</h2>
     <input type="hidden" name="plan" id="plan-input" value="essentials">
     <input type="hidden" name="source_path" id="source-path" value="">
+    <input type="hidden" name="target_url" id="target-url" value="">
+    <p class="hint" id="selected-source">No source tree selected — click a card, or download a repo first.</p>
     <label>Client name <input name="client_name" value="Client"></label>
-    <label>Target URL <input name="target_url" placeholder="https://app.example.com"></label>
     <div class="demo-field">
       <span class="toggle-label-text">Mode</span>
       <input type="hidden" name="skip_llm" id="skip-llm-hidden"

@@ -37,6 +37,6 @@ Access-management HTML must include identity inventory, connectors, reviews, JML
 
 ## UI
 
-Landing `/` = plan cards + example picker + launch form (mode toggle + auto-approve).  
-Run `/runs/{id}` = phase pills, Gates / Reports / Artifacts tabs, SSE `/runs/{id}/events`. Reports tab **Generate output report** downloads one A4 PDF (executive summary first). Runs restore from `runs/<id>/run_meta.json` after a container rebuild.  
+Landing `/` = plan cards + **Choose a source tree** (example cards; click one to analyse that tree) + **Source from new URL REPO** (`POST /examples/fetch-github` downloads a public GitHub zip into `examples/`, then click the new card). There is no Target URL field and no auto-select of `sample-web-api`. Launch form (mode toggle + auto-approve) requires a selected `source_path`.  
+Run `/runs/{id}` = phase pills, Gates / Reports / Artifacts tabs, SSE `/runs/{id}/events`. Run header **Mode** toggle POSTs `/runs/{id}/mode` (`PipelineEvent` `mode_changed`). Reports tab **Generate output report** downloads one A4 PDF (executive summary first). Runs restore from `runs/<id>/run_meta.json` after a container rebuild.  
 Login cookie session, default `demo` / `demobxyz`.

@@ -8,7 +8,7 @@ This repository is clone-and-run: Docker Compose on port **8090**, or a local ve
 
 ## What this app is
 
-A gated security assessment: pick Essentials / Plus / Professional, point at a source tree, approve gates, then read HTML reports. Three live screens from the Compose app:
+A gated security assessment: pick Essentials / Plus / Professional, click a source-tree card (or download a public GitHub zip into `examples/` first), approve gates, then read HTML reports. Three live screens from the Compose app:
 
 **Landing — choose a plan and launch an assessment**
 
@@ -34,6 +34,8 @@ docker compose up --build
 Open http://localhost:8090 — sign in with `demo` / `demobxyz`.
 
 On the launch form, **Deterministic** (toggle on, default) uses scanners only. Flip to **LLM (Ollama / ADK LiteLLM)** to call **gemma4:latest** on local Ollama. Compose uses `http://host.docker.internal:11434/v1` and maps `host.docker.internal` via `extra_hosts` (Linux + Docker Desktop). Host venv uses `http://localhost:11434/v1`.
+
+**Choose a source tree** by clicking an examples card (nothing is pre-selected). **Source from new URL REPO** downloads a public GitHub zip into `examples/` (bind-mounted into Compose); click the new card, then Start assessment. That downloaded tree is the pipeline source — not a leftover Target URL against the static sample.
 
 ```bash
 # optional — LLM mode
@@ -89,7 +91,7 @@ On the Reports tab, **Generate output report** downloads one A4 PDF with every r
 | Path | Role |
 |---|---|
 | `agentic_security/` | Application package |
-| `examples/sample-web-api/` | Deliberate pickle / TLS / password fixture |
+| `examples/sample-web-api/` | Bundled fixture; other `examples/` trees come from **Source from new URL REPO** |
 | `images/` | Product screenshots used in this README |
 | `tests/` | Pytest suite + markup results |
 | `docker-compose.yml` / `Dockerfile` | Compose on 8090; image includes Trivy, WeasyPrint (A4 PDF), and the `[llm]` extra |

@@ -57,6 +57,8 @@ main { max-width: 1400px; margin: 0 auto; padding: 32px; }
 .plan-card li { margin-bottom: 6px; }
 
 .demo-shell { display: grid; grid-template-columns: 1fr 340px; gap: 28px; }
+.github-fetch { border: 1px solid var(--rule); padding: 14px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 8px; }
+.github-fetch input { font: inherit; padding: 6px 8px; border: 1px solid var(--rule); width: 100%; }
 .demo-picker { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
 .demo-card { border: 1px solid var(--rule); background: var(--panel); padding: 16px; cursor: pointer; text-align: left; font: inherit; }
 .demo-card.selected { border-color: var(--ink); border-width: 2px; }

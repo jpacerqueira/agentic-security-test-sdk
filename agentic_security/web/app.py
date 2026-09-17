@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from contextlib import asynccontextmanager
-from pathlib import Path
 import asyncio
 import json
 import uuid
+from contextlib import asynccontextmanager
 from datetime import datetime, timezone
+from pathlib import Path
 
 from fastapi import FastAPI, Form, Request
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
@@ -15,8 +15,15 @@ from starlette.middleware.sessions import SessionMiddleware
 from starlette.templating import Jinja2Templates
 
 from agentic_security.brand import APP_NAME
+from agentic_security.github_examples import GitHubFetchError, import_github_repo, list_examples
 from agentic_security.orchestration.driver import run_full_pipeline
-from agentic_security.orchestration.pipeline import GATES, PHASE_LABELS, PipelinePhase, SecurityOrchestrator
+from agentic_security.orchestration.pipeline import (
+    GATES,
+    PHASE_LABELS,
+    PipelineEvent,
+    PipelinePhase,
+    SecurityOrchestrator,
+)
 from agentic_security.plans import PLAN_ORDER, resolve_plan
 from agentic_security.settings import get_settings
 
@@ -200,21 +207,24 @@ async def healthz():
 
 @app.get("/", response_class=HTMLResponse)
 async def landing(request: Request):
-    examples = []
-    ex = Path("examples")
-    if ex.is_dir():
-        for d in sorted(ex.iterdir()):
-            if d.is_dir() and not d.name.startswith("."):
-                examples.append({"name": d.name, "path": str(d)})
     return TEMPLATES.TemplateResponse(
         request,
         "landing.html",
         {
             "plans": PLAN_ORDER,
-            "examples": examples,
+            "examples": list_examples(),
             "skip_llm_default": get_settings().skip_llm,
         },
     )
+
+
+@app.post("/examples/fetch-github")
+async def fetch_github_example(github_url: str = Form("")):
+    try:
+        card = await asyncio.to_thread(import_github_repo, github_url)
+    except GitHubFetchError as exc:
+        return JSONResponse({"error": exc.detail}, status_code=exc.status)
+    return JSONResponse(card)
 
 
 @app.post("/runs", response_class=HTMLResponse)
@@ -230,6 +240,11 @@ async def create_run(
 ):
     if auto_approve_gates.lower() == "true" and not auto_approve_reviewer_name.strip():
         return HTMLResponse("<div class='warn'>Approver name is required when auto-approve is on.</div>", 400)
+    if not source_path.strip() or not Path(source_path).is_dir():
+        return HTMLResponse(
+            "<div class='warn'>Select a source tree from examples (download a GitHub zip first if needed).</div>",
+            400,
+        )
     run_id = uuid.uuid4().hex[:8]
     run = Run(
         run_id=run_id,

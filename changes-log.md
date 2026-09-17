@@ -142,4 +142,26 @@ Add `MODEL_CONTEXT_LENGTH`. Warm the model when `skip_llm=false`. Toggle on the 
 
 Compose `pytest -v -W error::DeprecationWarning` — **19 passed, 0 skipped** (2026-09-17). Consecutive det → LLM → det pipeline test included. Container env: `MODEL_REASONING=gemma4:latest`, `MODEL_CONTEXT_LENGTH=131072`, `LLM_BASE_URL=http://host.docker.internal:11434/v1`.
 
+---
+
+## 2026-09-17 — Source from new URL REPO + LLM mode 500
+
+### Ask
+
+Selecting a Target URL still analysed the static sample. Target URL should download a GitHub zip into `examples/` and that tree becomes the pipeline source after a card click. LLM mode on `http://localhost:8090/runs/8f2cedbc` 500ed: `NameError: PipelineEvent is not defined` in `set_run_mode`.
+
+### What landed
+
+| Path | Role |
+|---|---|
+| `agentic_security/github_examples.py` | Parse github.com URL, zip from codeload, extract into `examples/` |
+| `POST /examples/fetch-github` | Landing **Source from new URL REPO** |
+| Landing picker | Click a card → `source_path`; no auto-select of sample-web-api |
+| `create_run` | 400 unless `source_path` is an existing directory |
+| `PipelineEvent` import in `web/app.py` | Fixes `POST /runs/{id}/mode` 500 |
+
+### Verification
+
+Compose `pytest -v -W error::DeprecationWarning` — **34 passed, 0 skipped** (2026-09-17, 42.28s). Live: `POST /runs/8f2cedbc/mode` 200; landing has **Source from new URL REPO** (octocat/Hello-World zip extracted to `examples/octocat_Hello-World` and selected as source); no Target URL; no auto-select of sample-web-api.
+
 

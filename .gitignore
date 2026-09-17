@@ -7,6 +7,9 @@ __pycache__/
 .env
 runs/*
 !runs/.gitkeep
+examples/*
+!examples/sample-web-api/
+!examples/sample-web-api/**
 *.egg-info/
 dist/
 build/
