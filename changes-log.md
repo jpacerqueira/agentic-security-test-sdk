@@ -235,4 +235,24 @@ Every HTML/PDF report is bound to `orch.client_name` from launch. Re-run an asse
 
 Compose **47 passed, 0 skipped** (2026-09-17, 33.31s). `test_reports_use_launch_client_name` and `test_create_run_blank_client_defaults_to_client`.
 
+---
+
+## 2026-09-17 — Progress bar, running/completed banner, LLM /v1 logs
+
+### Ask
+
+Progress bar on the steps and gates. Confirmation of completed in green below the gates; running in red/orange flashing at a smooth pace — Deterministic and LLM. Container logs for the selected LLM and OpenAI API /v1 calls, fully mapped in docker-compose.
+
+### What landed
+
+| Path | Role |
+|---|---|
+| `run.html` / `dashboard.js` / `app.css` | `#run-progress`; `#run-status` below gates |
+| `logging_config.py` / `llm.py` | `openai-v1 request|response` for `/v1/models` and `/v1/chat/completions` |
+| `docker-compose.yml` | `PYTHONUNBUFFERED`, `LOG_DIR`, `LITELLM_LOG`, `./logs` mount, json-file logging |
+
+### Verification
+
+Compose `docker compose exec -T agentic-security pytest -v -W error::DeprecationWarning` on the rebuilt service: **48 passed, 0 skipped** in 30.55s (2026-09-17). Live run `4320841e` banner `#run-status.completed` green **Completed — Deterministic**. Waiting Deterministic `4a148218` and LLM `743aadc3` banners `#run-status.running` with `run-status-flash` 1.4s (red `#ED3A12` ↔ orange `#E07A1F`). Host `./logs/openai-v1.log` recorded `GET …/v1/models` 200 and `POST …/v1/chat/completions`.
+
 

@@ -25,6 +25,9 @@ class Settings(BaseSettings):
     model_temperature: float | None = None
     llm_timeout: int = 180
     llm_ready_timeout_seconds: int = 120
+    log_level: str = "INFO"
+    # Empty = stdout only. Compose sets /app/logs (bind-mounted to ./logs).
+    log_dir: str = ""
 
     runs_dir: str = "runs"
     demo_username: str = "demo"

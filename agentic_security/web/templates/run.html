@@ -12,6 +12,17 @@
     {% if run.llm_grounding %}<span class="mode-badge">LLM grounding</span>{% endif %}
   </div>
 </div>
+<div class="run-progress" id="run-progress">
+  <div class="run-progress-meta">
+    <span id="run-progress-step">Starting…</span>
+    <span id="run-progress-count">0 / {{ phases | length }}</span>
+  </div>
+  <div class="run-progress-track" id="run-progress-bar"
+       role="progressbar" aria-valuemin="0" aria-valuemax="{{ phases | length }}" aria-valuenow="0"
+       aria-label="Assessment steps">
+    <div class="run-progress-fill" id="run-progress-fill"></div>
+  </div>
+</div>
 <div class="phase-strip" id="phase-strip">
   {% for p in phases %}
   <span class="phase-pill" data-phase="{{ p.value }}">{{ phase_labels[p] }}</span>
@@ -25,6 +36,7 @@
 <div id="pane-gates" class="pane">
   {% for g in gates %}
   <article class="gate-card" id="gate-{{ g.id }}">
+    <div class="gate-step-bar" aria-hidden="true"><span></span></div>
     <h3>{{ g.title }}</h3>
     <p class="hint">{{ g.id }}</p>
     <form class="gate-actions" hx-post="/runs/{{ run.run_id }}/gates/{{ g.id }}/approve" hx-target="this" hx-swap="outerHTML">
@@ -39,6 +51,10 @@
     </form>
   </article>
   {% endfor %}
+  <div class="run-status running" id="run-status" role="status" aria-live="polite">
+    <span class="run-status-dot" aria-hidden="true"></span>
+    <span class="run-status-label">Running — {% if run.skip_llm %}Deterministic{% else %}LLM (Ollama / ADK LiteLLM){% endif %}</span>
+  </div>
 </div>
 <div id="pane-reports" class="pane hidden">
   <p class="hint">HTML reports for this plan appear here once Gate 5 is approved and the writer finishes.</p>
@@ -56,6 +72,7 @@
 </div>
 <script>
   window.AS_RUN_ID = {{ run.run_id | tojson }};
+  window.AS_SKIP_LLM = {{ run.skip_llm | tojson }};
 </script>
 <script src="/static/js/dashboard.js"></script>
 {% endblock %}

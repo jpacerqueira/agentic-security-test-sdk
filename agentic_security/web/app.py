@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import logging
 import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
@@ -33,8 +34,20 @@ TEMPLATES.env.globals["app_name"] = APP_NAME
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
+    from agentic_security.logging_config import configure_logging
+
+    configure_logging()
     _restore_all()
-    if not get_settings().skip_llm:
+    settings = get_settings()
+    logging.getLogger("agentic_security.openai_v1").info(
+        "llm mapping skip_llm=%s engine=%s model=%s fast=%s api_base=%s",
+        settings.skip_llm,
+        settings.llm_engine,
+        settings.model_reasoning,
+        settings.model_fast,
+        settings.llm_base_url,
+    )
+    if not settings.skip_llm:
         from agentic_security import llm as llm_mod
 
         asyncio.create_task(llm_mod.ensure_llm_ready())

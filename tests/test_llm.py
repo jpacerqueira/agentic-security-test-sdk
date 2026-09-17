@@ -43,3 +43,29 @@ def test_ollama_native_base_strips_v1():
 
     assert ollama_native_base("http://host.docker.internal:11434/v1") == "http://host.docker.internal:11434"
     assert ollama_native_base("http://localhost:11434/v1/") == "http://localhost:11434"
+
+
+def test_openai_v1_urls_and_file_log(tmp_path, monkeypatch):
+    from agentic_security.logging_config import (
+        chat_completions_url,
+        configure_logging,
+        models_url,
+    )
+    from agentic_security.settings import get_settings
+
+    assert (
+        chat_completions_url("http://host.docker.internal:11434/v1")
+        == "http://host.docker.internal:11434/v1/chat/completions"
+    )
+    assert models_url("http://host.docker.internal:11434/v1") == (
+        "http://host.docker.internal:11434/v1/models"
+    )
+    monkeypatch.setenv("LOG_DIR", str(tmp_path))
+    monkeypatch.setenv("LOG_LEVEL", "INFO")
+    get_settings.cache_clear()
+    import agentic_security.logging_config as lc
+
+    lc._CONFIGURED = False
+    configure_logging()
+    assert (tmp_path / "openai-v1.log").exists()
+    get_settings.cache_clear()

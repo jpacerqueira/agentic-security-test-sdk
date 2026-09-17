@@ -115,6 +115,22 @@ button.danger { background: var(--accent); }
 .run-header .meta { font-family: "IBM Plex Mono", monospace; font-size: 0.78rem; color: var(--muted); text-transform: uppercase; display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
 .run-header .meta span { margin-left: 0; }
 .run-header .mode-badge { color: var(--ink); font-weight: 600; }
+.run-progress { margin: 16px 0 10px; }
+.run-progress-meta {
+  display: flex; justify-content: space-between; gap: 12px;
+  font-family: "IBM Plex Mono", monospace; font-size: 0.72rem;
+  text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted);
+  margin-bottom: 8px;
+}
+.run-progress-track {
+  height: 10px; background: var(--sage); border: 1px solid var(--rule); overflow: hidden;
+}
+.run-progress-fill {
+  height: 100%; width: 0;
+  background: var(--ink);
+  transition: width 0.25s ease;
+}
+.run-progress-fill.open { background: var(--accent); }
 .phase-strip { display: flex; gap: 4px; margin-bottom: 22px; overflow-x: auto; }
 .phase-pill { font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; padding: 5px 9px; border: 1px solid var(--rule); color: var(--muted); text-transform: uppercase; white-space: nowrap; }
 .phase-pill.running { background: var(--sage); color: var(--ink); border-color: var(--ink); border-width: 2px; }
@@ -125,15 +141,75 @@ button.danger { background: var(--accent); }
 .tab { background: var(--bg); color: var(--muted); border: 1px solid var(--rule); }
 .tab.on { background: var(--ink); color: var(--bg); }
 .hidden { display: none; }
-.gate-card { border: 1px solid var(--rule); padding: 16px; margin-bottom: 12px; }
+.gate-card { border: 1px solid var(--rule); padding: 16px; margin-bottom: 12px; position: relative; }
+.gate-step-bar {
+  height: 4px; background: var(--sage); margin: -16px -16px 12px; overflow: hidden;
+}
+.gate-step-bar span {
+  display: block; height: 100%; width: 0; background: var(--rule); transition: width 0.25s ease;
+}
 .gate-card.open { border-color: var(--accent); }
+.gate-card.open .gate-step-bar span {
+  width: 55%; background: var(--accent);
+  animation: gate-pulse 1.2s ease-in-out infinite;
+}
 .gate-card.resolved { border-color: var(--ok); }
+.gate-card.resolved .gate-step-bar span { width: 100%; background: var(--ok); animation: none; }
+@keyframes gate-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
 .gate-actions { display: flex; gap: 8px; margin-top: 8px; }
 .gate-actions input { flex: 1; font: inherit; padding: 6px 8px; border: 1px solid var(--rule); }
 #report-frame { width: 100%; min-height: 70vh; border: 1px solid var(--rule); margin-top: 12px; }
 #report-list, #artifact-list { list-style: none; padding: 0; }
 #report-list button { background: var(--bg); color: var(--ink); border: 1px solid var(--rule); margin: 0 6px 6px 0; }
 #btn-output-pdf:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.run-status {
+  display: flex; align-items: center; gap: 12px;
+  margin-top: 18px; padding: 14px 16px;
+  font-family: "IBM Plex Mono", monospace; font-size: 0.78rem;
+  text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600;
+  border: 1px solid var(--rule);
+}
+.run-status-dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; background: currentColor;
+}
+.run-status.running {
+  color: #fff;
+  background: #ED3A12;
+  border-color: #ED3A12;
+  animation: run-status-flash 1.4s ease-in-out infinite;
+}
+.run-status.running .run-status-dot {
+  animation: run-status-dot 1.4s ease-in-out infinite;
+}
+.run-status.completed {
+  color: #fff;
+  background: var(--ok);
+  border-color: var(--ok);
+  animation: none;
+}
+.run-status.stopped {
+  color: #fff;
+  background: #A0522D;
+  border-color: #A0522D;
+  animation: none;
+}
+@keyframes run-status-flash {
+  0%, 100% { background: #ED3A12; border-color: #ED3A12; }
+  50% { background: #E07A1F; border-color: #E07A1F; }
+}
+@keyframes run-status-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.85); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .run-status.running, .run-status.running .run-status-dot,
+  .gate-card.open .gate-step-bar span { animation: none; }
+}
 
 @media (max-width: 1100px) {
   .plans { grid-template-columns: repeat(2, 1fr); }

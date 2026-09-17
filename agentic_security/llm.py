@@ -11,9 +11,11 @@ import time
 
 import httpx
 
+from agentic_security.logging_config import V1_LOGGER, chat_completions_url, models_url
 from agentic_security.settings import get_settings
 
 log = logging.getLogger("agentic_security.llm")
+v1log = logging.getLogger(V1_LOGGER)
 
 _JSON_FENCE = re.compile(r"```(?:json)?\s*(\{.*?\})\s*```", re.DOTALL)
 _JSON_OBJECT = re.compile(r"\{.*\}", re.DOTALL)
@@ -49,19 +51,28 @@ def ollama_native_base(llm_base_url: str) -> str:
 async def wait_for_llm_ready() -> tuple[bool, str]:
     """Poll GET {base}/models (Ollama OpenAI-compat). Best-effort, never raises."""
     s = get_settings()
-    base = s.llm_base_url.rstrip("/")
-    url = base if base.endswith("/models") else f"{base}/models"
+    url = models_url(s.llm_base_url)
     headers = {"Authorization": f"Bearer {s.llm_api_key}"} if s.llm_api_key else {}
     deadline = time.monotonic() + s.llm_ready_timeout_seconds
     wanted = {s.model_reasoning, s.model_fast}
-    log.info("readiness wait: %s models=%s timeout=%ss", url, wanted, s.llm_ready_timeout_seconds)
+    v1log.info(
+        "openai-v1 request method=GET url=%s engine=%s models=%s timeout=%ss",
+        url,
+        s.llm_engine,
+        wanted,
+        s.llm_ready_timeout_seconds,
+    )
     async with httpx.AsyncClient(timeout=8) as client:
         while True:
             try:
                 resp = await client.get(url, headers=headers)
                 if resp.status_code == 200:
                     ids = {m.get("id") for m in (resp.json().get("data") or [])}
-                    log.info("GET %s -> 200 ids=%s", url, ids)
+                    v1log.info(
+                        "openai-v1 response method=GET url=%s status=200 ids=%s",
+                        url,
+                        ids,
+                    )
                     if not wanted or ids.intersection(wanted) or ids:
                         return True, f"ready ({sorted(ids)[:6]})"
             except Exception as exc:
@@ -89,14 +100,24 @@ async def warm_model() -> str:
         "options": {"num_predict": 1},
     }
     timeout = max(s.llm_timeout, s.llm_ready_timeout_seconds, 60)
+    v1log.info(
+        "ollama-native request method=POST url=%s model=%s keep_alive=60m",
+        url,
+        s.model_reasoning,
+    )
     try:
         async with httpx.AsyncClient(timeout=timeout) as client:
             resp = await client.post(url, json=payload)
         if resp.status_code >= 400:
             msg = f"warm {url} -> {resp.status_code}"
-            log.warning(msg)
+            v1log.warning("ollama-native response url=%s status=%s", url, resp.status_code)
             return msg
-        log.info("warmed %s keep_alive=60m", s.model_reasoning)
+        v1log.info(
+            "ollama-native response url=%s status=%s warmed=%s",
+            url,
+            resp.status_code,
+            s.model_reasoning,
+        )
         return f"warmed {s.model_reasoning}"
     except Exception as exc:
         msg = f"warm failed: {exc}"
@@ -126,20 +147,49 @@ async def generate_text(prompt: str, *, system: str = "", role: str = "reasoning
     s = get_settings()
     llm = s.build_llm(role)
     body = f"{system.strip()}\n\n{prompt}" if system.strip() else prompt
+    endpoint = chat_completions_url(s.llm_base_url)
+    model_id = s.openai_model_id(role)
+    t0 = time.monotonic()
+    v1log.info(
+        "openai-v1 request method=POST url=%s model=%s role=%s engine=%s prompt_chars=%d",
+        endpoint,
+        model_id,
+        role,
+        s.llm_engine,
+        len(body),
+    )
     part = types.Part.from_text(text=body) if hasattr(types.Part, "from_text") else types.Part(text=body)
     req = LlmRequest(model=llm.model, contents=[types.Content(role="user", parts=[part])])
     chunks: list[str] = []
-    async for resp in llm.generate_content_async(req, stream=False):
-        content = getattr(resp, "content", None)
-        if content is not None:
-            for p in getattr(content, "parts", None) or []:
-                t = getattr(p, "text", None)
-                if t:
-                    chunks.append(t)
-        text = getattr(resp, "text", None)
-        if text:
-            chunks.append(text)
-    return "".join(chunks).strip()
+    try:
+        async for resp in llm.generate_content_async(req, stream=False):
+            content = getattr(resp, "content", None)
+            if content is not None:
+                for p in getattr(content, "parts", None) or []:
+                    t = getattr(p, "text", None)
+                    if t:
+                        chunks.append(t)
+            text = getattr(resp, "text", None)
+            if text:
+                chunks.append(text)
+    except Exception as exc:
+        v1log.warning(
+            "openai-v1 response method=POST url=%s model=%s status=error elapsed_ms=%d err=%s",
+            endpoint,
+            model_id,
+            int((time.monotonic() - t0) * 1000),
+            exc,
+        )
+        raise
+    text = "".join(chunks).strip()
+    v1log.info(
+        "openai-v1 response method=POST url=%s model=%s status=ok elapsed_ms=%d reply_chars=%d",
+        endpoint,
+        model_id,
+        int((time.monotonic() - t0) * 1000),
+        len(text),
+    )
+    return text
 
 
 def parse_json_object(text: str) -> dict[str, Any] | None:

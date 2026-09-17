@@ -38,5 +38,7 @@ Access-management HTML must include identity inventory, connectors, reviews, JML
 ## UI
 
 Landing `/` = plan cards (including **Ultra-Professional**) + **Choose a source tree** (example cards; click one to analyse that tree) + **Source from new URL REPO** (`POST /examples/fetch-github` downloads a public GitHub zip into `examples/`, then click the new card). There is no Target URL field and no auto-select of `sample-web-api`. Launch form (mode toggle + auto-approve; **LLM grounding** checkbox only when Ultra-Professional is selected) requires a selected `source_path`.  
-Run `/runs/{id}` = phase pills, Gates / Reports / Artifacts tabs, SSE `/runs/{id}/events`. Header shows a static mode label (not a toggle) and an **LLM grounding** badge when that extra was on. Reports tab **Generate output report** downloads one A4 PDF (executive summary first). Runs restore from `runs/<id>/run_meta.json` after a container rebuild.  
+Run `/runs/{id}` = step progress bar, phase pills, Gates / Reports / Artifacts tabs, SSE `/runs/{id}/events`. Below the gates a status banner **flashes red/orange while running** and turns **green Completed** (Deterministic or LLM). Header shows a static mode label (not a toggle) and an **LLM grounding** badge when that extra was on. Reports tab **Generate output report** downloads one A4 PDF (executive summary first). Runs restore from `runs/<id>/run_meta.json` after a container rebuild.  
+
+LLM /v1 calls log to stdout (`docker compose logs -f agentic-security`) and `./logs/openai-v1.log` (Compose bind-mount). Look for `openai-v1 request` / `openai-v1 response` with `POST …/v1/chat/completions` and the selected `openai/<model>`.  
 Login cookie session, default `demo` / `demobxyz`.

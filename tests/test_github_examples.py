@@ -210,5 +210,8 @@ def test_run_page_has_no_mode_toggle(client):
     assert 'id="run-skip-llm"' not in html
     assert "skip-llm-toggle" not in html
     assert "Deterministic" in html
+    assert 'id="run-progress"' in html
+    assert 'id="run-status"' in html
+    assert "run-status running" in html
     mode = c.post(f"/runs/{run_id}/mode", data={"skip_llm": "false"})
     assert mode.status_code == 404

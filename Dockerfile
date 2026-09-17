@@ -12,6 +12,6 @@ COPY agentic_security /app/agentic_security
 COPY examples /app/examples
 COPY tests /app/tests
 RUN pip install --no-cache-dir ".[llm,dev]"
-ENV RUNS_DIR=/app/runs SKIP_LLM=true
+ENV RUNS_DIR=/app/runs SKIP_LLM=true PYTHONUNBUFFERED=1 LOG_DIR=/app/logs
 EXPOSE 8090
-CMD ["uvicorn", "agentic_security.web.app:app", "--host", "0.0.0.0", "--port", "8090"]
+CMD ["uvicorn", "agentic_security.web.app:app", "--host", "0.0.0.0", "--port", "8090", "--log-level", "info"]

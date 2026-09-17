@@ -33,7 +33,7 @@ docker compose up --build
 
 Open http://localhost:8090 — sign in with `demo` / `demobxyz`.
 
-On the launch form, **Deterministic** (toggle on, default) uses scanners only. Flip to **LLM (Ollama / ADK LiteLLM)** to call **gemma4:latest** on local Ollama. That choice is fixed for the run — the assessment page shows the mode as a label, not a switch. Compose uses `http://host.docker.internal:11434/v1` and maps `host.docker.internal` via `extra_hosts` (Linux + Docker Desktop). Host venv uses `http://localhost:11434/v1`.
+On the launch form, **Deterministic** (toggle on, default) uses scanners only. Flip to **LLM (Ollama / ADK LiteLLM)** to call **gemma4:latest** on local Ollama. That choice is fixed for the run — the assessment page shows the mode as a label, not a switch. Compose uses `http://host.docker.internal:11434/v1` and maps `host.docker.internal` via `extra_hosts` (Linux + Docker Desktop). Host venv uses `http://localhost:11434/v1`. Watch LLM traffic with `docker compose logs -f agentic-security` (lines `openai-v1 request|response`) and `./logs/openai-v1.log`.
 
 **Choose a source tree** by clicking an examples card (nothing is pre-selected). **Source from new URL REPO** downloads a public GitHub zip into `examples/` (bind-mounted into Compose); click the new card, then Start assessment. That downloaded tree is the pipeline source — not a leftover Target URL against the static sample.
 
