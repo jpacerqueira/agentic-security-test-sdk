@@ -49,39 +49,52 @@
     <input type="hidden" name="target_url" id="target-url" value="">
     <p class="hint" id="selected-source">No source tree selected — click a card, or download a repo first.</p>
     <label>Client name <input name="client_name" value="Client"></label>
-    <div class="demo-field">
-      <span class="toggle-label-text">Mode</span>
-      <input type="hidden" name="skip_llm" id="skip-llm-hidden"
-             value="{% if skip_llm_default %}true{% else %}false{% endif %}">
-      <label class="skip-llm-toggle" for="skip-llm-input">
-        <input type="checkbox" id="skip-llm-input"
-               {% if skip_llm_default %}checked{% endif %}>
-        <span class="toggle-label-text">
-          <span class="mode-llm">LLM (Ollama / ADK LiteLLM)</span>
-          <span class="mode-det">Deterministic</span>
-        </span>
-      </label>
-      <p class="hint">Checked = scanners only. Unchecked = Google ADK LiteLlm against local Ollama OpenAI-compatible /v1. A new run after flipping this toggle is independent of the previous run.</p>
+    <div class="launch-toggles">
+      <div class="demo-field">
+        <span class="toggle-label-text">Mode</span>
+        <input type="hidden" name="skip_llm" id="skip-llm-hidden"
+               value="{% if skip_llm_default %}true{% else %}false{% endif %}">
+        <label class="switch-toggle skip-llm-toggle" for="skip-llm-input">
+          <input type="checkbox" id="skip-llm-input"
+                 {% if skip_llm_default %}checked{% endif %}>
+          <span class="toggle-label-text">
+            <span class="mode-llm">LLM (Ollama / ADK LiteLLM)</span>
+            <span class="mode-det">Deterministic</span>
+          </span>
+        </label>
+        <p class="hint">On = scanners only. Off = Google ADK LiteLlm against local Ollama OpenAI-compatible /v1. A new run after flipping this toggle is independent of the previous run.</p>
+      </div>
+      <div class="demo-field" id="grounding-field" hidden>
+        <span class="toggle-label-text">LLM grounding (this run)</span>
+        <input type="hidden" name="llm_grounding" id="llm-grounding-hidden" value="false">
+        <label class="switch-toggle" for="llm-grounding-input">
+          <input type="checkbox" id="llm-grounding-input">
+          <span class="toggle-label-text">
+            <span class="mode-off">Off</span>
+            <span class="mode-on">On</span>
+          </span>
+        </label>
+        <p class="hint">Ultra-Professional only. Scrapes this source tree (and GitHub metadata if the tree came from a repo URL) so LLM text must cite those facts instead of inventing them.</p>
+      </div>
+      <div class="demo-field" id="auto-approve-field">
+        <span class="toggle-label-text">Auto-approve</span>
+        <input type="hidden" name="auto_approve_gates" id="auto-approve-hidden" value="false">
+        <label class="switch-toggle" for="auto-approve-input">
+          <input type="checkbox" id="auto-approve-input">
+          <span class="toggle-label-text">
+            <span class="mode-off">Off</span>
+            <span class="mode-on">On</span>
+          </span>
+        </label>
+        <input name="auto_approve_reviewer_name" id="auto-approve-reviewer"
+               placeholder="Approver name (required if on)">
+        <p class="hint">On = every gate is approved with the name above. Off = wait for a reviewer on the run page.</p>
+      </div>
     </div>
     <div class="llm-confirm-inline" hidden>
       <p>This run will call the local Ollama model through ADK LiteLLM. Continue?</p>
       <button type="button" data-modal-action="confirm">Start LLM assessment</button>
       <button type="button" data-modal-action="cancel">Cancel</button>
-    </div>
-    <div class="demo-field" id="grounding-field" hidden>
-      <input type="hidden" name="llm_grounding" id="llm-grounding-hidden" value="false">
-      <label class="auto-approve-toggle" for="llm-grounding-input">
-        <input type="checkbox" id="llm-grounding-input">
-        <span class="toggle-label-text">LLM grounding (this run)</span>
-      </label>
-      <p class="hint">Ultra-Professional only. Scrapes this source tree (and GitHub metadata if the tree came from a repo URL) so LLM text must cite those facts instead of inventing them.</p>
-    </div>
-    <div class="demo-field">
-      <label class="auto-approve-toggle">
-        <input type="checkbox" name="auto_approve_gates" value="true">
-        <span class="toggle-label-text">Auto-approve gates</span>
-      </label>
-      <input name="auto_approve_reviewer_name" placeholder="Approver name (required if on)">
     </div>
     <button type="submit">Start assessment</button>
   </form>

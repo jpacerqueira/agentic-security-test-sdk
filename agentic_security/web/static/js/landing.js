@@ -101,16 +101,25 @@ fetchForm?.addEventListener("submit", (evt) => {
 const form = document.querySelector(".demo-form");
 const box = document.getElementById("skip-llm-input");
 const hidden = document.getElementById("skip-llm-hidden");
+const autoBox = document.getElementById("auto-approve-input");
+const autoHidden = document.getElementById("auto-approve-hidden");
 
 function syncSkipLlm() {
   if (hidden && box) hidden.value = box.checked ? "true" : "false";
 }
 
+function syncAutoApprove() {
+  if (autoHidden && autoBox) autoHidden.value = autoBox.checked ? "true" : "false";
+}
+
 box?.addEventListener("change", syncSkipLlm);
+autoBox?.addEventListener("change", syncAutoApprove);
 syncSkipLlm();
+syncAutoApprove();
 
 form?.addEventListener("submit", (evt) => {
   syncSkipLlm();
+  syncAutoApprove();
   syncGroundingField();
   if (!sourcePath.value) {
     evt.preventDefault();

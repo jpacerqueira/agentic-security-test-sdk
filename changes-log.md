@@ -64,7 +64,7 @@ User-facing name is **Macro-Search - Agentic Security Scan** (`agentic_security/
 
 ## 2026-09-17 — README screenshots
 
-`images/` filenames: spaces → `_`. README “What this app is” shows all four files: landing page, executive summary, jailbreak/prompt-injection report, and access-management report.
+`images/` filenames: spaces → `_`. README “What this app is” shows all five files: landing page, **completed run**, executive summary, jailbreak/prompt-injection report, and access-management report.
 
 ---
 
@@ -270,5 +270,21 @@ Use the four files now in `images/` by the significance of their names to repres
 ### Verification
 
 All four PNG paths resolve under `images/`. Public-git commit after rsync.
+
+---
+
+## 2026-09-17 — Completed-run screenshot; launch switches match Mode
+
+### Ask
+
+New `images/…_completed_run.png` for a finished assessment — explain and show it in README. LLM Grounding and Auto-approve looked like a different radio/checkbox; match the Deterministic/LLM toggle switch and sit in the same Launch analysis cluster.
+
+### What landed
+
+README adds **Completed run** (green banner below gates, 14/14). Landing uses `.launch-toggles` + `.switch-toggle` for Mode, LLM grounding, and Auto-approve (Off/On). Hidden `auto_approve_gates` posts `true`/`false` like `skip_llm`.
+
+### Verification
+
+Compose pytest after rebuild. Browser: three matching switches under Client name; Ultra-Professional reveals the grounding switch.
 
 

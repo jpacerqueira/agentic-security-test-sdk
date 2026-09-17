@@ -64,20 +64,29 @@ main { max-width: 1400px; margin: 0 auto; padding: 32px; }
 .demo-card.selected { border-color: var(--ink); border-width: 2px; }
 .demo-card-name { font-family: "IBM Plex Mono", monospace; font-weight: 600; }
 .demo-form { border: 1px solid var(--rule); padding: 18px; display: flex; flex-direction: column; gap: 12px; }
-.demo-form label, .demo-form input { display: block; width: 100%; }
-.demo-form input { font: inherit; padding: 6px 8px; border: 1px solid var(--rule); }
+.demo-form > label, .demo-form input:not([type="checkbox"]) { display: block; width: 100%; }
+.demo-form input:not([type="checkbox"]) { font: inherit; padding: 6px 8px; border: 1px solid var(--rule); }
 button { font-family: "IBM Plex Mono", monospace; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; background: var(--ink); color: var(--bg); border: 0; padding: 10px 14px; cursor: pointer; }
 button.danger { background: var(--accent); }
-.auto-approve-toggle { display: flex; align-items: center; gap: 8px; font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; text-transform: uppercase; }
-.skip-llm-toggle {
+.launch-toggles { display: flex; flex-direction: column; gap: 12px; }
+.demo-field { display: flex; flex-direction: column; gap: 6px; }
+.demo-field > .toggle-label-text {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.72rem;
+  text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted);
+}
+.switch-toggle {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   cursor: pointer;
   user-select: none;
   height: 38px;
+  width: auto;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
 }
-.skip-llm-toggle input[type="checkbox"] {
+.switch-toggle input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
   width: 36px;
@@ -89,8 +98,11 @@ button.danger { background: var(--accent); }
   transition: background 0.15s ease;
   flex-shrink: 0;
   margin: 0;
+  padding: 0;
+  border: 0;
+  display: inline-block;
 }
-.skip-llm-toggle input[type="checkbox"]::after {
+.switch-toggle input[type="checkbox"]::after {
   content: "";
   position: absolute;
   top: 3px;
@@ -101,9 +113,13 @@ button.danger { background: var(--accent); }
   background: var(--bg);
   transition: transform 0.15s ease;
 }
-.skip-llm-toggle input[type="checkbox"]:checked { background: var(--accent); }
-.skip-llm-toggle input[type="checkbox"]:checked::after { transform: translateX(18px); }
+.switch-toggle input[type="checkbox"]:checked { background: var(--accent); }
+.switch-toggle input[type="checkbox"]:checked::after { transform: translateX(18px); }
 .toggle-label-text { display: flex; align-items: center; font-weight: 600; }
+.switch-toggle input[type="checkbox"]         ~ .toggle-label-text .mode-off { display: inline; color: var(--muted); }
+.switch-toggle input[type="checkbox"]         ~ .toggle-label-text .mode-on { display: none; }
+.switch-toggle input[type="checkbox"]:checked ~ .toggle-label-text .mode-off { display: none; }
+.switch-toggle input[type="checkbox"]:checked ~ .toggle-label-text .mode-on { display: inline; color: var(--accent); }
 .skip-llm-toggle input[type="checkbox"]         ~ .toggle-label-text .mode-llm { display: inline; color: var(--ok); }
 .skip-llm-toggle input[type="checkbox"]         ~ .toggle-label-text .mode-det { display: none; }
 .skip-llm-toggle input[type="checkbox"]:checked ~ .toggle-label-text .mode-llm { display: none; }

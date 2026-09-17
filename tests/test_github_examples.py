@@ -180,6 +180,10 @@ def test_landing_does_not_preselect_sample(client):
     assert "demo-card selected" not in html
     assert 'id="skip-llm-input"' in html
     assert "skip-llm-toggle" in html
+    assert "switch-toggle" in html
+    assert 'id="auto-approve-input"' in html
+    assert 'id="llm-grounding-input"' in html
+    assert "auto-approve-toggle" not in html
 
 
 def test_create_run_requires_source_tree(client):

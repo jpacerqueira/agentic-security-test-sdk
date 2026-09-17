@@ -211,6 +211,8 @@ def test_landing_shows_ultra_professional_and_hidden_grounding(client):
     assert 'data-plan="ultra-professional"' in html
     assert 'id="grounding-field"' in html
     assert "LLM grounding (this run)" in html
+    assert 'id="llm-grounding-input"' in html
+    assert 'id="auto-approve-input"' in html
 
 
 def test_create_run_ignores_grounding_on_lower_tiers(client):

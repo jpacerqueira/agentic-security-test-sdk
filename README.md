@@ -8,11 +8,15 @@ This repository is clone-and-run: Docker Compose on port **8090**, or a local ve
 
 ## What this app is
 
-A gated security assessment: pick Essentials / Plus / Professional / Ultra-Professional, click a source-tree card (or download a public GitHub zip into `examples/` first), approve gates, then read HTML reports. Four live screens from the Compose app — filenames match the product surface they show:
+A gated security assessment: pick Essentials / Plus / Professional / Ultra-Professional, click a source-tree card (or download a public GitHub zip into `examples/` first), approve gates, then read HTML reports. Five live screens from the Compose app — filenames match the product surface they show:
 
-**Landing page** — four plan cards (Ultra-Professional included), **Source from new URL REPO**, example picker, Deterministic / LLM toggle, optional LLM grounding, auto-approve, then Start assessment.
+**Landing page** — four plan cards (Ultra-Professional included), **Source from new URL REPO**, example picker, then three matching **toggle switches** in Launch analysis: Deterministic / LLM, LLM grounding, Auto-approve.
 
 ![Landing page](images/Macro-Search_-_Agentic_Security_Scan_-_landing_page.png)
+
+**Completed run** — the assessment page after the pipeline finishes: every phase pill filled, gates resolved, and the green **Completed — Deterministic** (or LLM) banner below the gates.
+
+![Completed run](images/Macro-Search_-_Agentic_Security_Scan_-_completed_run.png)
 
 **Executive summary** — run Reports tab after Gate 5: **Generate output report** (A4 PDF, executive summary first), Client name on the cover, Ultra-Professional + LLM grounding when that extra was on.
 
@@ -97,7 +101,7 @@ On the Reports tab, **Generate output report** downloads one A4 PDF with every r
 |---|---|
 | `agentic_security/` | Application package |
 | `examples/sample-web-api/` | Bundled fixture; other `examples/` trees come from **Source from new URL REPO** |
-| `images/` | Four product screenshots used above (landing, executive summary, jailbreak, access management) |
+| `images/` | Five product screenshots used above (landing, completed run, executive summary, jailbreak, access management) |
 | `tests/` | Pytest suite + markup results |
 | `docker-compose.yml` / `Dockerfile` | Compose on 8090; image includes Trivy, WeasyPrint (A4 PDF), and the `[llm]` extra |
 | `.env.example` | Ollama / skip_llm / demo credentials |
