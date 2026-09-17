@@ -43,15 +43,17 @@
     <label>Target URL <input name="target_url" placeholder="https://app.example.com"></label>
     <div class="demo-field">
       <span class="toggle-label-text">Mode</span>
+      <input type="hidden" name="skip_llm" id="skip-llm-hidden"
+             value="{% if skip_llm_default %}true{% else %}false{% endif %}">
       <label class="skip-llm-toggle" for="skip-llm-input">
-        <input type="checkbox" id="skip-llm-input" name="skip_llm" value="true"
+        <input type="checkbox" id="skip-llm-input"
                {% if skip_llm_default %}checked{% endif %}>
         <span class="toggle-label-text">
           <span class="mode-llm">LLM (Ollama / ADK LiteLLM)</span>
           <span class="mode-det">Deterministic</span>
         </span>
       </label>
-      <p class="hint">Checked = scanners only. Unchecked = Google ADK LiteLlm against local Ollama OpenAI-compatible /v1.</p>
+      <p class="hint">Checked = scanners only. Unchecked = Google ADK LiteLlm against local Ollama OpenAI-compatible /v1. A new run after flipping this toggle is independent of the previous run.</p>
     </div>
     <div class="llm-confirm-inline" hidden>
       <p>This run will call the local Ollama model through ADK LiteLLM. Continue?</p>

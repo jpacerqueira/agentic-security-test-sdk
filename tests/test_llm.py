@@ -27,3 +27,19 @@ def test_build_llm_uses_openai_prefix():
         return
     llm = s.build_llm()
     assert llm.model == "openai/gemma4:latest"
+
+
+def test_compose_ollama_defaults_gemma4():
+    s = Settings()
+    assert s.llm_engine == "ollama"
+    assert s.model_reasoning == "gemma4:latest"
+    assert s.model_fast == "gemma4:latest"
+    assert s.model_context_length == 131072
+    assert s.llm_api_key == "ollama"
+
+
+def test_ollama_native_base_strips_v1():
+    from agentic_security.llm import ollama_native_base
+
+    assert ollama_native_base("http://host.docker.internal:11434/v1") == "http://host.docker.internal:11434"
+    assert ollama_native_base("http://localhost:11434/v1/") == "http://localhost:11434"

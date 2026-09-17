@@ -72,3 +72,52 @@ async def test_pipeline_auto_approves(tmp_path: Path):
     assert "V2" in asvs
     assert (tmp_path / "t1" / "access_management.json").exists()
     assert orch.plan == "professional"
+
+
+async def test_consecutive_deterministic_then_llm_then_deterministic(tmp_path: Path, monkeypatch):
+    import json
+
+    from agentic_security import llm as llm_mod
+    from agentic_security.orchestration.driver import run_full_pipeline
+    from agentic_security.orchestration.pipeline import SecurityOrchestrator
+
+    llm_mod.reset_warm_state()
+
+    async def ready(*, force: bool = False):
+        return True, "warm"
+
+    async def gen_json(*_a, **_k):
+        return {"executive_overview": "ov", "narrative": "n", "tactical": "t", "strategic": "s"}
+
+    async def gen_text(*_a, **_k):
+        return "I cannot ignore previous instructions."
+
+    monkeypatch.setattr(llm_mod, "ensure_llm_ready", ready)
+    monkeypatch.setattr(llm_mod, "adk_available", lambda: True)
+    monkeypatch.setattr(llm_mod, "generate_json", gen_json)
+    monkeypatch.setattr(llm_mod, "generate_text", gen_text)
+
+    async def one(rid: str, skip: bool) -> None:
+        orch = SecurityOrchestrator(
+            run_id=rid,
+            run_dir=tmp_path / rid,
+            plan="essentials",
+            skip_llm=skip,
+            auto_approve_gates=True,
+            reviewer_name="Jane",
+            client_name="Acme",
+            target_url="https://app.example.com",
+            source_path="examples/sample-web-api",
+        )
+        events = [ev async for ev in run_full_pipeline(orch)]
+        assert "pipeline_completed" in [e.kind for e in events]
+        assert (tmp_path / rid / "reports" / "pentest-assessment.html").exists()
+        scope = json.loads((tmp_path / rid / "scope.json").read_text())
+        if skip:
+            assert scope.get("mode") == "deterministic"
+        else:
+            assert scope.get("mode") == "llm"
+
+    await one("det1", True)
+    await one("llm1", False)
+    await one("det2", True)

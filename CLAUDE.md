@@ -27,7 +27,7 @@ Plans: `agentic_security/plans.py` (`reports_for_pdf` puts executive summary fir
 
 ## Run modes
 
-Landing toggle (same Micro-Cosmos `skip-llm-toggle` pattern): checked = **Deterministic**; unchecked = **LLM**. LLM mode waits for Ollama `GET /v1/models`, enriches narratives, and executes the six jailbreak probes against the local model.
+Landing toggle (same Micro-Cosmos `skip-llm-toggle` pattern): checked = **Deterministic**; unchecked = **LLM**. The **run page** has the same toggle and POSTs `/runs/{id}/mode` so remaining phases can switch. Compose talks to host Ollama at `http://host.docker.internal:11434/v1` (`gemma4:latest`, `MODEL_CONTEXT_LENGTH=131072`). LLM mode waits for `/v1/models` then warms via Ollama `/api/generate`.
 
 ## Report metrics (must not regress)
 

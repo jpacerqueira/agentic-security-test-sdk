@@ -4,6 +4,24 @@ const reportList = document.getElementById("report-list");
 const reportFrame = document.getElementById("report-frame");
 const artifactList = document.getElementById("artifact-list");
 const pdfBtn = document.getElementById("btn-output-pdf");
+const modeBox = document.getElementById("run-skip-llm");
+
+modeBox?.addEventListener("change", () => {
+  const skip = modeBox.checked;
+  const body = new FormData();
+  body.set("skip_llm", skip ? "true" : "false");
+  fetch(`/runs/${runId}/mode`, { method: "POST", body })
+    .then((r) => {
+      if (!r.ok) throw new Error("mode");
+      return r.json();
+    })
+    .then((data) => {
+      modeBox.checked = !!data.skip_llm;
+    })
+    .catch(() => {
+      modeBox.checked = !skip;
+    });
+});
 
 function markPhase(phase, status) {
   const pill = strip.querySelector(`[data-phase="${phase}"]`);
@@ -95,6 +113,9 @@ es.onmessage = (msg) => {
     markPhase(ev.phase, "done");
   }
   if (ev.kind === "llm_wait") markPhase("scope", "running");
+  if (ev.kind === "mode_changed") {
+    if (modeBox) modeBox.checked = !!ev.payload.skip_llm;
+  }
   if (ev.kind === "pipeline_completed") {
     markPhase("done", "done");
     markPhase("writer", "done");

@@ -1,10 +1,14 @@
 ---
 name: skip-llm-toggle
-description: Landing Mode toggle is skip_llm (checked=deterministic) with an inline LLM confirm; persist on Run like auto_approve (2026-09-17)
+description: Landing and run-page Mode toggle is skip_llm (checked=deterministic); consecutive runs must both succeed (2026-09-17)
 metadata:
   type: project
 ---
 
-Same CSS class as Micro-Cosmos (`.skip-llm-toggle`). Checked checkbox posts `skip_llm=true` (deterministic). Unchecked: landing.js writes a hidden `skip_llm=false` and asks for confirm before submit.
+Same CSS class as Micro-Cosmos (`.skip-llm-toggle`).
 
-Server: `_parse_skip_llm` in `web/app.py`. Threaded through `Run.__init__` → `run_meta.json` → restore. Do not use `stop_requested` for this — it is a fixed per-run setting.
+Landing: hidden `name=skip_llm` is always posted (`true`/`false`). The checkbox has **no** `name` so an unchecked box cannot fall back to process `SKIP_LLM`. landing.js syncs the hidden field on change/submit. Unchecked (LLM) still shows the inline confirm.
+
+Run page: the same toggle POSTs `/runs/{id}/mode`. That calls `Run.apply_mode()` which sets **both** `run.skip_llm` and `orch.skip_llm` and rewrites `run_meta.json`. Remaining phases read `orch.skip_llm` at `maybe_enrich` time — flipping mid-gate is how a live run switches between scanners-only and ADK LiteLlm.
+
+Consecutive launches (deterministic → LLM → deterministic) are independent runs. Each must complete; do not cache skip_llm on the process from the previous form post.

@@ -33,7 +33,7 @@ docker compose up --build
 
 Open http://localhost:8090 — sign in with `demo` / `demobxyz`.
 
-On the launch form, **Deterministic** (toggle on, default) uses scanners only. Flip to **LLM (Ollama / ADK LiteLLM)** to call a local Ollama model through Google ADK `LiteLlm` on the OpenAI-compatible `/v1` API (`http://localhost:11434/v1` on the host; Compose uses `host.docker.internal`).
+On the launch form, **Deterministic** (toggle on, default) uses scanners only. Flip to **LLM (Ollama / ADK LiteLLM)** to call **gemma4:latest** on local Ollama. Compose uses `http://host.docker.internal:11434/v1` and maps `host.docker.internal` via `extra_hosts` (Linux + Docker Desktop). Host venv uses `http://localhost:11434/v1`.
 
 ```bash
 # optional — LLM mode

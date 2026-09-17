@@ -5,7 +5,7 @@ from pathlib import Path
 import asyncio
 import json
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 
 from fastapi import FastAPI, Form, Request
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
@@ -28,6 +28,10 @@ TEMPLATES.env.globals["app_name"] = APP_NAME
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
     _restore_all()
+    if not get_settings().skip_llm:
+        from agentic_security import llm as llm_mod
+
+        asyncio.create_task(llm_mod.ensure_llm_ready())
     yield
 
 
@@ -60,7 +64,7 @@ class Run:
         self.client_name = kw.get("client_name") or "Client"
         self.target_url = kw.get("target_url") or ""
         self.source_path = kw.get("source_path") or ""
-        self.created = kw.get("created") or datetime.utcnow().isoformat() + "Z"
+        self.created = kw.get("created") or datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
         self.run_dir = Path(settings.runs_dir) / self.run_id
         self.run_dir.mkdir(parents=True, exist_ok=True)
         self.events: list[dict] = []
@@ -82,23 +86,33 @@ class Run:
                 if line.strip():
                     self.events.append(json.loads(line))
         if not kw.get("restore"):
-            (self.run_dir / "run_meta.json").write_text(
-                json.dumps(
-                    {
-                        "run_id": self.run_id,
-                        "plan": self.plan,
-                        "skip_llm": self.skip_llm,
-                        "auto_approve_gates": self.auto_approve_gates,
-                        "reviewer_name": self.reviewer_name,
-                        "client_name": self.client_name,
-                        "target_url": self.target_url,
-                        "source_path": self.source_path,
-                        "created": self.created,
-                    },
-                    indent=2,
-                ),
-                encoding="utf-8",
-            )
+            self.persist_meta()
+
+    def persist_meta(self) -> None:
+        (self.run_dir / "run_meta.json").write_text(
+            json.dumps(
+                {
+                    "run_id": self.run_id,
+                    "plan": self.plan,
+                    "skip_llm": self.skip_llm,
+                    "auto_approve_gates": self.auto_approve_gates,
+                    "reviewer_name": self.reviewer_name,
+                    "client_name": self.client_name,
+                    "target_url": self.target_url,
+                    "source_path": self.source_path,
+                    "created": self.created,
+                },
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
+
+    def apply_mode(self, skip_llm: bool) -> dict:
+        """Override remaining phases: True = scanners only, False = ADK LiteLlm."""
+        self.skip_llm = skip_llm
+        self.orchestrator.skip_llm = skip_llm
+        self.persist_meta()
+        return {"skip_llm": skip_llm, "mode": "deterministic" if skip_llm else "llm"}
 
     async def publish(self, ev):
         payload = {"kind": ev.kind, "phase": ev.phase.value, "payload": ev.payload}
@@ -151,6 +165,10 @@ def _parse_skip_llm(raw: str) -> bool:
     if raw.strip() == "":
         return get_settings().skip_llm
     return raw.strip().lower() in {"true", "1", "on", "yes"}
+
+
+def apply_run_mode(run: Run, skip_llm: bool) -> dict:
+    return run.apply_mode(skip_llm)
 
 
 @app.get("/login", response_class=HTMLResponse)
@@ -288,6 +306,27 @@ async def gate_action(
         run.orchestrator.reject_gate(gate_id, reviewer_name, notes)
         label = "Rejected"
     return HTMLResponse(f"<p class='gate-result'>{label} by {reviewer_name}: {notes or '—'}</p>")
+
+
+@app.post("/runs/{run_id}/mode")
+async def set_run_mode(run_id: str, skip_llm: str = Form("")):
+    from agentic_security import llm as llm_mod
+
+    run = _get_run(run_id)
+    if not run:
+        return JSONResponse({"error": "unknown run"}, 404)
+    skip = _parse_skip_llm(skip_llm)
+    payload = apply_run_mode(run, skip)
+    if not skip:
+        asyncio.create_task(llm_mod.ensure_llm_ready(force=True))
+    await run.publish(
+        PipelineEvent(
+            kind="mode_changed",
+            phase=run.orchestrator.current_phase,
+            payload=payload,
+        )
+    )
+    return JSONResponse(payload)
 
 
 @app.get("/runs/{run_id}/files/{filename}")

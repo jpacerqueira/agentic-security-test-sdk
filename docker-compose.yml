@@ -5,11 +5,19 @@ services:
       - "8090:8090"
     environment:
       SKIP_LLM: ${SKIP_LLM:-true}
+      # Ollama runs on the host; host.docker.internal resolves to the host from
+      # inside the container on Docker Desktop (Mac/Windows). On Linux add
+      # extra_hosts: ["host.docker.internal:host-gateway"] and set LLM_BASE_URL in
+      # .env to http://host.docker.internal:11434/v1 (or 172.17.0.1:11434/v1).
       LLM_BASE_URL: ${LLM_BASE_URL:-http://host.docker.internal:11434/v1}
       LLM_API_KEY: ${LLM_API_KEY:-ollama}
       LLM_ENGINE: ${LLM_ENGINE:-ollama}
+      # Model = gemma4:latest (local Ollama) — override in .env if needed
       MODEL_REASONING: ${MODEL_REASONING:-gemma4:latest}
       MODEL_FAST: ${MODEL_FAST:-gemma4:latest}
+      # KV-cache window (tokens). For Ollama, set context on the server / Modelfile;
+      # per-request num_ctx is not sent when LLM_ENGINE=ollama.
+      MODEL_CONTEXT_LENGTH: ${MODEL_CONTEXT_LENGTH:-131072}
       LLM_TIMEOUT: ${LLM_TIMEOUT:-180}
       LLM_READY_TIMEOUT_SECONDS: ${LLM_READY_TIMEOUT_SECONDS:-120}
       RUNS_DIR: /app/runs

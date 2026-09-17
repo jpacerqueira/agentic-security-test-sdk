@@ -115,4 +115,31 @@ Reports tab button that downloads one A4 PDF of every report, executive summary 
 
 Host pytest (no Pango): 13 passed. Compose image: `pytest -v -W error::DeprecationWarning` — **14 passed, 0 skipped**. Smoke: `GET /healthz` 200; authenticated `GET /runs/55c27510/output-report.pdf` 200 `%PDF-1.7`. Reports tab **Generate output report** builds and downloads the A4 pack (executive summary first).
 
+---
+
+## 2026-09-17 — Compose Ollama defaults (gemma4)
+
+Aligned `docker-compose.yml` with the Micro-Cosmos host-Ollama block: `LLM_BASE_URL=http://host.docker.internal:11434/v1`, `LLM_ENGINE=ollama`, `gemma4:latest`, `MODEL_CONTEXT_LENGTH=131072`, `extra_hosts` for Linux. Settings reads `MODEL_CONTEXT_LENGTH` but still does **not** send per-request `num_ctx` when the engine is ollama.
+
+---
+
+## 2026-09-17 — Run-page mode toggle, LLM warm, consecutive runs
+
+### Ask
+
+Add `MODEL_CONTEXT_LENGTH`. Warm the model when `skip_llm=false`. Toggle on the run to switch remaining phases between deterministic and ADK LLM. Consecutive deterministic and LLM runs must both complete after the user flips the toggle.
+
+### What landed
+
+| Path | Role |
+|---|---|
+| `llm.ensure_llm_ready()` / `warm_model()` | `/v1/models` then Ollama `/api/generate` keep_alive |
+| `POST /runs/{id}/mode` | `Run.apply_mode()` writes `orch.skip_llm` + `run_meta.json` |
+| Run header `.skip-llm-toggle` | Same control as landing; remaining phases honour it |
+| Landing hidden `skip_llm` | Checkbox has no `name` so LLM (`false`) is posted explicitly |
+
+### Verification
+
+Compose `pytest -v -W error::DeprecationWarning` — **19 passed, 0 skipped** (2026-09-17). Consecutive det → LLM → det pipeline test included. Container env: `MODEL_REASONING=gemma4:latest`, `MODEL_CONTEXT_LENGTH=131072`, `LLM_BASE_URL=http://host.docker.internal:11434/v1`.
+
 

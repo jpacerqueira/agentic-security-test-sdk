@@ -19,6 +19,9 @@ class Settings(BaseSettings):
     llm_engine: str = "ollama"
     model_reasoning: str = "gemma4:latest"
     model_fast: str = "gemma4:latest"
+    # KV-cache window. Sent as extra_body num_ctx for LM Studio only.
+    # Ollama takes context from the server / Modelfile — do not send num_ctx.
+    model_context_length: int = 131072
     model_temperature: float | None = None
     llm_timeout: int = 180
     llm_ready_timeout_seconds: int = 120
@@ -47,7 +50,7 @@ class Settings(BaseSettings):
         model_name = self.model_reasoning if role == "reasoning" else self.model_fast
         extra_body = None
         if self.llm_engine == "lmstudio":
-            extra_body = {"num_ctx": 16384}
+            extra_body = {"num_ctx": self.model_context_length}
         log.info(
             "build_llm(role=%s): engine=%s model=%s api_base=%s",
             role,

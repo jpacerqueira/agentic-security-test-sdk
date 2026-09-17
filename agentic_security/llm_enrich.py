@@ -154,7 +154,13 @@ async def maybe_enrich(orch, kind: str, payload: dict[str, Any]) -> dict[str, An
         payload["mode"] = "deterministic"
         payload["llm_error"] = "google-adk[extensions] is not installed"
         return payload
+    ready, msg = await llm.ensure_llm_ready()
+    if not ready:
+        payload["mode"] = "deterministic"
+        payload["llm_error"] = msg
+        return payload
     payload["mode"] = "llm"
+    payload["llm_ready"] = msg
     excerpt = source_excerpt(orch.source_path)
     try:
         if kind == "scope":

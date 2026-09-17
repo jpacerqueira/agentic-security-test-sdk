@@ -35,7 +35,7 @@ async def run_full_pipeline(orch: SecurityOrchestrator):
             )
             ready, msg = (False, "adk missing")
             if llm.adk_available():
-                ready, msg = await llm.wait_for_llm_ready()
+                ready, msg = await llm.ensure_llm_ready()
             yield PipelineEvent(
                 kind="llm_ready",
                 phase=PipelinePhase.SCOPE,

@@ -19,6 +19,10 @@ _JSON_FENCE = re.compile(r"```(?:json)?\s*(\{.*?\})\s*```", re.DOTALL)
 _JSON_OBJECT = re.compile(r"\{.*\}", re.DOTALL)
 
 
+_warm_lock = asyncio.Lock()
+_warmed = False
+
+
 def adk_available() -> bool:
     try:
         from google.adk.models.lite_llm import LiteLlm  # noqa: F401
@@ -26,6 +30,20 @@ def adk_available() -> bool:
         return True
     except ImportError:
         return False
+
+
+def reset_warm_state() -> None:
+    """Test helper — consecutive LLM runs share a warm cache in-process."""
+    global _warmed
+    _warmed = False
+
+
+def ollama_native_base(llm_base_url: str) -> str:
+    """Strip the OpenAI-compat /v1 suffix so we can hit Ollama /api/generate."""
+    base = (llm_base_url or "").rstrip("/")
+    if base.endswith("/v1"):
+        base = base[:-3]
+    return base.rstrip("/")
 
 
 async def wait_for_llm_ready() -> tuple[bool, str]:
@@ -53,6 +71,51 @@ async def wait_for_llm_ready() -> tuple[bool, str]:
                 log.warning(msg)
                 return False, msg
             await asyncio.sleep(2)
+
+
+async def warm_model() -> str:
+    """Load gemma4 (or MODEL_REASONING) into Ollama so the first ADK call is not a cold start.
+
+    POST {native}/api/generate with keep_alive. Best-effort, never raises.
+    """
+    s = get_settings()
+    native = ollama_native_base(s.llm_base_url)
+    url = f"{native}/api/generate"
+    payload = {
+        "model": s.model_reasoning,
+        "prompt": "ping",
+        "stream": False,
+        "keep_alive": "60m",
+        "options": {"num_predict": 1},
+    }
+    timeout = max(s.llm_timeout, s.llm_ready_timeout_seconds, 60)
+    try:
+        async with httpx.AsyncClient(timeout=timeout) as client:
+            resp = await client.post(url, json=payload)
+        if resp.status_code >= 400:
+            msg = f"warm {url} -> {resp.status_code}"
+            log.warning(msg)
+            return msg
+        log.info("warmed %s keep_alive=60m", s.model_reasoning)
+        return f"warmed {s.model_reasoning}"
+    except Exception as exc:
+        msg = f"warm failed: {exc}"
+        log.warning(msg)
+        return msg
+
+
+async def ensure_llm_ready(*, force: bool = False) -> tuple[bool, str]:
+    """Wait until /v1/models is up, then warm MODEL_REASONING. Used when skip_llm is false."""
+    global _warmed
+    async with _warm_lock:
+        if _warmed and not force:
+            return True, "already warm"
+        ready, msg = await wait_for_llm_ready()
+        if not ready:
+            return False, msg
+        warm_msg = await warm_model()
+        _warmed = True
+        return True, f"{msg}; {warm_msg}"
 
 
 async def generate_text(prompt: str, *, system: str = "", role: str = "reasoning") -> str:

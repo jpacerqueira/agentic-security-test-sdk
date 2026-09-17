@@ -16,9 +16,10 @@ Project skills for Macro-Search - Agentic Security Scan. They travel as markdown
 | `memory/no-git-in-this-tree.md` | Working tree vs public-git clone |
 | `memory/ollama-adk-litellm.md` | ADK LiteLlm → Ollama `/v1` |
 | `memory/complete-reports.md` | Full GRC/pentest HTML, not stubs |
-| `memory/skip-llm-toggle.md` | Deterministic / LLM launch toggle |
+| `memory/skip-llm-toggle.md` | Deterministic / LLM launch + run-page override |
 | `memory/git-home-public-clone.md` | v0.0.1 clone/commit home |
 | `memory/output-report-pdf.md` | Combined A4 PDF (executive summary first) |
+| `memory/ollama-warm-on-llm.md` | Warm gemma4 when skip_llm is false |
 
 ## Adding a skill
 
