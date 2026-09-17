@@ -8,17 +8,21 @@ This repository is clone-and-run: Docker Compose on port **8090**, or a local ve
 
 ## What this app is
 
-A gated security assessment: pick Essentials / Plus / Professional / Ultra-Professional, click a source-tree card (or download a public GitHub zip into `examples/` first), approve gates, then read HTML reports. Three live screens from the Compose app:
+A gated security assessment: pick Essentials / Plus / Professional / Ultra-Professional, click a source-tree card (or download a public GitHub zip into `examples/` first), approve gates, then read HTML reports. Four live screens from the Compose app — filenames match the product surface they show:
 
-**Landing — choose a plan and launch an assessment**
+**Landing page** — four plan cards (Ultra-Professional included), **Source from new URL REPO**, example picker, Deterministic / LLM toggle, optional LLM grounding, auto-approve, then Start assessment.
 
 ![Landing page](images/Macro-Search_-_Agentic_Security_Scan_-_landing_page.png)
 
-**Jailbreak and prompt-injection report**
+**Executive summary** — run Reports tab after Gate 5: **Generate output report** (A4 PDF, executive summary first), Client name on the cover, Ultra-Professional + LLM grounding when that extra was on.
+
+![Executive summary](images/Macro-Search_-_Agentic_Security_Scan_-_Executive-Summary.png)
+
+**Jailbreak & prompt-injection** — catalogue of six probe families (live probes in LLM mode; deterministic maps the surface and records test cases). Plus / Professional / Ultra-Professional.
 
 ![Jailbreak and prompt-injection assessment](images/Macro-Search_-_Agentic_Security_Scan_-_JailBreak_%26Prompt_Injection.png)
 
-**Access-management report (Plus / Professional)**
+**Access management report** — identity frameworks, reviews, and JML inventory (Plus / Professional / Ultra-Professional), not an entitlement stub.
 
 ![Access management report](images/Macro-Search_-_Agentic_Security_Scan_-_Access_Management_Report.png)
 
@@ -93,7 +97,7 @@ On the Reports tab, **Generate output report** downloads one A4 PDF with every r
 |---|---|
 | `agentic_security/` | Application package |
 | `examples/sample-web-api/` | Bundled fixture; other `examples/` trees come from **Source from new URL REPO** |
-| `images/` | Product screenshots used in this README |
+| `images/` | Four product screenshots used above (landing, executive summary, jailbreak, access management) |
 | `tests/` | Pytest suite + markup results |
 | `docker-compose.yml` / `Dockerfile` | Compose on 8090; image includes Trivy, WeasyPrint (A4 PDF), and the `[llm]` extra |
 | `.env.example` | Ollama / skip_llm / demo credentials |

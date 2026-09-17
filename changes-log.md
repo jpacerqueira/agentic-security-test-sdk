@@ -64,7 +64,7 @@ User-facing name is **Macro-Search - Agentic Security Scan** (`agentic_security/
 
 ## 2026-09-17 — README screenshots
 
-`images/` filenames: spaces → `_`. README “What this app is” shows landing page, jailbreak/prompt-injection report, and access-management report.
+`images/` filenames: spaces → `_`. README “What this app is” shows all four files: landing page, executive summary, jailbreak/prompt-injection report, and access-management report.
 
 ---
 
@@ -254,5 +254,21 @@ Progress bar on the steps and gates. Confirmation of completed in green below th
 ### Verification
 
 Compose `docker compose exec -T agentic-security pytest -v -W error::DeprecationWarning` on the rebuilt service: **48 passed, 0 skipped** in 30.55s (2026-09-17). Live run `4320841e` banner `#run-status.completed` green **Completed — Deterministic**. Waiting Deterministic `4a148218` and LLM `743aadc3` banners `#run-status.running` with `run-status-flash` 1.4s (red `#ED3A12` ↔ orange `#E07A1F`). Host `./logs/openai-v1.log` recorded `GET …/v1/models` 200 and `POST …/v1/chat/completions`.
+
+---
+
+## 2026-09-17 — README uses all four `images/` screenshots
+
+### Ask
+
+Use the four files now in `images/` by the significance of their names to represent current product status in the source README, then port to public git and commit.
+
+### What landed
+
+`README.md` “What this app is” now shows, in product order: **landing page** (four plans, GitHub zip source, Deterministic/LLM), **executive summary** (Reports tab, A4 PDF, Client name, Ultra-Professional grounding), **jailbreak & prompt-injection**, **access management**.
+
+### Verification
+
+All four PNG paths resolve under `images/`. Public-git commit after rsync.
 
 
