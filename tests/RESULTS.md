@@ -8,7 +8,7 @@ Product version: **0.0.1**
 
 Image: `agentic-security-test-sdk-agentic-security`  
 Python: 3.12.14 · pytest 9.1.1  
-Run: 2026-09-17 · **34 passed, 0 failed, 0 skipped** · 42.28s
+Run: 2026-09-17 · **34 passed, 0 failed, 0 skipped** · 31.44s
 
 See [README.md](README.md) for the 34-row grid.
 
@@ -23,9 +23,9 @@ See [README.md](README.md) for the 34-row grid.
 
 ## Live smoke (same container, after rebuild)
 
-- `POST /login` 303; landing contains **Source from new URL REPO**, no Target URL, empty `source_path`, no pre-selected example card
-- `POST /runs/8f2cedbc/mode` `skip_llm=false` → **200** `{"skip_llm":false,"mode":"llm"}` (was 500 `PipelineEvent` NameError)
-- `POST /examples/fetch-github` `https://evil.com/owner/repo` → **400**
+- Landing `/` still has `#skip-llm-input` / `.skip-llm-toggle`
+- Run page has no `#run-skip-llm` / `.skip-llm-toggle`; header `.mode-badge` is text only
+- `POST /runs/{id}/mode` → **404**
 
 ## Re-run
 

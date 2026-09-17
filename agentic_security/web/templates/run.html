@@ -8,13 +8,7 @@
     <span>{{ plan.name }}</span>
     <span>{{ run.client_name }}</span>
     <span title="Source tree">{{ run.source_path }}</span>
-    <label class="skip-llm-toggle" for="run-skip-llm" title="Override remaining phases of this run">
-      <input type="checkbox" id="run-skip-llm" {% if run.skip_llm %}checked{% endif %}>
-      <span class="toggle-label-text">
-        <span class="mode-llm">LLM (Ollama / ADK LiteLLM)</span>
-        <span class="mode-det">Deterministic</span>
-      </span>
-    </label>
+    <span class="mode-badge">{% if run.skip_llm %}Deterministic{% else %}LLM (Ollama / ADK LiteLLM){% endif %}</span>
   </div>
 </div>
 <div class="phase-strip" id="phase-strip">

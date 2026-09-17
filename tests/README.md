@@ -4,16 +4,16 @@ Markup index of the Macro-Search - Agentic Security Scan suite. Latest numbers: 
 
 Suite: `pytest -v -W error::DeprecationWarning`  
 Where: original Compose container `agentic-security-test-sdk-agentic-security`  
-Python 3.12.14 · pytest 9.1.1 · 2026-09-17 · **42.28s**
+Python 3.12.14 · pytest 9.1.1 · 2026-09-17 · **31.44s**
 
 | File | Tests | Role |
 |---|---|---|
-| `test_github_examples.py` | 15 | GitHub zip → examples/; landing picker; `POST /runs/{id}/mode` PipelineEvent |
+| `test_github_examples.py` | 15 | GitHub zip → examples/; landing picker; run page has no mode toggle |
 | `test_llm.py` | 4 | OpenAI-compat id, LiteLlm prefix, Compose gemma4 defaults, Ollama native base |
 | `test_pipeline.py` | 6 | Plans, scanners, Professional run, consecutive det→LLM→det |
 | `test_reports_complete.py` | 5 | Access/ASVS/risk/issues, JSON parse, skip_llm toggle, backfill |
 | `test_output_pdf.py` | 2 | PDF order; WeasyPrint A4 pack |
-| `test_run_mode.py` | 2 | skip_llm false is LLM; run-page apply_mode writes orch + meta |
+| `test_run_mode.py` | 2 | skip_llm false is LLM; skip_llm fixed at run creation |
 
 | # | File | Test | Result | What it proves |
 |---|---|---|---|---|
@@ -29,9 +29,9 @@ Python 3.12.14 · pytest 9.1.1 · 2026-09-17 · **42.28s**
 | 10 | `test_github_examples.py` | `test_import_github_repo_writes_source_meta` | **passed** | `.source.json` github_url |
 | 11 | `test_github_examples.py` | `test_fetch_github_rejects_non_github_host` | **passed** | `POST /examples/fetch-github` 400 |
 | 12 | `test_github_examples.py` | `test_fetch_github_success_extracts_into_examples` | **passed** | Mocked fetch returns card JSON |
-| 13 | `test_github_examples.py` | `test_landing_does_not_preselect_sample` | **passed** | No Target URL; empty source_path |
+| 13 | `test_github_examples.py` | `test_landing_does_not_preselect_sample` | **passed** | No Target URL; empty source_path; landing toggle present |
 | 14 | `test_github_examples.py` | `test_create_run_requires_source_tree` | **passed** | Launch 400 without a card |
-| 15 | `test_github_examples.py` | `test_set_run_mode_publishes_pipeline_event` | **passed** | `POST /mode` 200 + mode_changed |
+| 15 | `test_github_examples.py` | `test_run_page_has_no_mode_toggle` | **passed** | No `#run-skip-llm`; `POST /mode` 404 |
 | 16 | `test_llm.py` | `test_openai_compat_model_id` | **passed** | LiteLlm id is `openai/<tag>` |
 | 17 | `test_llm.py` | `test_build_llm_uses_openai_prefix` | **passed** | Prefix; `build_llm()` when ADK present |
 | 18 | `test_llm.py` | `test_compose_ollama_defaults_gemma4` | **passed** | engine ollama, gemma4:latest, context 131072 |
@@ -50,6 +50,6 @@ Python 3.12.14 · pytest 9.1.1 · 2026-09-17 · **42.28s**
 | 31 | `test_reports_complete.py` | `test_parse_skip_llm_toggle` | **passed** | true/false/1 |
 | 32 | `test_reports_complete.py` | `test_backfill_rewrites_access_report` | **passed** | Backfill identity inventory HTML |
 | 33 | `test_run_mode.py` | `test_parse_skip_llm_false_is_llm` | **passed** | `false` means LLM |
-| 34 | `test_run_mode.py` | `test_apply_run_mode_toggles_orchestrator` | **passed** | Run toggle writes orch.skip_llm + run_meta.json |
+| 34 | `test_run_mode.py` | `test_skip_llm_is_fixed_at_run_creation` | **passed** | skip_llm written at create; no apply_mode |
 
 **34 passed · 0 failed · 0 skipped · 0 errors** (original Compose container)

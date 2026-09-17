@@ -1,4 +1,4 @@
-"""GitHub zip → examples/ source trees, and POST /runs/{id}/mode (PipelineEvent)."""
+"""GitHub zip → examples/ source trees; launch-time mode toggle only."""
 
 from __future__ import annotations
 
@@ -178,6 +178,8 @@ def test_landing_does_not_preselect_sample(client):
     assert "Target URL" not in html
     assert 'id="source-path" value="">' in html or 'id="source-path" value=""' in html
     assert "demo-card selected" not in html
+    assert 'id="skip-llm-input"' in html
+    assert "skip-llm-toggle" in html
 
 
 def test_create_run_requires_source_tree(client):
@@ -187,8 +189,8 @@ def test_create_run_requires_source_tree(client):
     assert "source tree" in resp.text.lower()
 
 
-def test_set_run_mode_publishes_pipeline_event(client):
-    c, app_module, _tmp = client
+def test_run_page_has_no_mode_toggle(client):
+    c, _app, _tmp = client
     src = Path("examples/sample-web-api")
     resp = c.post(
         "/runs",
@@ -202,12 +204,11 @@ def test_set_run_mode_publishes_pipeline_event(client):
     )
     assert resp.status_code == 303
     run_id = resp.headers["location"].rsplit("/", 1)[-1]
+    page = c.get(f"/runs/{run_id}")
+    assert page.status_code == 200
+    html = page.text
+    assert 'id="run-skip-llm"' not in html
+    assert "skip-llm-toggle" not in html
+    assert "Deterministic" in html
     mode = c.post(f"/runs/{run_id}/mode", data={"skip_llm": "false"})
-    assert mode.status_code == 200
-    body = mode.json()
-    assert body["mode"] == "llm"
-    assert body["skip_llm"] is False
-    run = app_module.RUNS[run_id]
-    kinds = [e["kind"] for e in run.events]
-    assert "mode_changed" in kinds
-    assert run.orchestrator.skip_llm is False
+    assert mode.status_code == 404

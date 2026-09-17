@@ -164,4 +164,26 @@ Selecting a Target URL still analysed the static sample. Target URL should downl
 
 Compose `pytest -v -W error::DeprecationWarning` — **34 passed, 0 skipped** (2026-09-17, 42.28s). Live: `POST /runs/8f2cedbc/mode` 200; landing has **Source from new URL REPO** (octocat/Hello-World zip extracted to `examples/octocat_Hello-World` and selected as source); no Target URL; no auto-select of sample-web-api.
 
+---
+
+## 2026-09-17 — Run page has no mode toggle
+
+### Ask
+
+On a run the Deterministic/LLM switch should not exist. The toggle belongs only on the launch form before Start assessment.
+
+### What landed
+
+| Path | Role |
+|---|---|
+| `run.html` | Static `.mode-badge` (Deterministic or LLM); no checkbox |
+| `dashboard.js` | Removed `/runs/{id}/mode` POST |
+| `web/app.py` | Removed `POST /runs/{id}/mode`, `Run.apply_mode()`, `apply_run_mode()` |
+
+### Verification
+
+Compose `pytest -v -W error::DeprecationWarning` after rebuild. Landing still has `.skip-llm-toggle`. Run page has no `#run-skip-llm`. `POST /runs/{id}/mode` is 404.
+
+Compose **34 passed, 0 skipped** (2026-09-17, 31.44s).
+
 

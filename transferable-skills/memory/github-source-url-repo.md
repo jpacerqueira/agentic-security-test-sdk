@@ -14,4 +14,4 @@ Landing:
 
 Fetched trees are gitignored except `examples/sample-web-api/`.
 
-LLM mode on an existing run: `POST /runs/{id}/mode` must import `PipelineEvent` from `orchestration.pipeline` (NameError 500 if missing). The image copies `agentic_security/` at build time — rebuild after that import change.
+Mode is chosen on the launch form only. The run page must not render `.skip-llm-toggle` / `#run-skip-llm`.

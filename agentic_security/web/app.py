@@ -20,7 +20,6 @@ from agentic_security.orchestration.driver import run_full_pipeline
 from agentic_security.orchestration.pipeline import (
     GATES,
     PHASE_LABELS,
-    PipelineEvent,
     PipelinePhase,
     SecurityOrchestrator,
 )
@@ -114,13 +113,6 @@ class Run:
             encoding="utf-8",
         )
 
-    def apply_mode(self, skip_llm: bool) -> dict:
-        """Override remaining phases: True = scanners only, False = ADK LiteLlm."""
-        self.skip_llm = skip_llm
-        self.orchestrator.skip_llm = skip_llm
-        self.persist_meta()
-        return {"skip_llm": skip_llm, "mode": "deterministic" if skip_llm else "llm"}
-
     async def publish(self, ev):
         payload = {"kind": ev.kind, "phase": ev.phase.value, "payload": ev.payload}
         self.events.append(payload)
@@ -172,10 +164,6 @@ def _parse_skip_llm(raw: str) -> bool:
     if raw.strip() == "":
         return get_settings().skip_llm
     return raw.strip().lower() in {"true", "1", "on", "yes"}
-
-
-def apply_run_mode(run: Run, skip_llm: bool) -> dict:
-    return run.apply_mode(skip_llm)
 
 
 @app.get("/login", response_class=HTMLResponse)
@@ -321,27 +309,6 @@ async def gate_action(
         run.orchestrator.reject_gate(gate_id, reviewer_name, notes)
         label = "Rejected"
     return HTMLResponse(f"<p class='gate-result'>{label} by {reviewer_name}: {notes or '—'}</p>")
-
-
-@app.post("/runs/{run_id}/mode")
-async def set_run_mode(run_id: str, skip_llm: str = Form("")):
-    from agentic_security import llm as llm_mod
-
-    run = _get_run(run_id)
-    if not run:
-        return JSONResponse({"error": "unknown run"}, 404)
-    skip = _parse_skip_llm(skip_llm)
-    payload = apply_run_mode(run, skip)
-    if not skip:
-        asyncio.create_task(llm_mod.ensure_llm_ready(force=True))
-    await run.publish(
-        PipelineEvent(
-            kind="mode_changed",
-            phase=run.orchestrator.current_phase,
-            payload=payload,
-        )
-    )
-    return JSONResponse(payload)
 
 
 @app.get("/runs/{run_id}/files/{filename}")

@@ -27,7 +27,7 @@ Plans: `agentic_security/plans.py` (`reports_for_pdf` puts executive summary fir
 
 ## Run modes
 
-Landing toggle (same Micro-Cosmos `skip-llm-toggle` pattern): checked = **Deterministic**; unchecked = **LLM**. The **run page** has the same toggle and POSTs `/runs/{id}/mode` so remaining phases can switch. Compose talks to host Ollama at `http://host.docker.internal:11434/v1` (`gemma4:latest`, `MODEL_CONTEXT_LENGTH=131072`). LLM mode waits for `/v1/models` then warms via Ollama `/api/generate`.
+Landing toggle (same Micro-Cosmos `skip-llm-toggle` pattern): checked = **Deterministic**; unchecked = **LLM**. Mode is chosen **before Start assessment** and is fixed for that run — the run page shows a label, not a switch. Compose talks to host Ollama at `http://host.docker.internal:11434/v1` (`gemma4:latest`, `MODEL_CONTEXT_LENGTH=131072`). LLM mode waits for `/v1/models` then warms via Ollama `/api/generate`.
 
 ## Report metrics (must not regress)
 
@@ -38,5 +38,5 @@ Access-management HTML must include identity inventory, connectors, reviews, JML
 ## UI
 
 Landing `/` = plan cards + **Choose a source tree** (example cards; click one to analyse that tree) + **Source from new URL REPO** (`POST /examples/fetch-github` downloads a public GitHub zip into `examples/`, then click the new card). There is no Target URL field and no auto-select of `sample-web-api`. Launch form (mode toggle + auto-approve) requires a selected `source_path`.  
-Run `/runs/{id}` = phase pills, Gates / Reports / Artifacts tabs, SSE `/runs/{id}/events`. Run header **Mode** toggle POSTs `/runs/{id}/mode` (`PipelineEvent` `mode_changed`). Reports tab **Generate output report** downloads one A4 PDF (executive summary first). Runs restore from `runs/<id>/run_meta.json` after a container rebuild.  
+Run `/runs/{id}` = phase pills, Gates / Reports / Artifacts tabs, SSE `/runs/{id}/events`. Header shows a static mode label (not a toggle). Reports tab **Generate output report** downloads one A4 PDF (executive summary first). Runs restore from `runs/<id>/run_meta.json` after a container rebuild.  
 Login cookie session, default `demo` / `demobxyz`.
