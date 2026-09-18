@@ -1,0 +1,26 @@
+# DORMANT until LLM_PROFILE=vertex. Gemini on Vertex AI (ADC / service account).
+# Alias gemma4:latest → VERTEX_LITELLM_MODEL. Mount gcp-sa.json when switching.
+
+model_list:
+  - model_name: gemma4:latest
+    litellm_params:
+      model: os.environ/VERTEX_LITELLM_MODEL
+      vertex_project: os.environ/GOOGLE_CLOUD_PROJECT
+      vertex_location: os.environ/VERTEX_LOCATION
+      timeout: 180
+  - model_name: openai/gemma4:latest
+    litellm_params:
+      model: os.environ/VERTEX_LITELLM_MODEL
+      vertex_project: os.environ/GOOGLE_CLOUD_PROJECT
+      vertex_location: os.environ/VERTEX_LOCATION
+      timeout: 180
+
+litellm_settings:
+  drop_params: true
+  request_timeout: 180
+  json_logs: true
+  set_verbose: true
+  callbacks: custom_callbacks.proxy_handler_instance
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY

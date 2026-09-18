@@ -41,13 +41,23 @@ docker compose up --build
 
 Open http://localhost:8090 — sign in with `demo` / `demobxyz`.
 
-On the launch form, **Deterministic** (toggle on, default) uses scanners only. Flip to **LLM (Ollama / ADK LiteLLM)** to call **gemma4:latest** on local Ollama. That choice is fixed for the run — the assessment page shows the mode as a label, not a switch. Compose uses `http://host.docker.internal:11434/v1` and maps `host.docker.internal` via `extra_hosts` (Linux + Docker Desktop). Host venv uses `http://localhost:11434/v1`. Watch LLM traffic with `docker compose logs -f agentic-security` (lines `openai-v1 request|response`) and `./logs/openai-v1.log`.
+On the launch form, **Deterministic** (toggle on, default) uses scanners only. Flip to **LLM (Ollama / ADK LiteLLM)** to call **gemma4:latest** through the Compose **`llm-gateway`** (OpenAI `/v1` proxy on port **4000**). The gateway’s active profile is **ollama**; LM Studio, AWS Bedrock, and Vertex AI Gemini are declared but dormant — switch with `LLM_PROFILE` in `.env` and `docker compose up -d llm-gateway` (no silent failover). That launch choice is fixed for the run. Watch app traffic with `docker compose logs -f agentic-security` (`openai-v1 request|response`, `started_at` / `ended_at` / `duration_ms`, `./logs/openai-v1.log` and `./logs/agentic-security.log`) and the proxy with `docker compose logs -f llm-gateway` plus `./logs/llm-gateway.log` (JSON timeframes: `call_start`, `call_end`, `duration_ms`, `upstream_ms`). Host venv without Compose still uses `http://localhost:11434/v1`.
 
 **Choose a source tree** by clicking an examples card (nothing is pre-selected). **Source from new URL REPO** downloads a public GitHub zip into `examples/` (bind-mounted into Compose); click the new card, then Start assessment. That downloaded tree is the pipeline source — not a leftover Target URL against the static sample.
 
 ```bash
-# optional — LLM mode
-ollama pull gemma4:latest   # or llama3.2:latest; set MODEL_REASONING in .env
+# optional — LLM mode (Ollama on the host; gateway profile ollama)
+ollama pull gemma4:latest   # or llama3.2:latest; set MODEL_REASONING + OLLAMA_LITELLM_MODEL
+```
+
+Switch the dormant gateway profiles (restart **only** the proxy — the app keeps the same `/v1` URL):
+
+```bash
+# .env
+# LLM_PROFILE=lmstudio   # host LM Studio :1234
+# LLM_PROFILE=bedrock    # AWS keys + BEDROCK_LITELLM_MODEL
+# LLM_PROFILE=vertex     # GCP project + mounted llm-gateway/secrets/gcp-sa.json
+docker compose up -d llm-gateway
 ```
 
 Local (no Docker):
@@ -60,10 +70,31 @@ cp .env.example .env
 uvicorn agentic_security.web.app:app --host 0.0.0.0 --port 8090
 ```
 
-Tests:
+Tests (Compose container is the source of truth):
 
 ```bash
 pytest -v
+# or
+docker compose exec agentic-security pytest -v -W error::DeprecationWarning
+```
+
+Markup: `tests/README.md` (54-row grid) and `tests/RESULTS.md`.
+
+## Logs
+
+Compose bind-mounts `./logs` into both services (`/app/logs`). Prompt bodies are never written.
+
+| File / stream | Service | Timeframes |
+|---|---|---|
+| `docker compose logs -f agentic-security` | app | UTC `started_at` / `ended_at` / `duration_ms` on `openai-v1 request\|response` |
+| `./logs/openai-v1.log` | app | Same `/v1` lines |
+| `./logs/agentic-security.log` | app | Package log, same UTC clock |
+| `docker compose logs -f llm-gateway` | proxy | DEBUG + `--detailed_debug` |
+| `./logs/llm-gateway.log` | proxy | JSON `call_start` / `call_end` / `duration_ms` / `upstream_ms` / `overhead_ms` |
+
+```bash
+docker compose logs -f llm-gateway agentic-security
+tail -f logs/llm-gateway.log logs/openai-v1.log
 ```
 
 ## What a run does
@@ -103,8 +134,10 @@ On the Reports tab, **Generate output report** downloads one A4 PDF with every r
 | `examples/sample-web-api/` | Bundled fixture; other `examples/` trees come from **Source from new URL REPO** |
 | `images/` | Five product screenshots used above (landing, completed run, executive summary, jailbreak, access management) |
 | `tests/` | Pytest suite + markup results |
-| `docker-compose.yml` / `Dockerfile` | Compose on 8090; image includes Trivy, WeasyPrint (A4 PDF), and the `[llm]` extra |
-| `.env.example` | Ollama / skip_llm / demo credentials |
+| `docker-compose.yml` / `Dockerfile` | App on 8090 + `llm-gateway` on 4000; image includes Trivy, WeasyPrint, `[llm]` extra |
+| `llm-gateway/profiles/` | One YAML per destination (`ollama` active; `lmstudio` / `bedrock` / `vertex` dormant) plus `custom_callbacks.py` (UTC timeframes) |
+| `logs/` | Runtime only (gitignored): `openai-v1.log`, `agentic-security.log`, `llm-gateway.log` |
+| `.env.example` | `LLM_PROFILE`, gateway key, skip_llm, demo credentials |
 | `transferable-skills/` | Project skills for later agent sessions |
 
 ## Skills

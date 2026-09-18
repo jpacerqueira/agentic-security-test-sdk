@@ -5,6 +5,25 @@ No git operations in this tree (owner instruction, 2026-09-17).
 
 ---
 
+## 2026-09-18 — Compose `llm-gateway` (LiteLLM Proxy)
+
+Second service: OpenAI `/v1` proxy. App `LLM_BASE_URL=http://llm-gateway:4000/v1`. Active profile **ollama** / `gemma4:latest`. Dormant YAML: LM Studio, AWS Bedrock, Vertex AI Gemini (`LLM_PROFILE` + restart gateway; no failover). Warm through gateway `/v1/chat/completions`; native Ollama `/api/generate` only for host venv.
+
+Call logs (UTC ms): app `./logs/openai-v1.log` + `./logs/agentic-security.log` (`started_at` / `ended_at` / `duration_ms`); gateway DEBUG/`--detailed_debug` plus JSON `./logs/llm-gateway.log` (`call_start` / `call_end` / `duration_ms` / `upstream_ms`).
+
+| Path | Role |
+|---|---|
+| `docker-compose.yml` | `llm-gateway` + `agentic-security` `depends_on` healthy |
+| `llm-gateway/profiles/*.yaml` | One backend per file |
+| `llm-gateway/profiles/custom_callbacks.py` | JSON UTC timeframes (`duration_ms` / `upstream_ms` / `overhead_ms`) |
+| `llm-gateway/entrypoint.sh` | Rejects unknown `LLM_PROFILE`; `--detailed_debug`; no Prisma DB |
+| `agentic_security/llm.py` | `uses_ollama_native_warm`; gateway warm via `/v1`; `started_at`/`ended_at` |
+| `agentic_security/logging_config.py` | `UtcIsoFormatter`; `openai-v1.log` + `agentic-security.log` |
+
+Compose pytest **54 passed** (2026-09-18). Live `POST /v1/chat/completions` ping wrote `logs/llm-gateway.log` (`duration_ms` ≈ 72897, `upstream_ms` ≈ 72843, `overhead_ms` ≈ 55).
+
+---
+
 ## 2026-09-17 — Initial application
 
 Created a security-only ADK-style pipeline with Micro-Cosmos look and feel.

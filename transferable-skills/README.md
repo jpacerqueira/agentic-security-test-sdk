@@ -15,8 +15,9 @@ Project skills for Macro-Search - Agentic Security Scan. They travel as markdown
 | `memory/plans-and-gates.md` | Essentials/Plus/Professional/Ultra-Professional and the six gates |
 | `memory/llm-grounding.md` | Optional Ultra-Professional scrape + cite-or-unknown LLM contract |
 | `memory/no-git-in-this-tree.md` | Working tree vs public-git clone |
-| `memory/ollama-adk-litellm.md` | ADK LiteLlm → Ollama `/v1` |
-| `memory/run-progress-and-llm-logs.md` | Gate progress bar; green/red-orange status; Compose /v1 logs |
+| `memory/ollama-adk-litellm.md` | ADK LiteLlm → gateway `/v1` (Ollama behind it) |
+| `memory/llm-gateway.md` | Compose LiteLLM Proxy; profiles; `./logs/llm-gateway.log` timeframes |
+| `memory/run-progress-and-llm-logs.md` | Gate progress bar; status banner; app + gateway `/v1` UTC logs |
 | `memory/complete-reports.md` | Full GRC/pentest HTML, not stubs |
 | `memory/skip-llm-toggle.md` | Deterministic / LLM launch only (no run-page switch) |
 | `memory/github-source-url-repo.md` | GitHub zip → examples/; click card for source_path |

@@ -9,7 +9,11 @@ log = logging.getLogger("agentic_security.settings")
 
 
 class Settings(BaseSettings):
-    """Ollama (OpenAI-compatible /v1) via Google ADK LiteLlm, or deterministic scanners."""
+    """OpenAI-compatible /v1 via Google ADK LiteLlm, or deterministic scanners.
+
+    Compose points ``llm_base_url`` at ``llm-gateway`` (LiteLLM Proxy). A host
+    venv can still talk to Ollama on localhost without the gateway.
+    """
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
@@ -17,6 +21,7 @@ class Settings(BaseSettings):
     llm_base_url: str = "http://localhost:11434/v1"
     llm_api_key: str = "ollama"
     llm_engine: str = "ollama"
+    llm_profile: str = "ollama"
     model_reasoning: str = "gemma4:latest"
     model_fast: str = "gemma4:latest"
     # KV-cache window. Sent as extra_body num_ctx for LM Studio only.
@@ -42,11 +47,11 @@ class Settings(BaseSettings):
         return f"openai/{name}"
 
     def build_llm(self, role: str = "reasoning"):
-        """ADK LiteLlm pointed at an OpenAI-compatible /v1 endpoint (Ollama).
+        """ADK LiteLlm pointed at an OpenAI-compatible /v1 endpoint.
 
-        Same pattern as Micro-Cosmos: `openai/<tag>` so LiteLLM speaks the
-        OpenAI Chat Completions schema against `llm_base_url`. Ollama needs a
-        non-empty api_key string even though it does not authenticate.
+        Compose: ``openai/<tag>`` against ``llm-gateway:4000/v1``. The gateway
+        maps ``gemma4:latest`` to the active profile (Ollama by default).
+        Direct Ollama still needs a non-empty api_key string.
         """
         from google.adk.models.lite_llm import LiteLlm
 
@@ -55,9 +60,10 @@ class Settings(BaseSettings):
         if self.llm_engine == "lmstudio":
             extra_body = {"num_ctx": self.model_context_length}
         log.info(
-            "build_llm(role=%s): engine=%s model=%s api_base=%s",
+            "build_llm(role=%s): engine=%s profile=%s model=%s api_base=%s",
             role,
             self.llm_engine,
+            self.llm_profile,
             model_name,
             self.llm_base_url,
         )

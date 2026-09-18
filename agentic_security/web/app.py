@@ -40,10 +40,11 @@ async def lifespan(_app: FastAPI):
     configure_logging()
     _restore_all()
     settings = get_settings()
-    logging.getLogger("agentic_security.openai_v1").info(
-        "llm mapping skip_llm=%s engine=%s model=%s fast=%s api_base=%s",
+    logging.getLogger("agentic_security").info(
+        "llm mapping skip_llm=%s engine=%s profile=%s model=%s fast=%s api_base=%s",
         settings.skip_llm,
         settings.llm_engine,
+        settings.llm_profile,
         settings.model_reasoning,
         settings.model_fast,
         settings.llm_base_url,

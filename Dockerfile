@@ -7,10 +7,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     fonts-liberation fonts-dejavu-core \
   && curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin \
   && apt-get purge -y curl && rm -rf /var/lib/apt/lists/*
-COPY pyproject.toml README.md /app/
+COPY pyproject.toml README.md docker-compose.yml /app/
 COPY agentic_security /app/agentic_security
 COPY examples /app/examples
 COPY tests /app/tests
+COPY llm-gateway /app/llm-gateway
 RUN pip install --no-cache-dir ".[llm,dev]"
 ENV RUNS_DIR=/app/runs SKIP_LLM=true PYTHONUNBUFFERED=1 LOG_DIR=/app/logs
 EXPOSE 8090

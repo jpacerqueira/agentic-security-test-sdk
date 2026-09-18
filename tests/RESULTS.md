@@ -8,27 +8,27 @@ Product version: **0.0.1**
 
 Image: `agentic-security-test-sdk-agentic-security`  
 Python: 3.12.14 · pytest 9.1.1  
-Run: 2026-09-17 · **49 passed, 0 failed, 0 skipped**
+Run: 2026-09-18 · **54 passed, 0 failed, 0 skipped** · **140.27s**
 
-See [README.md](README.md) for the 49-row grid.
+See [README.md](README.md) for the 54-row grid.
 
 ## Totals (Compose)
 
 | Result | Count |
 |---|---|
-| passed | 49 |
+| passed | 54 |
 | failed | 0 |
 | skipped | 0 |
 | errors | 0 |
 
-## Live smoke (same container, after rebuild)
+## Live smoke (same stack, after llm-gateway)
 
+- `llm-gateway` healthy on **4000**; app **8090**; `GET /healthz` **200**
+- `GET http://127.0.0.1:4000/v1/models` (Bearer `sk-agentic-local`) lists `gemma4:latest`
+- `POST /v1/chat/completions` ping wrote `./logs/llm-gateway.log` with `call_start` / `call_end` / `duration_ms` / `upstream_ms` / `overhead_ms`
+- App logs use UTC ms (`…Z`) in `./logs/openai-v1.log` and `./logs/agentic-security.log`
 - Landing `/` has four plan cards including Ultra-Professional; `#grounding-field` is Ultra-Professional only
-- Launch form Client name defaults to `Client`; reports use that name (or the value filled at start)
-- Run page has no `#run-skip-llm` / `.skip-llm-toggle`; header `.mode-badge` is text only
-- `POST /runs/{id}/mode` → **404**
-- `#run-status` below gates: red/orange flash **Running** (1.4s) in Deterministic and LLM; green **Completed — Deterministic** after auto-approve
-- `./logs/openai-v1.log` maps `GET /v1/models` and `POST /v1/chat/completions` (no prompt bodies)
+- Run page has no `#run-skip-llm`; header `.mode-badge` is text only; `POST /runs/{id}/mode` → **404**
 
 ## Re-run
 

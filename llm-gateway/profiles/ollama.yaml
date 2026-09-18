@@ -1,0 +1,28 @@
+# ACTIVE default. Inbound OpenAI /v1; outbound Ollama native chat + keep_alive.
+# App alias stays gemma4:latest (and openai/gemma4:latest from ADK LiteLlm).
+
+model_list:
+  - model_name: gemma4:latest
+    litellm_params:
+      model: os.environ/OLLAMA_LITELLM_MODEL
+      api_base: os.environ/OLLAMA_API_BASE
+      api_key: os.environ/OLLAMA_API_KEY
+      keep_alive: 60m
+      timeout: 180
+  - model_name: openai/gemma4:latest
+    litellm_params:
+      model: os.environ/OLLAMA_LITELLM_MODEL
+      api_base: os.environ/OLLAMA_API_BASE
+      api_key: os.environ/OLLAMA_API_KEY
+      keep_alive: 60m
+      timeout: 180
+
+litellm_settings:
+  drop_params: true
+  request_timeout: 180
+  json_logs: true
+  set_verbose: true
+  callbacks: custom_callbacks.proxy_handler_instance
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
