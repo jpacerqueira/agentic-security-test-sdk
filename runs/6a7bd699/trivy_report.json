@@ -1,0 +1,235 @@
+{
+  "scanner": "trivy",
+  "results_count": 1,
+  "vulnerability_count": 22,
+  "by_severity": {
+    "CRITICAL": 0,
+    "HIGH": 9,
+    "MEDIUM": 7,
+    "LOW": 6,
+    "UNKNOWN": 0
+  },
+  "vulnerabilities": [
+    {
+      "id": "CVE-2024-45590",
+      "pkg": "body-parser",
+      "installed": "1.19.0",
+      "fixed": "1.20.3",
+      "severity": "HIGH",
+      "title": "body-parser: Denial of Service Vulnerability in body-parser",
+      "target": "package-lock.json",
+      "cvss": 7.5
+    },
+    {
+      "id": "CVE-2026-12590",
+      "pkg": "body-parser",
+      "installed": "1.19.0",
+      "fixed": "1.20.6, 2.3.0",
+      "severity": "LOW",
+      "title": "body-parser: body-parser: Denial of Service via invalid limit option",
+      "target": "package-lock.json",
+      "cvss": 5.9
+    },
+    {
+      "id": "CVE-2024-47764",
+      "pkg": "cookie",
+      "installed": "0.4.0",
+      "fixed": "0.7.0",
+      "severity": "LOW",
+      "title": "cookie: cookie accepts cookie name, path, and domain with out of bounds characters",
+      "target": "package-lock.json",
+      "cvss": null
+    },
+    {
+      "id": "CVE-2024-29041",
+      "pkg": "express",
+      "installed": "4.17.1",
+      "fixed": "4.19.2, 5.0.0-beta.3",
+      "severity": "MEDIUM",
+      "title": "express: cause malformed URLs to be evaluated",
+      "target": "package-lock.json",
+      "cvss": null
+    },
+    {
+      "id": "CVE-2024-43796",
+      "pkg": "express",
+      "installed": "4.17.1",
+      "fixed": "4.20.0, 5.0.0",
+      "severity": "LOW",
+      "title": "express: Improper Input Handling in Express Redirects",
+      "target": "package-lock.json",
+      "cvss": 4.7
+    },
+    {
+      "id": "CVE-2022-36083",
+      "pkg": "jose",
+      "installed": "2.0.5",
+      "fixed": "1.28.2, 2.0.6, 3.20.4, 4.9.2",
+      "severity": "MEDIUM",
+      "title": "JOSE is \"JSON Web Almost Everything\" - JWA, JWS, JWE, JWT, JWK, JWKS w ...",
+      "target": "package-lock.json",
+      "cvss": 5.3
+    },
+    {
+      "id": "CVE-2024-28176",
+      "pkg": "jose",
+      "installed": "2.0.5",
+      "fixed": "4.15.5, 2.0.7",
+      "severity": "MEDIUM",
+      "title": "jose: resource exhaustion",
+      "target": "package-lock.json",
+      "cvss": 5.9
+    },
+    {
+      "id": "CVE-2022-23539",
+      "pkg": "jsonwebtoken",
+      "installed": "8.5.1",
+      "fixed": "9.0.0",
+      "severity": "HIGH",
+      "title": "jsonwebtoken: Unrestricted key type could lead to legacy keys usagen",
+      "target": "package-lock.json",
+      "cvss": 8.1
+    },
+    {
+      "id": "CVE-2022-23540",
+      "pkg": "jsonwebtoken",
+      "installed": "8.5.1",
+      "fixed": "9.0.0",
+      "severity": "MEDIUM",
+      "title": "jsonwebtoken: Insecure default algorithm in jwt.verify() could lead to signature validation bypass",
+      "target": "package-lock.json",
+      "cvss": 7.6
+    },
+    {
+      "id": "CVE-2022-23541",
+      "pkg": "jsonwebtoken",
+      "installed": "8.5.1",
+      "fixed": "9.0.0",
+      "severity": "MEDIUM",
+      "title": "jsonwebtoken: Insecure implementation of key retrieval function could lead to Forgeable Public/Private Tokens from RSA to HMAC",
+      "target": "package-lock.json",
+      "cvss": 6.3
+    },
+    {
+      "id": "CVE-2025-65945",
+      "pkg": "jws",
+      "installed": "3.2.2",
+      "fixed": "3.2.3, 4.0.1",
+      "severity": "HIGH",
+      "title": "node-jws: auth0/node-jws: Improper signature verification in HS256 algorithm",
+      "target": "package-lock.json",
+      "cvss": null
+    },
+    {
+      "id": "CVE-2020-8203",
+      "pkg": "lodash.set",
+      "installed": "4.3.2",
+      "fixed": null,
+      "severity": "HIGH",
+      "title": "nodejs-lodash: prototype pollution in zipObjectDeep function",
+      "target": "package-lock.json",
+      "cvss": 7.4
+    },
+    {
+      "id": "CVE-2024-45296",
+      "pkg": "path-to-regexp",
+      "installed": "0.1.7",
+      "fixed": "1.9.0, 0.1.10, 8.0.0, 3.3.0, 6.3.0",
+      "severity": "HIGH",
+      "title": "path-to-regexp: Backtracking regular expressions cause ReDoS",
+      "target": "package-lock.json",
+      "cvss": null
+    },
+    {
+      "id": "CVE-2024-52798",
+      "pkg": "path-to-regexp",
+      "installed": "0.1.7",
+      "fixed": "0.1.12",
+      "severity": "HIGH",
+      "title": "path-to-regexp: path-to-regexp Unpatched `path-to-regexp` ReDoS in 0.1.x",
+      "target": "package-lock.json",
+      "cvss": null
+    },
+    {
+      "id": "CVE-2026-4867",
+      "pkg": "path-to-regexp",
+      "installed": "0.1.7",
+      "fixed": "0.1.13",
+      "severity": "HIGH",
+      "title": "path-to-regexp: path-to-regexp: Denial of Service via catastrophic backtracking from malformed URL parameters",
+      "target": "package-lock.json",
+      "cvss": null
+    },
+    {
+      "id": "CVE-2022-24999",
+      "pkg": "qs",
+      "installed": "6.7.0",
+      "fixed": "6.10.3, 6.9.7, 6.8.3, 6.7.3, 6.6.1, 6.5.3, 6.4.1, 6.3.3, 6.2.4",
+      "severity": "HIGH",
+      "title": "express: \"qs\" prototype poisoning causes the hang of the node process",
+      "target": "package-lock.json",
+      "cvss": 7.5
+    },
+    {
+      "id": "CVE-2025-15284",
+      "pkg": "qs",
+      "installed": "6.7.0",
+      "fixed": "6.14.1",
+      "severity": "MEDIUM",
+      "title": "qs: qs: Denial of Service via improper input validation in array parsing",
+      "target": "package-lock.json",
+      "cvss": null
+    },
+    {
+      "id": "CVE-2026-82417",
+      "pkg": "qs",
+      "installed": "6.7.0",
+      "fixed": "6.16.0",
+      "severity": "MEDIUM",
+      "title": "qs: qs: Denial of Service via improper validation in stringify function",
+      "target": "package-lock.json",
+      "cvss": null
+    },
+    {
+      "id": "CVE-2026-2391",
+      "pkg": "qs",
+      "installed": "6.7.0",
+      "fixed": "6.14.2",
+      "severity": "LOW",
+      "title": "qs: qs's arrayLimit bypass in comma parsing allows denial of service",
+      "target": "package-lock.json",
+      "cvss": 7.5
+    },
+    {
+      "id": "CVE-2022-25883",
+      "pkg": "semver",
+      "installed": "5.7.1",
+      "fixed": "7.5.2, 6.3.1, 5.7.2",
+      "severity": "HIGH",
+      "title": "nodejs-semver: Regular expression denial of service",
+      "target": "package-lock.json",
+      "cvss": 7.5
+    },
+    {
+      "id": "CVE-2024-43799",
+      "pkg": "send",
+      "installed": "0.17.1",
+      "fixed": "0.19.0",
+      "severity": "LOW",
+      "title": "send: Code Execution Vulnerability in Send Library",
+      "target": "package-lock.json",
+      "cvss": 4.7
+    },
+    {
+      "id": "CVE-2024-43800",
+      "pkg": "serve-static",
+      "installed": "1.14.1",
+      "fixed": "1.16.0, 2.1.0",
+      "severity": "LOW",
+      "title": "serve-static: Improper Sanitization in serve-static",
+      "target": "package-lock.json",
+      "cvss": 4.7
+    }
+  ],
+  "raw_present": true
+}

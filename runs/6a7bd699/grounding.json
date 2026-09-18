@@ -1,0 +1,81 @@
+{
+  "enabled": true,
+  "client": "Client-MartinEmde",
+  "source_path": "examples/martinemde_graphql-node-auth-example",
+  "target_url": "https://github.com/martinemde/graphql-node-auth-example",
+  "github_url": "https://github.com/martinemde/graphql-node-auth-example",
+  "github_meta": {
+    "full_name": "martinemde/graphql-node-auth-example",
+    "description": "An example Express GraphQL API that uses Auth0 to authenticate queries ",
+    "language": "JavaScript",
+    "topics": [
+      "authentication",
+      "example",
+      "express",
+      "graphql",
+      "jwt"
+    ],
+    "default_branch": "main",
+    "html_url": "https://github.com/martinemde/graphql-node-auth-example",
+    "license": "MIT"
+  },
+  "inventory": {
+    "files": 9,
+    "extensions": {
+      ".js": 3,
+      ".json": 3,
+      "none": 2,
+      ".md": 1
+    },
+    "top_files": [
+      ".gitignore",
+      ".source.json",
+      "LICENSE",
+      "README.md",
+      "config.js",
+      "database.js",
+      "package-lock.json",
+      "package.json",
+      "server.js"
+    ]
+  },
+  "facts": [
+    {
+      "id": "G-001",
+      "kind": "manifest",
+      "path": "README.md",
+      "text": "# graphql-node-auth-example\n\nAn example app that uses Auth0 to authenticate an Express GraphQL app\n\nThe purpose of this app is to show how to make a secure authentication system for GraphQL without using graphql mutations for login and signup.\n\nI believe using graphql for signup and login mutations causes more harm than good. Read more about my opinion on the Cloud City Development blog.\n\n# Principals of good out-of-band authentication in GraphQL\n\n- Use a separate authentication endpoint\n- Require authentication for the entire GraphQL endpoint\n- Return 401 on failed or expired authentication\n- Load the user into context before executing the query\n\nI built this app with the aim of explaining these principals so other's could build from an example that starts with good practices. My hope is to save you from security vulnerabilities and ultimately reduce the pain of a future migration to a better authentication system. Ultimately, every application is unique, and though I tried to give a good example, this is still just a toy app I made to explain these ideas. It's up to you to evaluate my code and make your own decisions about your security practices. I hope my example gives you another perspective that makes your application better and more secure.\n\n## Getting Started\n\nIf you'd like to run this test app, first, follow the [Auth0 Node tutorial](https://auth0.com/docs/quickstart/backend/nodejs/01-authorization) until you have an API configured in Auth0. You don't need to setup permissions or create an application on Auth0. I don't use any of that here.\n\nClone the app locally and install dependencies\n\n```\nnpm i\n```\n\nModify `config.js` to use your freshly configured Auth0 values for your domain and audience.\n\nRun the server\n\n```\nnpm start\n```\n\nFetch your example API token us"
+    },
+    {
+      "id": "G-002",
+      "kind": "manifest",
+      "path": "readme.md",
+      "text": "# graphql-node-auth-example\n\nAn example app that uses Auth0 to authenticate an Express GraphQL app\n\nThe purpose of this app is to show how to make a secure authentication system for GraphQL without using graphql mutations for login and signup.\n\nI believe using graphql for signup and login mutations causes more harm than good. Read more about my opinion on the Cloud City Development blog.\n\n# Principals of good out-of-band authentication in GraphQL\n\n- Use a separate authentication endpoint\n- Require authentication for the entire GraphQL endpoint\n- Return 401 on failed or expired authentication\n- Load the user into context before executing the query\n\nI built this app with the aim of explaining these principals so other's could build from an example that starts with good practices. My hope is to save you from security vulnerabilities and ultimately reduce the pain of a future migration to a better authentication system. Ultimately, every application is unique, and though I tried to give a good example, this is still just a toy app I made to explain these ideas. It's up to you to evaluate my code and make your own decisions about your security practices. I hope my example gives you another perspective that makes your application better and more secure.\n\n## Getting Started\n\nIf you'd like to run this test app, first, follow the [Auth0 Node tutorial](https://auth0.com/docs/quickstart/backend/nodejs/01-authorization) until you have an API configured in Auth0. You don't need to setup permissions or create an application on Auth0. I don't use any of that here.\n\nClone the app locally and install dependencies\n\n```\nnpm i\n```\n\nModify `config.js` to use your freshly configured Auth0 values for your domain and audience.\n\nRun the server\n\n```\nnpm start\n```\n\nFetch your example API token us"
+    },
+    {
+      "id": "G-003",
+      "kind": "manifest",
+      "path": "package.json",
+      "text": "{\n  \"name\": \"graphql-node-auth\",\n  \"version\": \"1.0.0\",\n  \"description\": \"An example graphql express app with basic jwt authentication\",\n  \"main\": \"server.js\",\n  \"scripts\": {\n    \"test\": \"echo \\\"Error: no test specified\\\" && exit 1\",\n    \"start\": \"node server.js\"\n  },\n  \"author\": \"Martin Emde\",\n  \"license\": \"ISC\",\n  \"dependencies\": {\n    \"express\": \"^4.17.1\",\n    \"express-graphql\": \"^0.12.0\",\n    \"express-jwt\": \"^6.0.0\",\n    \"graphql\": \"^15.5.1\",\n    \"jwks-rsa\": \"^2.0.3\"\n  }\n}\n"
+    },
+    {
+      "id": "G-004",
+      "kind": "manifest",
+      "path": ".source.json",
+      "text": "{\n  \"github_url\": \"https://github.com/martinemde/graphql-node-auth-example\"\n}"
+    },
+    {
+      "id": "G-005",
+      "kind": "secret_pattern",
+      "path": "server.js",
+      "text": "Literal assignment-like names in source: secret"
+    },
+    {
+      "id": "G-006",
+      "kind": "github",
+      "path": "https://github.com/martinemde/graphql-node-auth-example",
+      "text": "{\n  \"full_name\": \"martinemde/graphql-node-auth-example\",\n  \"description\": \"An example Express GraphQL API that uses Auth0 to authenticate queries \",\n  \"language\": \"JavaScript\",\n  \"topics\": [\n    \"authentication\",\n    \"example\",\n    \"express\",\n    \"graphql\",\n    \"jwt\"\n  ],\n  \"license\": \"MIT\"\n}"
+    }
+  ],
+  "contract": "Use only the facts below. Cite fact ids (G-00n) next to any claim. If a detail is not in this pack, write unknown \u2014 do not invent hosts, CVEs, staff names, or product features."
+}

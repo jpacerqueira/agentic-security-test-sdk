@@ -1,0 +1,79 @@
+{
+  "items": [
+    {
+      "source": "trivy",
+      "ref": "CVE-2024-45590",
+      "title": "body-parser: Denial of Service Vulnerability in body-parser",
+      "severity": "HIGH",
+      "owner": "platform",
+      "sla_days": 14
+    },
+    {
+      "source": "trivy",
+      "ref": "CVE-2022-23539",
+      "title": "jsonwebtoken: Unrestricted key type could lead to legacy keys usagen",
+      "severity": "HIGH",
+      "owner": "platform",
+      "sla_days": 14
+    },
+    {
+      "source": "trivy",
+      "ref": "CVE-2025-65945",
+      "title": "node-jws: auth0/node-jws: Improper signature verification in HS256 algorithm",
+      "severity": "HIGH",
+      "owner": "platform",
+      "sla_days": 14
+    },
+    {
+      "source": "trivy",
+      "ref": "CVE-2020-8203",
+      "title": "nodejs-lodash: prototype pollution in zipObjectDeep function",
+      "severity": "HIGH",
+      "owner": "platform",
+      "sla_days": 14
+    },
+    {
+      "source": "trivy",
+      "ref": "CVE-2024-45296",
+      "title": "path-to-regexp: Backtracking regular expressions cause ReDoS",
+      "severity": "HIGH",
+      "owner": "platform",
+      "sla_days": 14
+    },
+    {
+      "source": "trivy",
+      "ref": "CVE-2024-52798",
+      "title": "path-to-regexp: path-to-regexp Unpatched `path-to-regexp` ReDoS in 0.1.x",
+      "severity": "HIGH",
+      "owner": "platform",
+      "sla_days": 14
+    },
+    {
+      "source": "trivy",
+      "ref": "CVE-2026-4867",
+      "title": "path-to-regexp: path-to-regexp: Denial of Service via catastrophic backtracking from malformed URL parameters",
+      "severity": "HIGH",
+      "owner": "platform",
+      "sla_days": 14
+    },
+    {
+      "source": "jailbreak",
+      "ref": "JB-program",
+      "title": "Run live jailbreak probes in LLM mode before production agent launch",
+      "severity": "HIGH",
+      "owner": "security",
+      "sla_days": 14
+    }
+  ],
+  "tactical": "Remediate observed vulnerabilities in SLA order (Critical 2d, High 7d, Medium 30d).",
+  "strategic": "Address root causes (insecure configuration, coding practice, patch cadence, architecture).",
+  "quick_wins": [
+    "Remove hardcoded credentials and rotate anything committed.",
+    "Re-enable TLS certificate verification in HTTP clients.",
+    "Pin and upgrade Trivy HIGH+ packages."
+  ],
+  "root_causes": {},
+  "mode": "llm",
+  "llm_ready": "already warm",
+  "grounded": true
+}

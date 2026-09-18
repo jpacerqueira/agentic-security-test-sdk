@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Trivy / dependency vulnerability scan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root { --ink:#171D1D; --sage:#E6EAE6; --muted:#91969C; --accent:#ED3A12; --rule:#D5D5D5; --bg:#FFFFFF; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); font-family:"Inter Tight",sans-serif; font-size:14px; line-height:1.55; }
+header.cover { padding:48px 48px 36px; border-top:4px solid var(--ink); }
+.dot { width:14px; height:14px; border-radius:50%; background:var(--accent); margin-bottom:28px; }
+.cls { font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+h1,h2,h3 { font-family:"Instrument Serif",Georgia,serif; font-weight:400; letter-spacing:-.005em; margin:0 0 .45em; }
+h1 { font-size:2.4rem; }
+h2 { font-size:1.5rem; margin-top:36px; }
+main { padding:0 48px 64px; max-width:1100px; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th,td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--rule); vertical-align:top; }
+th { font-family:"IBM Plex Mono",monospace; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); }
+.badge { display:inline-block; padding:2px 7px; font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.04em; text-transform:uppercase; }
+.CRITICAL,.HIGH { background:#FDECEA; color:#C0392B; border:1px solid #F5C6C2; }
+.MEDIUM { background:#FEF3E2; color:#A0522D; border:1px solid #F5DFB8; }
+.LOW,.INFO,.UNKNOWN,.PASS,.pass,.met,.collected,.in-progress { background:#EAF4EA; color:#2E7D32; border:1px solid #B8DDB8; }
+.fail,.gap,.catalogue { background:#FEF3E2; color:#A0522D; border:1px solid #F5DFB8; }
+.evidence { background:var(--sage); padding:10px 12px; font-family:"IBM Plex Mono",monospace; font-size:12px; white-space:pre-wrap; margin:8px 0 16px; }
+.statrow { display:flex; gap:18px; flex-wrap:wrap; margin:18px 0 28px; }
+.stat { background:var(--sage); padding:14px 18px; min-width:110px; }
+.stat b { display:block; font-family:"Instrument Serif",serif; font-size:1.8rem; font-weight:400; }
+.stat span { font-family:"IBM Plex Mono",monospace; font-size:11px; text-transform:uppercase; color:var(--muted); letter-spacing:.06em; }
+.callout { background:#FEF3E2; border-left:3px solid var(--accent); padding:14px 18px; margin:20px 0; }
+.footer { font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--muted); padding:24px 48px; border-top:1px solid var(--rule); }
+code { font-family:"IBM Plex Mono",monospace; background:var(--sage); padding:0 4px; }
+</style>
+</head>
+<body>
+<header class="cover">
+  <div class="dot"></div>
+  <p class="cls">Client-MartinEmde confidential · Macro-Search - Agentic Security Scan</p>
+  <h1>Trivy / dependency vulnerability scan</h1>
+</header>
+<main>
+<p>Scanner: <code>trivy</code>.  Client <strong>Client-MartinEmde</strong>.</p>
+<div class="statrow"><div class="stat"><b>0</b><span>Critical</span></div><div class="stat"><b>9</b><span>High</span></div><div class="stat"><b>7</b><span>Medium</span></div><div class="stat"><b>6</b><span>Low</span></div><div class="stat"><b>0</b><span>Unknown</span></div></div>
+<p>Upgrade the listed packages to the fixed versions. HIGH+ items also appear on the remediation SLA board.</p>
+<table><tr><th>ID</th><th>Pkg</th><th>Installed</th><th>Fixed</th><th>Severity</th><th>CVSS</th><th>Target</th><th>Title</th></tr><tr><td>CVE-2024-45590</td><td>body-parser</td><td>1.19.0</td><td>1.20.3</td><td><span class="badge HIGH">HIGH</span></td><td>7.5</td><td>package-lock.json</td><td>body-parser: Denial of Service Vulnerability in body-parser</td></tr><tr><td>CVE-2026-12590</td><td>body-parser</td><td>1.19.0</td><td>1.20.6, 2.3.0</td><td><span class="badge LOW">LOW</span></td><td>5.9</td><td>package-lock.json</td><td>body-parser: body-parser: Denial of Service via invalid limit option</td></tr><tr><td>CVE-2024-47764</td><td>cookie</td><td>0.4.0</td><td>0.7.0</td><td><span class="badge LOW">LOW</span></td><td></td><td>package-lock.json</td><td>cookie: cookie accepts cookie name, path, and domain with out of bounds characters</td></tr><tr><td>CVE-2024-29041</td><td>express</td><td>4.17.1</td><td>4.19.2, 5.0.0-beta.3</td><td><span class="badge MEDIUM">MEDIUM</span></td><td></td><td>package-lock.json</td><td>express: cause malformed URLs to be evaluated</td></tr><tr><td>CVE-2024-43796</td><td>express</td><td>4.17.1</td><td>4.20.0, 5.0.0</td><td><span class="badge LOW">LOW</span></td><td>4.7</td><td>package-lock.json</td><td>express: Improper Input Handling in Express Redirects</td></tr><tr><td>CVE-2022-36083</td><td>jose</td><td>2.0.5</td><td>1.28.2, 2.0.6, 3.20.4, 4.9.2</td><td><span class="badge MEDIUM">MEDIUM</span></td><td>5.3</td><td>package-lock.json</td><td>JOSE is &quot;JSON Web Almost Everything&quot; - JWA, JWS, JWE, JWT, JWK, JWKS w ...</td></tr><tr><td>CVE-2024-28176</td><td>jose</td><td>2.0.5</td><td>4.15.5, 2.0.7</td><td><span class="badge MEDIUM">MEDIUM</span></td><td>5.9</td><td>package-lock.json</td><td>jose: resource exhaustion</td></tr><tr><td>CVE-2022-23539</td><td>jsonwebtoken</td><td>8.5.1</td><td>9.0.0</td><td><span class="badge HIGH">HIGH</span></td><td>8.1</td><td>package-lock.json</td><td>jsonwebtoken: Unrestricted key type could lead to legacy keys usagen</td></tr><tr><td>CVE-2022-23540</td><td>jsonwebtoken</td><td>8.5.1</td><td>9.0.0</td><td><span class="badge MEDIUM">MEDIUM</span></td><td>7.6</td><td>package-lock.json</td><td>jsonwebtoken: Insecure default algorithm in jwt.verify() could lead to signature validation bypass</td></tr><tr><td>CVE-2022-23541</td><td>jsonwebtoken</td><td>8.5.1</td><td>9.0.0</td><td><span class="badge MEDIUM">MEDIUM</span></td><td>6.3</td><td>package-lock.json</td><td>jsonwebtoken: Insecure implementation of key retrieval function could lead to Forgeable Public/Private Tokens from RSA to HMAC</td></tr><tr><td>CVE-2025-65945</td><td>jws</td><td>3.2.2</td><td>3.2.3, 4.0.1</td><td><span class="badge HIGH">HIGH</span></td><td></td><td>package-lock.json</td><td>node-jws: auth0/node-jws: Improper signature verification in HS256 algorithm</td></tr><tr><td>CVE-2020-8203</td><td>lodash.set</td><td>4.3.2</td><td></td><td><span class="badge HIGH">HIGH</span></td><td>7.4</td><td>package-lock.json</td><td>nodejs-lodash: prototype pollution in zipObjectDeep function</td></tr><tr><td>CVE-2024-45296</td><td>path-to-regexp</td><td>0.1.7</td><td>1.9.0, 0.1.10, 8.0.0, 3.3.0, 6.3.0</td><td><span class="badge HIGH">HIGH</span></td><td></td><td>package-lock.json</td><td>path-to-regexp: Backtracking regular expressions cause ReDoS</td></tr><tr><td>CVE-2024-52798</td><td>path-to-regexp</td><td>0.1.7</td><td>0.1.12</td><td><span class="badge HIGH">HIGH</span></td><td></td><td>package-lock.json</td><td>path-to-regexp: path-to-regexp Unpatched `path-to-regexp` ReDoS in 0.1.x</td></tr><tr><td>CVE-2026-4867</td><td>path-to-regexp</td><td>0.1.7</td><td>0.1.13</td><td><span class="badge HIGH">HIGH</span></td><td></td><td>package-lock.json</td><td>path-to-regexp: path-to-regexp: Denial of Service via catastrophic backtracking from malformed URL parameters</td></tr><tr><td>CVE-2022-24999</td><td>qs</td><td>6.7.0</td><td>6.10.3, 6.9.7, 6.8.3, 6.7.3, 6.6.1, 6.5.3, 6.4.1, 6.3.3, 6.2.4</td><td><span class="badge HIGH">HIGH</span></td><td>7.5</td><td>package-lock.json</td><td>express: &quot;qs&quot; prototype poisoning causes the hang of the node process</td></tr><tr><td>CVE-2025-15284</td><td>qs</td><td>6.7.0</td><td>6.14.1</td><td><span class="badge MEDIUM">MEDIUM</span></td><td></td><td>package-lock.json</td><td>qs: qs: Denial of Service via improper input validation in array parsing</td></tr><tr><td>CVE-2026-82417</td><td>qs</td><td>6.7.0</td><td>6.16.0</td><td><span class="badge MEDIUM">MEDIUM</span></td><td></td><td>package-lock.json</td><td>qs: qs: Denial of Service via improper validation in stringify function</td></tr><tr><td>CVE-2026-2391</td><td>qs</td><td>6.7.0</td><td>6.14.2</td><td><span class="badge LOW">LOW</span></td><td>7.5</td><td>package-lock.json</td><td>qs: qs&#x27;s arrayLimit bypass in comma parsing allows denial of service</td></tr><tr><td>CVE-2022-25883</td><td>semver</td><td>5.7.1</td><td>7.5.2, 6.3.1, 5.7.2</td><td><span class="badge HIGH">HIGH</span></td><td>7.5</td><td>package-lock.json</td><td>nodejs-semver: Regular expression denial of service</td></tr><tr><td>CVE-2024-43799</td><td>send</td><td>0.17.1</td><td>0.19.0</td><td><span class="badge LOW">LOW</span></td><td>4.7</td><td>package-lock.json</td><td>send: Code Execution Vulnerability in Send Library</td></tr><tr><td>CVE-2024-43800</td><td>serve-static</td><td>1.14.1</td><td>1.16.0, 2.1.0</td><td><span class="badge LOW">LOW</span></td><td>4.7</td><td>package-lock.json</td><td>serve-static: Improper Sanitization in serve-static</td></tr></table>
+</main>
+<div class="footer">Macro-Search - Agentic Security Scan · snapshot in time</div>
+</body></html>
