@@ -1,0 +1,211 @@
+{
+  "standard": "OWASP ASVS 4.0 (chapter coverage from WSTG-aligned tests)",
+  "chapters": [
+    {
+      "id": "V1",
+      "title": "Architecture",
+      "status": "partial",
+      "tests": [
+        "threat model",
+        "trust boundaries"
+      ],
+      "mapped": []
+    },
+    {
+      "id": "V2",
+      "title": "Authentication",
+      "status": "partial",
+      "tests": [
+        "password quality",
+        "MFA",
+        "credential storage"
+      ],
+      "mapped": []
+    },
+    {
+      "id": "V3",
+      "title": "Session management",
+      "status": "partial",
+      "tests": [
+        "cookie flags",
+        "timeout",
+        "CSRF"
+      ],
+      "mapped": []
+    },
+    {
+      "id": "V4",
+      "title": "Access control",
+      "status": "partial",
+      "tests": [
+        "IDOR",
+        "vertical/horizontal"
+      ],
+      "mapped": []
+    },
+    {
+      "id": "V5",
+      "title": "Validation / sanitization / encoding",
+      "status": "partial",
+      "tests": [
+        "SQLi",
+        "XSS",
+        "deserialization"
+      ],
+      "mapped": []
+    },
+    {
+      "id": "V6",
+      "title": "Stored cryptography",
+      "status": "partial",
+      "tests": [
+        "at-rest encryption"
+      ],
+      "mapped": []
+    },
+    {
+      "id": "V7",
+      "title": "Error handling and logging",
+      "status": "partial",
+      "tests": [
+        "stack traces",
+        "error codes"
+      ],
+      "mapped": []
+    },
+    {
+      "id": "V8",
+      "title": "Data protection",
+      "status": "partial",
+      "tests": [
+        "TLS",
+        "PII"
+      ],
+      "mapped": []
+    },
+    {
+      "id": "V9",
+      "title": "Communications",
+      "status": "partial",
+      "tests": [
+        "TLS 1.2+",
+        "certificate validation"
+      ],
+      "mapped": []
+    },
+    {
+      "id": "V10",
+      "title": "Malicious code",
+      "status": "partial",
+      "tests": [
+        "integrity"
+      ],
+      "mapped": []
+    },
+    {
+      "id": "V11",
+      "title": "Business logic",
+      "status": "partial",
+      "tests": [
+        "anti-automation"
+      ],
+      "mapped": []
+    },
+    {
+      "id": "V12",
+      "title": "Files and resources",
+      "status": "partial",
+      "tests": [
+        "uploads",
+        "path traversal"
+      ],
+      "mapped": []
+    },
+    {
+      "id": "V13",
+      "title": "API",
+      "status": "partial",
+      "tests": [
+        "mass assignment",
+        "rate limit"
+      ],
+      "mapped": []
+    },
+    {
+      "id": "V14",
+      "title": "Configuration",
+      "status": "partial",
+      "tests": [
+        "security headers",
+        "HTTP methods"
+      ],
+      "mapped": []
+    }
+  ],
+  "by_status": {
+    "fail": 0,
+    "partial": 14,
+    "pass": 0
+  },
+  "test_cases": {
+    "information_gathering": [
+      "site review",
+      "fingerprint",
+      "entry points",
+      "user roles"
+    ],
+    "configuration_management": [
+      "HTTP methods",
+      "security headers",
+      "backup files"
+    ],
+    "authentication": [
+      "password quality",
+      "MFA",
+      "brute-force protection",
+      "user enumeration"
+    ],
+    "session_management": [
+      "cookie flags",
+      "timeout",
+      "CSRF",
+      "session puzzling"
+    ],
+    "authorization": [
+      "vertical/horizontal access",
+      "IDOR",
+      "path traversal"
+    ],
+    "data_validation": [
+      "SQLi",
+      "XSS",
+      "XXE",
+      "command injection",
+      "open redirect"
+    ],
+    "denial_of_service": [
+      "anti-automation",
+      "account lockout"
+    ],
+    "risky_functionality": [
+      "file uploads",
+      "malicious types"
+    ],
+    "error_handling": [
+      "stack traces",
+      "error codes"
+    ]
+  },
+  "owasp_top10": [
+    "A1 Injection",
+    "A2 Broken Authentication",
+    "A3 Sensitive Data Exposure",
+    "A4 XXE",
+    "A5 Broken Access Control",
+    "A6 Security Misconfiguration",
+    "A7 XSS",
+    "A8 Insecure Deserialization",
+    "A9 Known Vulnerable Components",
+    "A10 Insufficient Logging & Monitoring"
+  ]
+}

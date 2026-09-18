@@ -1,0 +1,64 @@
+{
+  "client": "Client-MartinEmde",
+  "engagement_window": {
+    "start": "2026-09-18",
+    "end": "2026-09-18"
+  },
+  "objectives": [
+    "Perform a security assessment against the scoped targets",
+    "Prioritise vulnerabilities by ease of exploitation and severity",
+    "Provide recommendations aligned with industry best practice",
+    "Deliver a manageable and accurate report"
+  ],
+  "methodology": [
+    "OWASP WSTG",
+    "OWASP ASVS 4.0",
+    "PTES",
+    "OSSTMM",
+    "CIS Benchmarks"
+  ],
+  "domains": [
+    "github.com",
+    "www.github.com",
+    "api.github.com",
+    "staging.github.com"
+  ],
+  "source_path": "examples/martinemde_graphql-node-auth-example",
+  "files_in_tree": 9,
+  "languages": {
+    ".js": 3,
+    ".json": 3,
+    "none": 2,
+    ".md": 1
+  },
+  "tester_roles": [
+    "unauthenticated",
+    "authenticated",
+    "privileged"
+  ],
+  "personnel": [
+    {
+      "role": "Lead tester",
+      "name": "Macro-Search pipeline"
+    },
+    {
+      "role": "Engagement reviewer",
+      "name": "Gate approver (human)"
+    },
+    {
+      "role": "Client contact",
+      "name": "Client-MartinEmde"
+    }
+  ],
+  "executive_overview": "Grey-box / source-assisted assessment of Client-MartinEmde covering the supplied tree (9 files) and target https://github.com/martinemde/graphql-node-auth-example.",
+  "assets_out_of_scope": [
+    "Physical premises",
+    "Social engineering of staff",
+    "Denial-of-service load tests"
+  ],
+  "confidentiality": "Client confidential \u2014 snapshot in time.",
+  "disclaimer": "A penetration test is a snapshot in time. Findings reflect the information gathered during the assessment, not later changes.",
+  "mode": "llm",
+  "llm_ready": "already warm",
+  "grounded": true
+}

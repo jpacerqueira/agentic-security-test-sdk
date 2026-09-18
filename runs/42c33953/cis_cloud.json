@@ -1,0 +1,249 @@
+{
+  "benchmark": "CIS Microsoft Azure Foundations (catalogue)",
+  "controls": [
+    {
+      "id": "1.4",
+      "domain": "IAM",
+      "title": "Ensure guest users are reviewed on a regular basis",
+      "status": "not-in-scope",
+      "severity": "MEDIUM",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "1.17",
+      "domain": "IAM",
+      "title": "Users cannot create security groups",
+      "status": "not-in-scope",
+      "severity": "LOW",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "IAM-MI",
+      "domain": "IAM",
+      "title": "Managed identity should be used in function apps",
+      "status": "not-in-scope",
+      "severity": "MEDIUM",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "IAM-OWN",
+      "domain": "IAM",
+      "title": "Maximum of 3 owners per subscription",
+      "status": "not-in-scope",
+      "severity": "MEDIUM",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "IAM-GUEST",
+      "domain": "IAM",
+      "title": "Guest accounts with owner permissions removed",
+      "status": "not-in-scope",
+      "severity": "HIGH",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "ST-1",
+      "domain": "Storage",
+      "title": "Storage account uses private link",
+      "status": "not-in-scope",
+      "severity": "HIGH",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "ST-2",
+      "domain": "Storage",
+      "title": "Restrict network access with VNet rules",
+      "status": "not-in-scope",
+      "severity": "HIGH",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "ST-3",
+      "domain": "Storage",
+      "title": "Public blob access disallowed",
+      "status": "not-in-scope",
+      "severity": "HIGH",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "KV-FW",
+      "domain": "Key Vault",
+      "title": "Key vault firewall enabled",
+      "status": "not-in-scope",
+      "severity": "HIGH",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "LOG-1",
+      "domain": "Logging",
+      "title": "Log Analytics agent on VMs",
+      "status": "not-in-scope",
+      "severity": "MEDIUM",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "LOG-2",
+      "domain": "Logging",
+      "title": "Auto-provision Log Analytics agent",
+      "status": "not-in-scope",
+      "severity": "MEDIUM",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "NET-1",
+      "domain": "Networking",
+      "title": "Adaptive network hardening applied",
+      "status": "not-in-scope",
+      "severity": "HIGH",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "NET-2",
+      "domain": "Networking",
+      "title": "All network ports restricted on NSGs",
+      "status": "not-in-scope",
+      "severity": "HIGH",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "NET-3",
+      "domain": "Networking",
+      "title": "Private endpoint for Key Vault",
+      "status": "not-in-scope",
+      "severity": "HIGH",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "NET-4",
+      "domain": "Networking",
+      "title": "Container registries not unrestricted",
+      "status": "not-in-scope",
+      "severity": "HIGH",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "NET-5",
+      "domain": "Networking",
+      "title": "Kubernetes API server restricted access",
+      "status": "not-in-scope",
+      "severity": "HIGH",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "NET-6",
+      "domain": "Networking",
+      "title": "Management ports closed / JIT access",
+      "status": "not-in-scope",
+      "severity": "CRITICAL",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "NET-7",
+      "domain": "Networking",
+      "title": "Virtual networks protected by Azure Firewall",
+      "status": "not-in-scope",
+      "severity": "MEDIUM",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "VM-1",
+      "domain": "Virtual Machines",
+      "title": "Encrypt temp disks, caches, and data flows",
+      "status": "not-in-scope",
+      "severity": "MEDIUM",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "APP-9.2",
+      "domain": "App Service",
+      "title": "Redirect all HTTP traffic to HTTPS",
+      "status": "not-in-scope",
+      "severity": "MEDIUM",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "APP-9.4",
+      "domain": "App Service",
+      "title": "Incoming client certificates on",
+      "status": "not-in-scope",
+      "severity": "LOW",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "APP-9.9",
+      "domain": "App Service",
+      "title": "HTTP version is latest (2.0)",
+      "status": "not-in-scope",
+      "severity": "LOW",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "APP-9.10",
+      "domain": "App Service",
+      "title": "FTP deployments disabled / FTPS only",
+      "status": "not-in-scope",
+      "severity": "HIGH",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    }
+  ],
+  "by_domain": {
+    "IAM": 5,
+    "Storage": 3,
+    "Key Vault": 1,
+    "Logging": 2,
+    "Networking": 7,
+    "Virtual Machines": 1,
+    "App Service": 4
+  },
+  "note": "Live Azure API audit is still out of scope. Controls are marked not-in-scope when the tree has no cloud IaC, so the catalogue is complete rather than an empty 'manual' list.",
+  "by_status": {
+    "not-in-scope": 23
+  },
+  "in_scope": false
+}

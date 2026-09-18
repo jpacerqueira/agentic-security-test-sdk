@@ -1,0 +1,157 @@
+{
+  "enabled": true,
+  "directory": "local-only",
+  "connectors": [
+    {
+      "name": "Local source inventory",
+      "status": "connected",
+      "note": "Derived from the scanned tree"
+    },
+    {
+      "name": "Okta / Entra / Google Workspace",
+      "status": "not-configured",
+      "note": "No tenant connector in this run"
+    }
+  ],
+  "identities": [
+    {
+      "id": "ID-001",
+      "principal": "app-runtime",
+      "type": "service-account",
+      "roles": [
+        "process-owner"
+      ],
+      "mfa": "not-applicable",
+      "privileged": true,
+      "source": "runtime of the scanned tree",
+      "last_review": null,
+      "status": "active"
+    },
+    {
+      "id": "ID-002",
+      "principal": "unauthenticated-client",
+      "type": "external",
+      "roles": [
+        "unauthenticated"
+      ],
+      "mfa": "none",
+      "privileged": false,
+      "source": "public HTTP surface",
+      "last_review": null,
+      "status": "active"
+    },
+    {
+      "id": "ID-003",
+      "principal": "authenticated-user",
+      "type": "human",
+      "roles": [
+        "authenticated"
+      ],
+      "mfa": "not-found-in-source",
+      "privileged": false,
+      "source": "application session (inferred)",
+      "last_review": null,
+      "status": "needs-review"
+    },
+    {
+      "id": "ID-004",
+      "principal": "privileged-operator",
+      "type": "human",
+      "roles": [
+        "privileged"
+      ],
+      "mfa": "not-found-in-source",
+      "privileged": true,
+      "source": "tester_roles.privileged",
+      "last_review": null,
+      "status": "needs-review"
+    }
+  ],
+  "privileged_count": 2,
+  "identity_count": 4,
+  "mfa_coverage": "0/2 human principals",
+  "reviews": [
+    {
+      "id": "AR-001",
+      "scope": "privileged operators",
+      "cadence": "quarterly",
+      "due": "2026-10-02",
+      "owner": "security",
+      "status": "scheduled"
+    },
+    {
+      "id": "AR-002",
+      "scope": "service accounts / secrets",
+      "cadence": "monthly",
+      "due": "2026-09-25",
+      "owner": "platform",
+      "status": "scheduled"
+    },
+    {
+      "id": "AR-003",
+      "scope": "guest / unauthenticated surface",
+      "cadence": "semi-annual",
+      "due": "2026-11-02",
+      "owner": "engineering",
+      "status": "scheduled"
+    }
+  ],
+  "joiner_mover_leaver": [
+    {
+      "stage": "joiner",
+      "control": "Provision least-privilege role from an approved template",
+      "status": "documented"
+    },
+    {
+      "stage": "mover",
+      "control": "Re-certify roles within 7 days of team change",
+      "status": "documented"
+    },
+    {
+      "stage": "leaver",
+      "control": "Disable IdP + rotate service secrets within 24h",
+      "status": "documented"
+    }
+  ],
+  "break_glass": {
+    "defined": false,
+    "note": "No break-glass runbook in-tree."
+  },
+  "soc2_cc6": [
+    {
+      "id": "CC6.1",
+      "framework": "SOC 2",
+      "title": "Logical access",
+      "status": "in-progress",
+      "owner": "security",
+      "tests": [
+        "Identity inventory",
+        "Privileged review AR-001",
+        "No hardcoded credentials"
+      ],
+      "last_tested": "2026-09-18"
+    },
+    {
+      "id": "CC6.6",
+      "framework": "SOC 2",
+      "title": "Encryption in transit",
+      "status": "in-progress",
+      "owner": "engineering",
+      "tests": [
+        "TLS 1.2+ only",
+        "Certificate verification enabled"
+      ],
+      "last_tested": "2026-09-18"
+    }
+  ],
+  "narrative": "The application is designed as a secure example using Auth0 for GraphQL authentication (G-001, G-002). Best practices mandate that all requests require authentication for the entire GraphQL endpoint, and unauthenticated access must return a 401 (G-001). Currently, the existence of an unauthenticated-client (ID-002) exposed via the public HTTP surface indicates a high risk area that requires immediate validation against the secure authentication principles outlined in the source material (G-001). Privileged identities, specifically the privileged-operator (ID-004), are flagged for review, and their elevated access scope must be minimized to the principle of least privilege. The app-runtime service-account (ID-001) should also have its scope audited to ensure it only performs 'process-owner' functions necessary for its runtime context. All identities should be reviewed, especially those currently marked 'needs-review' (ID-003, ID-004), to confirm if they are properly restricted to the expected application sessions and roles.",
+  "mode": "llm",
+  "llm_ready": "already warm",
+  "grounded": true,
+  "priority_actions": [
+    "Restrict unauthenticated-client (ID-002) access immediately to only necessary read endpoints, enforcing the 'Require authentication for the entire GraphQL endpoint' principle (G-001).",
+    "Review and restrict the scope of privileged-operator (ID-004) to ensure the 'privileged' role is only used when absolutely necessary.",
+    "Audit the service-account (ID-001) to limit 'process-owner' privileges to the minimum necessary for its runtime operations.",
+    "Confirm the authentication mechanism for human identities (ID-003, ID-004), ensuring MFA is enforced and that 'needs-review' statuses are remediated based on current organizational policy."
+  ]
+}

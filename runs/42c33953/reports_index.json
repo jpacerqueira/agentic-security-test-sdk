@@ -1,0 +1,16 @@
+{
+  "files": [
+    "pentest-assessment.html",
+    "trivy-scan.html",
+    "executive-summary.html",
+    "jailbreak-assessment.html",
+    "access-management.html",
+    "policy-control-map.html",
+    "risk-register.html",
+    "cis-cloud.html",
+    "owasp-asvs.html",
+    "issue-management.html",
+    "llm-grounding.html",
+    "full-security-report.html"
+  ]
+}

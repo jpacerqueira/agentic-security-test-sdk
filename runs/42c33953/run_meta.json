@@ -1,0 +1,12 @@
+{
+  "run_id": "42c33953",
+  "plan": "ultra-professional",
+  "skip_llm": false,
+  "auto_approve_gates": true,
+  "reviewer_name": "Security Analyst JJJ",
+  "client_name": "Client-MartinEmde",
+  "target_url": "https://github.com/martinemde/graphql-node-auth-example",
+  "source_path": "examples/martinemde_graphql-node-auth-example",
+  "llm_grounding": true,
+  "created": "2026-09-18T13:36:28.032879Z"
+}

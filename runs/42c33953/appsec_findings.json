@@ -1,0 +1,84 @@
+{
+  "findings": [],
+  "by_severity": {
+    "CRITICAL": 0,
+    "HIGH": 0,
+    "MEDIUM": 0,
+    "LOW": 0,
+    "INFO": 0
+  },
+  "root_causes": {},
+  "test_cases": {
+    "information_gathering": [
+      "site review",
+      "fingerprint",
+      "entry points",
+      "user roles"
+    ],
+    "configuration_management": [
+      "HTTP methods",
+      "security headers",
+      "backup files"
+    ],
+    "authentication": [
+      "password quality",
+      "MFA",
+      "brute-force protection",
+      "user enumeration"
+    ],
+    "session_management": [
+      "cookie flags",
+      "timeout",
+      "CSRF",
+      "session puzzling"
+    ],
+    "authorization": [
+      "vertical/horizontal access",
+      "IDOR",
+      "path traversal"
+    ],
+    "data_validation": [
+      "SQLi",
+      "XSS",
+      "XXE",
+      "command injection",
+      "open redirect"
+    ],
+    "denial_of_service": [
+      "anti-automation",
+      "account lockout"
+    ],
+    "risky_functionality": [
+      "file uploads",
+      "malicious types"
+    ],
+    "error_handling": [
+      "stack traces",
+      "error codes"
+    ]
+  },
+  "owasp_top10": [
+    "A1 Injection",
+    "A2 Broken Authentication",
+    "A3 Sensitive Data Exposure",
+    "A4 XXE",
+    "A5 Broken Access Control",
+    "A6 Security Misconfiguration",
+    "A7 XSS",
+    "A8 Insecure Deserialization",
+    "A9 Known Vulnerable Components",
+    "A10 Insufficient Logging & Monitoring"
+  ],
+  "cvss_bands": {
+    "critical": "9.0\u201310.0",
+    "high": "7.0\u20138.9",
+    "medium": "4.0\u20136.9",
+    "low": "0.1\u20133.9",
+    "info": "0.0"
+  },
+  "mode": "llm",
+  "llm_ready": "already warm",
+  "grounded": true,
+  "llm_narrative": "This repository, 'graphql-node-auth-example' (G-006), provides an example of securing an Express GraphQL API using Auth0 for authentication (G-001, G-002). The application's stated purpose is to demonstrate a secure authentication system for GraphQL by avoiding the use of GraphQL mutations for login and sign-up (G-001, G-002). The author advocates for 'good out-of-band authentication' principals, which include requiring authentication for the entire GraphQL endpoint, loading the user into context, returning a 401 on failure/expiration, and using a separate authentication endpoint (G-001, G-002). The project utilizes several dependencies, including `express-graphql` and `express-jwt` (G-003). While the code aims to establish good security practices, the developer notes that this is a 'toy app' and the evaluator is responsible for making final security decisions (G-001, G-002).",
+  "attack_path": "No specific attack path is derived from this report as no heuristic findings were provided for review."
+}

@@ -1,0 +1,115 @@
+{
+  "issues": [
+    {
+      "id": "ISS-001",
+      "title": "body-parser: Denial of Service Vulnerability in body-parser",
+      "source": "trivy",
+      "ref": "CVE-2024-45590",
+      "severity": "HIGH",
+      "priority": "P2",
+      "status": "open",
+      "owner": "platform",
+      "sla_days": 14,
+      "opened": "2026-09-18",
+      "due": "2026-10-02"
+    },
+    {
+      "id": "ISS-002",
+      "title": "jsonwebtoken: Unrestricted key type could lead to legacy keys usagen",
+      "source": "trivy",
+      "ref": "CVE-2022-23539",
+      "severity": "HIGH",
+      "priority": "P2",
+      "status": "open",
+      "owner": "platform",
+      "sla_days": 14,
+      "opened": "2026-09-18",
+      "due": "2026-10-02"
+    },
+    {
+      "id": "ISS-003",
+      "title": "node-jws: auth0/node-jws: Improper signature verification in HS256 algorithm",
+      "source": "trivy",
+      "ref": "CVE-2025-65945",
+      "severity": "HIGH",
+      "priority": "P2",
+      "status": "open",
+      "owner": "platform",
+      "sla_days": 14,
+      "opened": "2026-09-18",
+      "due": "2026-10-02"
+    },
+    {
+      "id": "ISS-004",
+      "title": "nodejs-lodash: prototype pollution in zipObjectDeep function",
+      "source": "trivy",
+      "ref": "CVE-2020-8203",
+      "severity": "HIGH",
+      "priority": "P2",
+      "status": "open",
+      "owner": "platform",
+      "sla_days": 14,
+      "opened": "2026-09-18",
+      "due": "2026-10-02"
+    },
+    {
+      "id": "ISS-005",
+      "title": "path-to-regexp: Backtracking regular expressions cause ReDoS",
+      "source": "trivy",
+      "ref": "CVE-2024-45296",
+      "severity": "HIGH",
+      "priority": "P2",
+      "status": "open",
+      "owner": "platform",
+      "sla_days": 14,
+      "opened": "2026-09-18",
+      "due": "2026-10-02"
+    },
+    {
+      "id": "ISS-006",
+      "title": "path-to-regexp: path-to-regexp Unpatched `path-to-regexp` ReDoS in 0.1.x",
+      "source": "trivy",
+      "ref": "CVE-2024-52798",
+      "severity": "HIGH",
+      "priority": "P2",
+      "status": "open",
+      "owner": "platform",
+      "sla_days": 14,
+      "opened": "2026-09-18",
+      "due": "2026-10-02"
+    },
+    {
+      "id": "ISS-007",
+      "title": "path-to-regexp: path-to-regexp: Denial of Service via catastrophic backtracking from malformed URL parameters",
+      "source": "trivy",
+      "ref": "CVE-2026-4867",
+      "severity": "HIGH",
+      "priority": "P2",
+      "status": "open",
+      "owner": "platform",
+      "sla_days": 14,
+      "opened": "2026-09-18",
+      "due": "2026-10-02"
+    },
+    {
+      "id": "ISS-008",
+      "title": "Run live jailbreak probes in LLM mode before production agent launch",
+      "source": "jailbreak",
+      "ref": "JB-program",
+      "severity": "HIGH",
+      "priority": "P2",
+      "status": "open",
+      "owner": "security",
+      "sla_days": 14,
+      "opened": "2026-09-18",
+      "due": "2026-10-02"
+    }
+  ],
+  "by_status": {
+    "open": 8,
+    "in-progress": 0,
+    "done": 0
+  },
+  "open_count": 8,
+  "narrative": "Each finding is a tracked issue with SLA. This is the Professional agentic issue board, not a feature list."
+}

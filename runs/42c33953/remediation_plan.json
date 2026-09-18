@@ -1,0 +1,79 @@
+{
+  "items": [
+    {
+      "source": "trivy",
+      "ref": "CVE-2024-45590",
+      "title": "body-parser: Denial of Service Vulnerability in body-parser",
+      "severity": "HIGH",
+      "owner": "platform",
+      "sla_days": 14
+    },
+    {
+      "source": "trivy",
+      "ref": "CVE-2022-23539",
+      "title": "jsonwebtoken: Unrestricted key type could lead to legacy keys usagen",
+      "severity": "HIGH",
+      "owner": "platform",
+      "sla_days": 14
+    },
+    {
+      "source": "trivy",
+      "ref": "CVE-2025-65945",
+      "title": "node-jws: auth0/node-jws: Improper signature verification in HS256 algorithm",
+      "severity": "HIGH",
+      "owner": "platform",
+      "sla_days": 14
+    },
+    {
+      "source": "trivy",
+      "ref": "CVE-2020-8203",
+      "title": "nodejs-lodash: prototype pollution in zipObjectDeep function",
+      "severity": "HIGH",
+      "owner": "platform",
+      "sla_days": 14
+    },
+    {
+      "source": "trivy",
+      "ref": "CVE-2024-45296",
+      "title": "path-to-regexp: Backtracking regular expressions cause ReDoS",
+      "severity": "HIGH",
+      "owner": "platform",
+      "sla_days": 14
+    },
+    {
+      "source": "trivy",
+      "ref": "CVE-2024-52798",
+      "title": "path-to-regexp: path-to-regexp Unpatched `path-to-regexp` ReDoS in 0.1.x",
+      "severity": "HIGH",
+      "owner": "platform",
+      "sla_days": 14
+    },
+    {
+      "source": "trivy",
+      "ref": "CVE-2026-4867",
+      "title": "path-to-regexp: path-to-regexp: Denial of Service via catastrophic backtracking from malformed URL parameters",
+      "severity": "HIGH",
+      "owner": "platform",
+      "sla_days": 14
+    },
+    {
+      "source": "jailbreak",
+      "ref": "JB-program",
+      "title": "Run live jailbreak probes in LLM mode before production agent launch",
+      "severity": "HIGH",
+      "owner": "security",
+      "sla_days": 14
+    }
+  ],
+  "tactical": "Implement strict input validation and sanitization, particularly for URL parameters and JSON bodies, to mitigate DoS risks from catastrophic backtracking (path-to-regexp) and body parsing (body-parser). For cryptography vulnerabilities (jsonwebtoken, node-jws), enforce modern key type usage and mandate explicit signature verification methods (e.g., using RS256 over HS256).",
+  "strategic": "Establish a comprehensive dependency management strategy that mandates automated vulnerability scanning (e.g., Dependabot, Snyk) and consistently upgrades all dependencies to the latest minor version. Address structural risks like prototype pollution and insecure signing by enforcing a strict 'least privilege' and 'secure-by-default' coding standard across all microservices.",
+  "quick_wins": [
+    "Upgrade body-parser, jsonwebtoken, node-jws, and path-to-regexp to versions that explicitly patch the identified DoS and signature verification issues.",
+    "Implement an automated security gating step in the CI/CD pipeline requiring successful static analysis (SAST) and penetration testing coverage.",
+    "Before deploying any LLM-integrated agent, conduct mandatory, focused adversarial testing (jailbreak/red-teaming) against the production endpoint."
+  ],
+  "root_causes": {},
+  "mode": "llm",
+  "llm_ready": "already warm",
+  "grounded": true
+}

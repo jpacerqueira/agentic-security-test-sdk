@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>OWASP ASVS / WSTG coverage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root { --ink:#171D1D; --sage:#E6EAE6; --muted:#91969C; --accent:#ED3A12; --rule:#D5D5D5; --bg:#FFFFFF; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); font-family:"Inter Tight",sans-serif; font-size:14px; line-height:1.55; }
+header.cover { padding:48px 48px 36px; border-top:4px solid var(--ink); }
+.dot { width:14px; height:14px; border-radius:50%; background:var(--accent); margin-bottom:28px; }
+.cls { font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+h1,h2,h3 { font-family:"Instrument Serif",Georgia,serif; font-weight:400; letter-spacing:-.005em; margin:0 0 .45em; }
+h1 { font-size:2.4rem; }
+h2 { font-size:1.5rem; margin-top:36px; }
+main { padding:0 48px 64px; max-width:1100px; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th,td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--rule); vertical-align:top; }
+th { font-family:"IBM Plex Mono",monospace; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); }
+.badge { display:inline-block; padding:2px 7px; font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.04em; text-transform:uppercase; }
+.CRITICAL,.HIGH { background:#FDECEA; color:#C0392B; border:1px solid #F5C6C2; }
+.MEDIUM { background:#FEF3E2; color:#A0522D; border:1px solid #F5DFB8; }
+.LOW,.INFO,.UNKNOWN,.PASS,.pass,.met,.collected,.in-progress { background:#EAF4EA; color:#2E7D32; border:1px solid #B8DDB8; }
+.fail,.gap,.catalogue { background:#FEF3E2; color:#A0522D; border:1px solid #F5DFB8; }
+.evidence { background:var(--sage); padding:10px 12px; font-family:"IBM Plex Mono",monospace; font-size:12px; white-space:pre-wrap; margin:8px 0 16px; }
+.statrow { display:flex; gap:18px; flex-wrap:wrap; margin:18px 0 28px; }
+.stat { background:var(--sage); padding:14px 18px; min-width:110px; }
+.stat b { display:block; font-family:"Instrument Serif",serif; font-size:1.8rem; font-weight:400; }
+.stat span { font-family:"IBM Plex Mono",monospace; font-size:11px; text-transform:uppercase; color:var(--muted); letter-spacing:.06em; }
+.callout { background:#FEF3E2; border-left:3px solid var(--accent); padding:14px 18px; margin:20px 0; }
+.footer { font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--muted); padding:24px 48px; border-top:1px solid var(--rule); }
+code { font-family:"IBM Plex Mono",monospace; background:var(--sage); padding:0 4px; }
+</style>
+</head>
+<body>
+<header class="cover">
+  <div class="dot"></div>
+  <p class="cls">Client-MartinEmde confidential · Macro-Search - Agentic Security Scan</p>
+  <h1>OWASP ASVS / WSTG coverage</h1>
+</header>
+<main>
+<p>Plan <code>ultra-professional</code> · questionnaires / year: 144 · client <strong>Client-MartinEmde</strong>.</p>
+<h2>Frameworks</h2><ul><li>SOC 2</li><li>ISO 27001</li><li>ISO 27701</li><li>PCI DSS</li><li>HIPAA</li><li>GDPR</li></ul>
+<p>OWASP ASVS 4.0 (chapter coverage from WSTG-aligned tests)</p>
+<div class="statrow"><div class="stat"><b>0</b><span>fail</span></div><div class="stat"><b>14</b><span>partial</span></div><div class="stat"><b>0</b><span>pass</span></div></div>
+<table><tr><th>Chapter</th><th>Title</th><th>Status</th><th>Tests</th><th>Mapped findings</th></tr><tr><td>V1</td><td>Architecture</td><td><span class="badge PARTIAL">PARTIAL</span></td><td>threat model, trust boundaries</td><td>—</td></tr><tr><td>V2</td><td>Authentication</td><td><span class="badge PARTIAL">PARTIAL</span></td><td>password quality, MFA, credential storage</td><td>—</td></tr><tr><td>V3</td><td>Session management</td><td><span class="badge PARTIAL">PARTIAL</span></td><td>cookie flags, timeout, CSRF</td><td>—</td></tr><tr><td>V4</td><td>Access control</td><td><span class="badge PARTIAL">PARTIAL</span></td><td>IDOR, vertical/horizontal</td><td>—</td></tr><tr><td>V5</td><td>Validation / sanitization / encoding</td><td><span class="badge PARTIAL">PARTIAL</span></td><td>SQLi, XSS, deserialization</td><td>—</td></tr><tr><td>V6</td><td>Stored cryptography</td><td><span class="badge PARTIAL">PARTIAL</span></td><td>at-rest encryption</td><td>—</td></tr><tr><td>V7</td><td>Error handling and logging</td><td><span class="badge PARTIAL">PARTIAL</span></td><td>stack traces, error codes</td><td>—</td></tr><tr><td>V8</td><td>Data protection</td><td><span class="badge PARTIAL">PARTIAL</span></td><td>TLS, PII</td><td>—</td></tr><tr><td>V9</td><td>Communications</td><td><span class="badge PARTIAL">PARTIAL</span></td><td>TLS 1.2+, certificate validation</td><td>—</td></tr><tr><td>V10</td><td>Malicious code</td><td><span class="badge PARTIAL">PARTIAL</span></td><td>integrity</td><td>—</td></tr><tr><td>V11</td><td>Business logic</td><td><span class="badge PARTIAL">PARTIAL</span></td><td>anti-automation</td><td>—</td></tr><tr><td>V12</td><td>Files and resources</td><td><span class="badge PARTIAL">PARTIAL</span></td><td>uploads, path traversal</td><td>—</td></tr><tr><td>V13</td><td>API</td><td><span class="badge PARTIAL">PARTIAL</span></td><td>mass assignment, rate limit</td><td>—</td></tr><tr><td>V14</td><td>Configuration</td><td><span class="badge PARTIAL">PARTIAL</span></td><td>security headers, HTTP methods</td><td>—</td></tr></table>
+<h2>WSTG chapters exercised</h2>
+<p><strong>information gathering</strong><br>site review, fingerprint, entry points, user roles</p>
+<p><strong>configuration management</strong><br>HTTP methods, security headers, backup files</p>
+<p><strong>authentication</strong><br>password quality, MFA, brute-force protection, user enumeration</p>
+<p><strong>session management</strong><br>cookie flags, timeout, CSRF, session puzzling</p>
+<p><strong>authorization</strong><br>vertical/horizontal access, IDOR, path traversal</p>
+<p><strong>data validation</strong><br>SQLi, XSS, XXE, command injection, open redirect</p>
+<p><strong>denial of service</strong><br>anti-automation, account lockout</p>
+<p><strong>risky functionality</strong><br>file uploads, malicious types</p>
+<p><strong>error handling</strong><br>stack traces, error codes</p>
+</main>
+<div class="footer">Macro-Search - Agentic Security Scan · snapshot in time</div>
+</body></html>
