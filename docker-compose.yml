@@ -19,7 +19,8 @@ services:
       # LM Studio (dormant)
       LMSTUDIO_API_BASE: ${LMSTUDIO_API_BASE:-http://host.docker.internal:1234/v1}
       LMSTUDIO_API_KEY: ${LMSTUDIO_API_KEY:-lm-studio}
-      LMSTUDIO_LITELLM_MODEL: ${LMSTUDIO_LITELLM_MODEL:-openai/gemma4:latest}
+      # https://lmstudio.ai/models/gemma-4
+      LMSTUDIO_LITELLM_MODEL: ${LMSTUDIO_LITELLM_MODEL:-google/gemma-4-e4b}
       # AWS Bedrock (dormant)
       BEDROCK_LITELLM_MODEL: ${BEDROCK_LITELLM_MODEL:-bedrock/anthropic.claude-3-5-sonnet-20241022-v2:0}
       AWS_REGION: ${AWS_REGION:-us-east-1}
