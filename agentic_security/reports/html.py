@@ -57,6 +57,8 @@ header.cover {{ padding:48px 48px 36px; border-top:4px solid var(--ink); }}
 h1,h2,h3 {{ font-family:"Instrument Serif",Georgia,serif; font-weight:400; letter-spacing:-.005em; margin:0 0 .45em; }}
 h1 {{ font-size:2.4rem; }}
 h2 {{ font-size:1.5rem; margin-top:36px; }}
+h3 {{ font-size:1.2rem; margin-top:24px; }}
+h4 {{ font-size:1.05rem; font-family:"Inter Tight",sans-serif; font-weight:600; margin-top:18px; }}
 main {{ padding:0 48px 64px; max-width:1100px; }}
 table {{ width:100%; border-collapse:collapse; font-size:13px; }}
 th,td {{ text-align:left; padding:8px 10px; border-bottom:1px solid var(--rule); vertical-align:top; }}
@@ -118,39 +120,85 @@ def _table(headers: list[str], rows: list[list[Any]], empty: str = "None recorde
     return f"<table><tr>{head}</tr>{''.join(body)}</table>"
 
 
+def _paras(text: Any) -> str:
+    raw = ("" if text is None else str(text)).strip()
+    if not raw:
+        return ""
+    parts = [p.strip() for p in raw.split("\n\n") if p.strip()]
+    return "".join(f"<p>{esc(p)}</p>" for p in parts) or f"<p>{esc(raw)}</p>"
+
+
 def pentest_html(run_dir: Path, meta: dict) -> str:
+    from agentic_security.plans import reports_for
+
     scope = _load(run_dir, "scope.json")
     appsec = _load(run_dir, "appsec_findings.json")
     trivy = _load(run_dir, "trivy_report.json")
     plan = _load(run_dir, "remediation_plan.json")
+    cis = _load(run_dir, "cis_cloud.json")
+    jail = _load(run_dir, "jailbreak_assessment.json")
     findings = appsec.get("findings") or []
     by = appsec.get("by_severity") or {}
-    body = []
-    body.append("<h2>1. Executive summary</h2>")
+    tby = trivy.get("by_severity") or {}
+    plan_id = meta.get("plan") or "essentials"
+    wanted = set(reports_for(plan_id))
     client = _client(meta) or (scope.get("client") or "").strip() or "Client"
+    body = []
+
+    body.append("<h2>1. Executive summary</h2>")
     overview = scope.get("executive_overview") or appsec.get("llm_narrative") or (
         f"Penetration test and security assessment for {client} "
-        "covering grey-box / black-box application and API testing, vulnerability scans of the source tree "
+        "covering grey-box / source-assisted application testing, vulnerability scans of the source tree "
         "(Trivy), jailbreak surface mapping, and CIS cloud-control catalogue."
     )
-    body.append(f"<p>{esc(overview)} Methodology: {esc(', '.join(scope.get('methodology') or []))}.</p>")
-    if appsec.get("attack_path"):
-        body.append(f"<div class='callout'><strong>Attack path.</strong> {esc(appsec.get('attack_path'))}</div>")
+    body.append(_paras(overview))
+    body.append(f"<p>Methodology: {esc(', '.join(scope.get('methodology') or []))}.</p>")
+    path = appsec.get("attack_path") or ""
+    if path:
+        body.append(f"<div class='callout'><strong>Attack path.</strong> {esc(path)}</div>")
+    else:
+        body.append(
+            "<div class='callout'><strong>Attack path.</strong> No chained application path is asserted "
+            "beyond the individual findings and dependency CVEs listed in §4.</div>"
+        )
+    body.append(_stats([
+        ("App Critical", by.get("CRITICAL", 0)),
+        ("App High", by.get("HIGH", 0)),
+        ("App Medium", by.get("MEDIUM", 0)),
+        ("App Low", by.get("LOW", 0)),
+        ("Trivy CVEs", trivy.get("vulnerability_count", 0)),
+        ("Trivy HIGH+", int(tby.get("CRITICAL", 0) or 0) + int(tby.get("HIGH", 0) or 0)),
+    ]))
+    cov = appsec.get("coverage_notes") or {}
+    if cov:
+        body.append(
+            f"<p>Coverage: {esc(cov.get('files_sampled'))} files sampled "
+            f"({esc(', '.join(cov.get('languages') or []))}). "
+            f"Live DAST: {'yes' if cov.get('live_dast') else 'no'}.</p>"
+        )
+
+    body.append("<h2>2. Project overview</h2>")
+    body.append("<h3>2.1 Vulnerabilities</h3>")
+    body.append("<p>Application finding counts by severity, plus Trivy CVE histogram. CVSS v3 bands below.</p>")
     body.append(_stats([
         ("Critical", by.get("CRITICAL", 0)),
         ("High", by.get("HIGH", 0)),
         ("Medium", by.get("MEDIUM", 0)),
         ("Low", by.get("LOW", 0)),
         ("Info", by.get("INFO", 0)),
-        ("Trivy CVEs", trivy.get("vulnerability_count", 0)),
+        ("Trivy Critical", tby.get("CRITICAL", 0)),
+        ("Trivy High", tby.get("HIGH", 0)),
     ]))
-    body.append("<h2>2. Project overview</h2>")
-    body.append("<h3>2.1 Vulnerabilities</h3>")
-    body.append("<p>Counts by CVSS v3 band.</p>")
     bands = appsec.get("cvss_bands") or {}
     body.append(_table(["Band", "Score"], [[k, v] for k, v in bands.items()]))
     body.append("<h3>2.2 Root cause analysis</h3>")
-    rc = appsec.get("root_causes") or plan.get("root_causes") or {}
+    rc = dict(appsec.get("root_causes") or plan.get("root_causes") or {})
+    high_cves = [
+        v for v in (trivy.get("vulnerabilities") or [])
+        if (v.get("severity") or "") in {"CRITICAL", "HIGH"}
+    ]
+    if high_cves:
+        rc["Improper patch management"] = rc.get("Improper patch management", 0) + len(high_cves)
     body.append(_table(["Root cause", "Count"], [[k, v] for k, v in rc.items()], empty="No coded findings."))
     body.append("<h3>2.3 Scope of engagement</h3>")
     body.append(_table(["Domain / asset"], [[d] for d in (scope.get("domains") or [])]))
@@ -159,6 +207,9 @@ def pentest_html(run_dir: Path, meta: dict) -> str:
         f"Window {esc((scope.get('engagement_window') or {}).get('start'))} – "
         f"{esc((scope.get('engagement_window') or {}).get('end'))}.</p>"
     )
+    in_scope = scope.get("assets_in_scope") or []
+    if in_scope:
+        body.append("<p><strong>In scope:</strong> " + esc(", ".join(str(x) for x in in_scope)) + "</p>")
     out = scope.get("assets_out_of_scope") or []
     if out:
         body.append("<p><strong>Out of scope:</strong> " + esc(", ".join(out)) + "</p>")
@@ -176,27 +227,57 @@ def pentest_html(run_dir: Path, meta: dict) -> str:
 
     body.append("<h2>3. Testing methodology</h2>")
     body.append(
-        "<p>Host/service discovery, then vulnerability scanning, then DAST-style and source-assisted "
+        "<p>Host/service discovery, then vulnerability scanning, then source-assisted "
         "application tests against OWASP ASVS 4.0 / WSTG. False positives are called out rather than silently dropped. "
         "Roles tested: " + esc(", ".join(scope.get("tester_roles") or [])) + ".</p>"
     )
     body.append("<h3>3.1 Narrative of the tests</h3>")
-    body.append("<ul><li>External / tree vulnerability scan (Trivy filesystem + fallback)</li>"
-                "<li>Application security tests (authenticated / unauthenticated heuristics)</li>"
-                "<li>Jailbreak / prompt-injection surface mapping (live in LLM mode)</li>"
-                "<li>CIS cloud control catalogue</li></ul>")
+    narrative = appsec.get("methodology_narrative") or ""
+    if narrative:
+        body.append(_paras(narrative))
+    else:
+        body.append("<ul><li>External / tree vulnerability scan (Trivy filesystem + fallback)</li>"
+                    "<li>Application security tests (authenticated / unauthenticated heuristics)</li>"
+                    "<li>Jailbreak / prompt-injection surface mapping (live in LLM mode)</li>"
+                    "<li>CIS cloud control catalogue</li></ul>")
 
     body.append("<h2>4. Summary of vulnerabilities</h2>")
+    summary_rows = []
+    for f in findings:
+        summary_rows.append(
+            ["appsec", f.get("id"), f.get("wstg") or f.get("ref"), f.get("title"), f.get("severity"), f.get("cvss_base")]
+        )
+    for v in high_cves[:25]:
+        summary_rows.append(
+            ["trivy", v.get("id"), "A9", v.get("title") or v.get("id"), v.get("severity"), v.get("cvss")]
+        )
+    failing_cis = [
+        c for c in (cis.get("controls") or [])
+        if (c.get("status") or "") in {"fail", "manual"} and (c.get("severity") or "") in {"CRITICAL", "HIGH"}
+        and "cis-cloud.html" in wanted
+    ]
+    for c in failing_cis[:20]:
+        summary_rows.append(
+            ["cis", c.get("id"), c.get("domain"), c.get("title"), c.get("severity"), "—"]
+        )
     body.append(_table(
-        ["ID", "WSTG", "Vulnerability", "Severity", "CVSS"],
-        [
-            [f.get("id"), f.get("wstg") or f.get("ref"), f.get("title"), f.get("severity"), f.get("cvss_base")]
-            for f in findings
-        ],
-        empty="No application findings in this pass.",
+        ["Type", "ID", "WSTG / ref", "Vulnerability", "Severity", "CVSS"],
+        summary_rows,
+        empty="No application findings, HIGH+ CVEs, or in-scope CIS rows in this pass.",
     ))
 
     body.append("<h2>5. Findings</h2>")
+    body.append("<h3>5.1 API and application findings</h3>")
+    if not findings:
+        body.append(
+            "<p>No application AS-ids were opened. WSTG families were still exercised; "
+            "see appendix 6.1 for not-observed / not-applicable rows and §4 for Trivy CVEs.</p>"
+        )
+        for nf in appsec.get("negative_findings") or []:
+            body.append(
+                f"<p><strong>{esc(nf.get('wstg'))} {esc(nf.get('title'))}</strong> "
+                f"{_sev_badge(nf.get('result'))} — {esc(nf.get('evidence'))}</p>"
+            )
     for f in findings:
         body.append(
             f"<h3>{esc(f.get('id'))} {esc(f.get('title'))} {_sev_badge(f.get('severity'))}</h3>"
@@ -209,9 +290,18 @@ def pentest_html(run_dir: Path, meta: dict) -> str:
             f"<p><strong>OWASP:</strong> {esc(f.get('owasp'))} · <strong>Root cause:</strong> {esc(f.get('root_cause'))} "
             f"· <strong>WSTG:</strong> {esc(f.get('wstg') or f.get('ref'))}</p>"
         )
-        body.append(f"<p>{esc(f.get('description'))}</p>")
-        if f.get("business_impact"):
-            body.append(f"<p><strong>Business impact.</strong> {esc(f.get('business_impact'))}</p>")
+        body.append(_paras(f.get("description")))
+        if f.get("technical_details") and f.get("technical_details") != f.get("description"):
+            body.append("<p><strong>Technical details.</strong></p>")
+            body.append(_paras(f.get("technical_details")))
+        if f.get("likelihood_rationale"):
+            body.append(f"<p><strong>Likelihood.</strong> {esc(f.get('likelihood_rationale'))}</p>")
+        if f.get("prerequisites"):
+            body.append(f"<p><strong>Prerequisites.</strong> {esc(f.get('prerequisites'))}</p>")
+        impact = f.get("impact_narrative") or f.get("business_impact")
+        if impact:
+            body.append("<p><strong>Business impact.</strong></p>")
+            body.append(_paras(impact))
         body.append("<p><strong>Affected</strong></p><ul>" + "".join(
             f"<li><code>{esc(a)}</code></li>" for a in (f.get("affected") or [])
         ) + "</ul>")
@@ -221,32 +311,127 @@ def pentest_html(run_dir: Path, meta: dict) -> str:
                 body.append(
                     f"<div class='evidence'>{esc(ev.get('file'))}:{esc(ev.get('marker'))}\n{esc(ev.get('snippet'))}</div>"
                 )
+        poc = f.get("proof_of_concept") or {}
+        if poc.get("summary") or poc.get("http_example"):
+            body.append("<p><strong>Proof of concept</strong></p>")
+            if poc.get("summary"):
+                body.append(f"<p>{esc(poc.get('summary'))}</p>")
+            if poc.get("http_example"):
+                body.append(f"<div class='evidence'>{esc(poc.get('http_example'))}</div>")
+            if poc.get("note"):
+                body.append(f"<p>{esc(poc.get('note'))}</p>")
         body.append("<p><strong>Steps to reproduce</strong></p><ul>" + "".join(
             f"<li>{esc(s)}</li>" for s in (f.get("steps_to_reproduce") or [])
         ) + "</ul>")
+        if f.get("false_positive_notes"):
+            body.append(f"<p><strong>False-positive notes.</strong> {esc(f.get('false_positive_notes'))}</p>")
         body.append("<p><strong>Recommendations</strong></p><ul>" + "".join(
             f"<li>{esc(r)}</li>" for r in (f.get("recommendations") or [])
         ) + "</ul>")
+        if f.get("retest_notes"):
+            body.append(f"<p><strong>Retest.</strong> {esc(f.get('retest_notes'))}</p>")
         body.append("<p><strong>References</strong></p><ul>" + "".join(
             f"<li>{esc(r)}</li>" for r in (f.get("references") or [])
         ) + "</ul>")
 
+    body.append("<h3>5.2 Cloud security controls</h3>")
+    body.append(f"<p>{esc(cis.get('benchmark') or 'CIS cloud catalogue')}. {esc(cis.get('note') or '')}</p>")
+    by_status = cis.get("by_status") or {}
+    body.append(_stats([(k, v) for k, v in by_status.items()] or [("Controls", len(cis.get("controls") or []))]))
+    if "cis-cloud.html" in wanted:
+        grouped: dict[str, list] = {}
+        for row in cis.get("controls") or []:
+            grouped.setdefault(row.get("report_chapter") or row.get("domain") or "Other", []).append(row)
+        for chapter, rows in grouped.items():
+            body.append(f"<h4>{esc(chapter)}</h4>")
+            body.append(_table(
+                ["ID", "Control", "Status", "Severity", "Evidence", "Remediation"],
+                [
+                    [
+                        r.get("id"),
+                        r.get("title"),
+                        r.get("status"),
+                        r.get("severity"),
+                        r.get("evidence"),
+                        r.get("remediation"),
+                    ]
+                    for r in rows
+                ],
+            ))
+    else:
+        body.append(
+            "<p>Full CIS write-ups ship with Professional / Ultra-Professional. "
+            "This tier records control counts only; see the sidecar when entitled.</p>"
+        )
+
+    if "jailbreak-assessment.html" in wanted and jail:
+        body.append("<h3>5.3 Jailbreak and prompt-injection surface</h3>")
+        body.append(_stats([
+            ("Surface score", jail.get("jailbreak_surface_score", 0)),
+            ("Probes", len(jail.get("probes") or [])),
+            ("Pass", jail.get("pass_count", 0)),
+            ("Fail", jail.get("fail_count", 0)),
+            ("Live", "yes" if jail.get("live") else "no"),
+        ]))
+        body.append(_paras(jail.get("note")))
+        body.append(_table(
+            ["ID", "Family", "Severity", "Status", "Expected defense"],
+            [
+                [p.get("id"), p.get("family"), p.get("severity"), p.get("status"), p.get("expected_defense")]
+                for p in (jail.get("probes") or [])
+            ],
+        ))
+
     body.append("<h2>6. Appendix</h2>")
     body.append("<h3>6.1 Test cases (OWASP WSTG)</h3>")
-    for k, vs in (appsec.get("test_cases") or {}).items():
-        body.append(f"<p><strong>{esc(k.replace('_',' '))}</strong> — {esc(', '.join(vs))}</p>")
-    body.append("<h3>6.2 OWASP Top 10 coverage</h3><ul>" + "".join(
-        f"<li>{esc(x)}</li>" for x in (appsec.get("owasp_top10") or [])
-    ) + "</ul>")
+    matrix = appsec.get("wstg_matrix") or []
+    if matrix:
+        body.append(_table(
+            ["Family", "WSTG", "Cases", "Result", "Linked", "Notes"],
+            [
+                [
+                    r.get("family", "").replace("_", " "),
+                    r.get("wstg"),
+                    ", ".join(r.get("cases") or []),
+                    r.get("result"),
+                    ", ".join(r.get("linked") or []) or "—",
+                    r.get("note"),
+                ]
+                for r in matrix
+            ],
+        ))
+    else:
+        for k, vs in (appsec.get("test_cases") or {}).items():
+            body.append(f"<p><strong>{esc(k.replace('_',' '))}</strong> — {esc(', '.join(vs))}</p>")
+
+    body.append("<h3>6.2 OWASP Top 10 coverage</h3>")
+    owasp_rows = appsec.get("owasp_top10_results") or []
+    if owasp_rows:
+        for row in owasp_rows:
+            body.append(
+                f"<h4>{esc(row.get('id'))} {esc(row.get('title'))} {_sev_badge(row.get('status'))}</h4>"
+            )
+            body.append(_paras(row.get("result")))
+            if row.get("linked"):
+                body.append("<p>Linked: " + esc(", ".join(str(x) for x in row["linked"])) + "</p>")
+    else:
+        body.append("<ul>" + "".join(
+            f"<li>{esc(x)}</li>" for x in (appsec.get("owasp_top10") or [])
+        ) + "</ul>")
+
+    trivy_note = "live filesystem scan" if trivy.get("raw_present") else "fallback (Trivy not on PATH or empty)"
     body.append("<h3>6.3 Used tools</h3><ul>"
-                "<li>Trivy (filesystem CVE scan)</li>"
-                f"<li>{esc(APP_NAME)} AppSec heuristic (ASVS / WSTG)</li>"
-                "<li>Google ADK LiteLlm → Ollama OpenAI-compatible /v1 (LLM mode)</li>"
-                "<li>Jailbreak probe catalogue</li>"
+                f"<li>Trivy filesystem CVE scan ({esc(trivy_note)}; scanner <code>{esc(trivy.get('scanner'))}</code>)</li>"
+                f"<li>{esc(APP_NAME)} AppSec heuristic (ASVS / WSTG), source-assisted</li>"
+                "<li>Google ADK LiteLlm via the Compose OpenAI-compatible /v1 gateway (LLM mode)</li>"
+                "<li>Jailbreak probe catalogue (live probes when skip_llm is false)</li>"
                 "<li>CIS Azure Foundations control catalogue</li></ul>")
     body.append("<h3>6.4 Root causes</h3><p>Insecure configuration · Improper patch management · "
                 "Lack of adequate security awareness · Improper security architecture · Insecure coding practices.</p>")
-    body.append("<h3>6.5 Terminology</h3><p>Black-box, grey-box, CVSS, NVD, application-layer vs network-layer testing.</p>")
+    body.append("<h3>6.5 Terminology</h3><p>Black-box testing treats the target as an unauthenticated caller. "
+                "Grey-box / source-assisted testing uses the supplied tree. CVSS v3.1 scores exploitability and impact. "
+                "NVD is the National Vulnerability Database identifier space used by Trivy CVE rows. "
+                "Application-layer tests (injection, access control) are distinct from network-layer CVE scanning.</p>")
     return shell(
         f"Application pentest & security assessment — {client}",
         "\n".join(body),
@@ -263,7 +448,7 @@ def trivy_html(run_dir: Path, meta: dict) -> str:
         _stats([(k.title(), by.get(k, 0)) for k in ("CRITICAL", "HIGH", "MEDIUM", "LOW", "UNKNOWN")]),
         "<p>Upgrade the listed packages to the fixed versions. HIGH+ items also appear on the remediation SLA board.</p>",
         _table(
-            ["ID", "Pkg", "Installed", "Fixed", "Severity", "CVSS", "Target", "Title"],
+            ["ID", "Pkg", "Installed", "Fixed", "Severity", "CVSS", "Target", "Title", "Fix"],
             [
                 [
                     v.get("id"),
@@ -274,6 +459,7 @@ def trivy_html(run_dir: Path, meta: dict) -> str:
                     v.get("cvss"),
                     v.get("target"),
                     v.get("title"),
+                    v.get("fix_guidance") or "",
                 ]
                 for v in (t.get("vulnerabilities") or [])
             ],

@@ -8,27 +8,25 @@ Product version: **0.0.1**
 
 Image: `agentic-security-test-sdk-agentic-security`  
 Python: 3.12.14 · pytest 9.1.1  
-Run: 2026-09-18 · **54 passed, 0 failed, 0 skipped** · **140.27s**
+Run: 2026-09-22 · **60 passed, 0 failed, 0 skipped** · **110.15s**
 
-See [README.md](README.md) for the 54-row grid.
+See [README.md](README.md) for the 60-row grid.
 
 ## Totals (Compose)
 
 | Result | Count |
 |---|---|
-| passed | 54 |
+| passed | 60 |
 | failed | 0 |
 | skipped | 0 |
 | errors | 0 |
 
-## Live smoke (same stack, after llm-gateway)
+## Live smoke (same stack, after pentest-depth rebuild)
 
 - `llm-gateway` healthy on **4000**; app **8090**; `GET /healthz` **200**
-- `GET http://127.0.0.1:4000/v1/models` (Bearer `sk-agentic-local`) lists `gemma4:latest`
-- `POST /v1/chat/completions` ping wrote `./logs/llm-gateway.log` with `call_start` / `call_end` / `duration_ms` / `upstream_ms` / `overhead_ms`
-- App logs use UTC ms (`…Z`) in `./logs/openai-v1.log` and `./logs/agentic-security.log`
-- Landing `/` has four plan cards including Ultra-Professional; `#grounding-field` is Ultra-Professional only
-- Run page has no `#run-skip-llm`; header `.mode-badge` is text only; `POST /runs/{id}/mode` → **404**
+- Deterministic Professional auto-approve: 4 AS-ids, 9 WSTG rows, A1–A10 results, pentest HTML ~40k chars, A4 PDF **118744** bytes; no sample-vendor names in chrome
+- Consecutive det→LLM→det pytest path (mocked ADK) completed
+- Live gateway: `GET /v1/models` lists `gemma4:latest`; `ensure_llm_ready` warm OK; `generate_text("PONG")` returned `PONG` (long gemma4 prompts can exceed `LLM_TIMEOUT=180` — enrich then keeps deterministic prose)
 
 ## Re-run
 

@@ -4,16 +4,17 @@ Markup index of the Macro-Search - Agentic Security Scan suite. Latest numbers: 
 
 Suite: `pytest -v -W error::DeprecationWarning`  
 Where: original Compose container `agentic-security-test-sdk-agentic-security`  
-Python 3.12.14 · pytest 9.1.1 · 2026-09-18 · **140.27s**
+Python 3.12.14 · pytest 9.1.1 · 2026-09-22 · **110.15s**
 
 | File | Tests | Role |
 |---|---|---|
 | `test_github_examples.py` | 16 | GitHub zip → examples/; landing picker; no run-page mode toggle; progress/status; artifacts from disk |
 | `test_grounding.py` | 12 | Ultra-Professional entitlements; scrape pack; launch-only checkbox; Client name default |
 | `test_llm.py` | 9 | OpenAI-compat id, LiteLlm prefix, venv gemma4 defaults, gateway profiles, UTC `/v1` logs |
+| `test_output_pdf.py` | 2 | PDF order; WeasyPrint A4 pack |
+| `test_pentest_depth.py` | 6 | WSTG matrix, OWASP results, clean-tree HTML, JS eval, LLM merge without dropping AS-ids |
 | `test_pipeline.py` | 8 | Plans, scanners, Professional run, launch Client name, consecutive det→LLM→det, gates 1–6 |
 | `test_reports_complete.py` | 5 | Access/ASVS/risk/issues, JSON parse, skip_llm toggle, backfill |
-| `test_output_pdf.py` | 2 | PDF order; WeasyPrint A4 pack |
 | `test_run_mode.py` | 2 | skip_llm false is LLM; skip_llm fixed at run creation |
 
 | # | File | Test | Result | What it proves |
@@ -57,20 +58,26 @@ Python 3.12.14 · pytest 9.1.1 · 2026-09-18 · **140.27s**
 | 37 | `test_llm.py` | `test_warm_model_uses_chat_completions_on_gateway` | **passed** | Gateway warm is `POST /v1/chat/completions`, not `/api/generate` |
 | 38 | `test_output_pdf.py` | `test_pdf_order_starts_with_executive_summary` | **passed** | PDF order; no iframe pack |
 | 39 | `test_output_pdf.py` | `test_output_pdf_is_a4_pack` | **passed** | WeasyPrint `%PDF` output-report.pdf |
-| 40 | `test_pipeline.py` | `test_professional_has_full_report` | **passed** | Professional vs Essentials reports |
-| 41 | `test_pipeline.py` | `test_scope_discovers_example` | **passed** | Scope reads sample-web-api |
-| 42 | `test_pipeline.py` | `test_appsec_flags_pickle_and_tls` | **passed** | AS- ids, evidence, WSTG, Top 10 |
-| 43 | `test_pipeline.py` | `test_jailbreak_catalogue_has_six_probes` | **passed** | Six probe families |
-| 44 | `test_pipeline.py` | `test_gates_are_integers_one_to_six` | **passed** | `gate_1`…`gate_6`; 4.5→5, 5→6 |
-| 45 | `test_pipeline.py` | `test_pipeline_auto_approves` | **passed** | Full Professional deterministic run; default Client |
-| 46 | `test_pipeline.py` | `test_reports_use_launch_client_name` | **passed** | Custom launch name in HTML cover |
-| 47 | `test_pipeline.py` | `test_consecutive_deterministic_then_llm_then_deterministic` | **passed** | Three successive runs complete after mode flips |
-| 48 | `test_reports_complete.py` | `test_access_inventory_is_not_a_stub` | **passed** | Identities, reviews, JML |
-| 49 | `test_reports_complete.py` | `test_asvs_and_risk_and_issues_complete` | **passed** | 14 ASVS chapters, residual, ISS-001 |
-| 50 | `test_reports_complete.py` | `test_classify_refusal_and_json_parse` | **passed** | Refusal helper + JSON fence |
-| 51 | `test_reports_complete.py` | `test_parse_skip_llm_toggle` | **passed** | true/false/1 |
-| 52 | `test_reports_complete.py` | `test_backfill_rewrites_access_report` | **passed** | Backfill identity inventory HTML |
-| 53 | `test_run_mode.py` | `test_parse_skip_llm_false_is_llm` | **passed** | `false` means LLM |
-| 54 | `test_run_mode.py` | `test_skip_llm_is_fixed_at_run_creation` | **passed** | skip_llm written at create; no apply_mode |
+| 40 | `test_pentest_depth.py` | `test_appsec_emits_wstg_matrix_and_owasp_results` | **passed** | Nine WSTG families; A1–A10 results; PoC; SSRF/TLS/pickle |
+| 41 | `test_pentest_depth.py` | `test_clean_js_tree_still_has_full_matrix` | **passed** | Zero AS-ids still emit not-observed / not-applicable rows |
+| 42 | `test_pentest_depth.py` | `test_js_eval_emits_finding` | **passed** | JS `eval` becomes AS-001 with evidence |
+| 43 | `test_pentest_depth.py` | `test_pentest_html_has_required_depth_on_clean_tree` | **passed** | §6.1 / A10 / §5.2 / personnel; no sample-vendor names |
+| 44 | `test_pentest_depth.py` | `test_keep_longer_prefers_deterministic_when_llm_is_stub` | **passed** | Short LLM replies do not wipe deterministic prose |
+| 45 | `test_pentest_depth.py` | `test_llm_enrich_merges_without_dropping_ids` | **passed** | Enrich adds recs; AS-ids remain |
+| 46 | `test_pipeline.py` | `test_professional_has_full_report` | **passed** | Professional vs Essentials reports |
+| 47 | `test_pipeline.py` | `test_scope_discovers_example` | **passed** | Scope reads sample-web-api |
+| 48 | `test_pipeline.py` | `test_appsec_flags_pickle_and_tls` | **passed** | AS- ids, evidence, WSTG, Top 10 |
+| 49 | `test_pipeline.py` | `test_jailbreak_catalogue_has_six_probes` | **passed** | Six probe families |
+| 50 | `test_pipeline.py` | `test_gates_are_integers_one_to_six` | **passed** | `gate_1`…`gate_6`; 4.5→5, 5→6 |
+| 51 | `test_pipeline.py` | `test_pipeline_auto_approves` | **passed** | Full Professional deterministic run; default Client |
+| 52 | `test_pipeline.py` | `test_reports_use_launch_client_name` | **passed** | Custom launch name in HTML cover |
+| 53 | `test_pipeline.py` | `test_consecutive_deterministic_then_llm_then_deterministic` | **passed** | Three successive runs complete after mode flips |
+| 54 | `test_reports_complete.py` | `test_access_inventory_is_not_a_stub` | **passed** | Identities, reviews, JML |
+| 55 | `test_reports_complete.py` | `test_asvs_and_risk_and_issues_complete` | **passed** | 14 ASVS chapters, residual, ISS-001 |
+| 56 | `test_reports_complete.py` | `test_classify_refusal_and_json_parse` | **passed** | Refusal helper + JSON fence |
+| 57 | `test_reports_complete.py` | `test_parse_skip_llm_toggle` | **passed** | true/false/1 |
+| 58 | `test_reports_complete.py` | `test_backfill_rewrites_access_report` | **passed** | Backfill identity inventory HTML |
+| 59 | `test_run_mode.py` | `test_parse_skip_llm_false_is_llm` | **passed** | `false` means LLM |
+| 60 | `test_run_mode.py` | `test_skip_llm_is_fixed_at_run_creation` | **passed** | skip_llm written at create; no apply_mode |
 
-**54 passed · 0 failed · 0 skipped · 0 errors** (original Compose container, 2026-09-18)
+**60 passed · 0 failed · 0 skipped · 0 errors** (original Compose container, 2026-09-22)

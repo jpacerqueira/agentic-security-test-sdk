@@ -92,6 +92,11 @@ async def test_pipeline_auto_approves(tmp_path: Path):
     assert "CVSS" in html
     assert "2.5 Personnel" in html
     assert "AS-001" in html
+    assert "6.1 Test cases" in html
+    assert "not-observed" in html
+    assert "A10" in html
+    assert "5.2 Cloud security controls" in html
+    assert "Identity and Access Management" in html
     assert "Client" in html
     assert "Client confidential" in html
     access = (tmp_path / "t1" / "reports" / "access-management.html").read_text()

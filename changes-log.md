@@ -5,6 +5,21 @@ No git operations in this tree (owner instruction, 2026-09-17).
 
 ---
 
+## 2026-09-22 — Pentest-grade report depth (all standard runs)
+
+Reports were heading-complete but shallow (A4 packs ~76–98 KB vs a 95-page sample pentest). Deterministic scanners now emit a WSTG result matrix, negative findings, OWASP Top 10 result paragraphs, reconstructed PoCs, and a real methodology narrative. LLM mode expands that prose (min lengths; never invents AS/CVE ids). `pentest-assessment.html` inlines §5.2 CIS chapters and §5.3 jailbreak when the plan entitles them; §4 mixes AppSec + Trivy HIGH+ + CIS. Client chrome stays the launch-form name.
+
+| Path | Role |
+|---|---|
+| `agentic_security/scanners.py` | Extra language/needle checks; `wstg_matrix`; `owasp_top10_results`; Trivy `fix_guidance` |
+| `agentic_security/llm_enrich.py` | Long pentest JSON; `_keep_longer`; OWASP/WSTG appendix job |
+| `agentic_security/reports/html.py` | Full §1–6 bodies |
+| `tests/test_pentest_depth.py` | Matrix, clean-tree HTML, JS eval, LLM merge |
+
+Compose pytest after rebuild (see `tests/RESULTS.md`).
+
+---
+
 ## 2026-09-18 — Compose `llm-gateway` (LiteLLM Proxy)
 
 Second service: OpenAI `/v1` proxy. App `LLM_BASE_URL=http://llm-gateway:4000/v1`. Active profile **ollama** / `gemma4:latest`. Dormant YAML: LM Studio, AWS Bedrock, Vertex AI Gemini (`LLM_PROFILE` + restart gateway; no failover). Warm through gateway `/v1/chat/completions`; native Ollama `/api/generate` only for host venv.

@@ -31,7 +31,7 @@ Landing toggle (same Micro-Cosmos `skip-llm-toggle` pattern): checked = **Determ
 
 ## Report metrics (must not regress)
 
-Pentest HTML must include: severity histogram, CVSS bands, root-cause buckets, scope domains, **§2.5 personnel**, objectives, confidentiality/disclaimer, methodology, narrative, vulnerability matrix with **AS-00n** ids, per-finding CVSS + evidence snippets, WSTG appendix, OWASP Top 10. Cover classification and titles use the launch-form **Client name** (default `Client`) — never a hardcoded company.
+Pentest HTML must include: severity histogram (App + Trivy), CVSS bands, root-cause buckets, scope domains, **§2.5 personnel**, objectives, confidentiality/disclaimer, methodology narrative of this run, vulnerability matrix with **AS-00n** ids plus Trivy HIGH+, per-finding CVSS + evidence + reconstructed PoC, **WSTG result matrix** (not-observed when clean), OWASP Top 10 **result paragraphs**, §5.2 CIS chapters, §5.3 jailbreak when entitled. Cover classification and titles use the launch-form **Client name** (default `Client`) — never a hardcoded company.
 
 Access-management HTML must include identity inventory, connectors, reviews, JML, break-glass — never an entitlement-only stub.
 

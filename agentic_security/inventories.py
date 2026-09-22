@@ -400,15 +400,52 @@ def _has_cloud_iac(source_path: str) -> bool:
     return False
 
 
+_CIS_PORTAL_STEPS = {
+    "IAM": (
+        "From the cloud portal: open the identity directory → Users / Groups → apply the guest, "
+        "owner-count, and group-creation reviews in this control. Remove unused guest accounts."
+    ),
+    "Storage": (
+        "From the cloud portal: open the storage account → Networking / Firewalls and virtual networks "
+        "→ disable public blob access and require private endpoints."
+    ),
+    "Database": (
+        "From the cloud portal: open the database server → Networking → disable public network access; "
+        "enable auditing to a locked log store."
+    ),
+    "Logging": (
+        "From the cloud portal: enable the platform log agent / auto-provisioning on compute and "
+        "forward logs to a central workspace."
+    ),
+    "Networking": (
+        "From the cloud portal: review NSGs and firewall policies → restrict management ports, "
+        "require JIT or equivalent, and deny 0.0.0.0/0 on sensitive services."
+    ),
+    "Virtual Machines": (
+        "From the cloud portal: open the VM → Disks / Encryption → encrypt temp disks and caches."
+    ),
+    "Key Vault": (
+        "From the cloud portal: open Key Vault → Networking → enable firewall / private endpoint; "
+        "deny public access."
+    ),
+    "App Service": (
+        "From the cloud portal: open the App Service → TLS/SSL and Configuration → force HTTPS, "
+        "disable FTP, set HTTP/2."
+    ),
+}
+
+
 def annotate_cis(cis: dict, source_path: str) -> dict[str, Any]:
     in_scope = _has_cloud_iac(source_path)
     for c in cis.get("controls") or []:
         c["rationale"] = (
             "CIS Microsoft Azure Foundations — control as listed in the CIS catalogue."
         )
-        c["remediation"] = (
-            "Apply the Azure Policy / Defender for Cloud recommendation mapped to this control ID."
+        c["remediation"] = _CIS_PORTAL_STEPS.get(
+            c.get("domain") or "",
+            "Apply the platform policy / defender recommendation mapped to this control ID.",
         )
+        c.setdefault("report_chapter", c.get("domain") or "Other")
         if in_scope:
             c["status"] = c.get("status") or "manual"
             c["evidence"] = "Cloud IaC present — status requires a live Azure API audit (not in this cut)."
