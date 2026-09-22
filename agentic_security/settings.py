@@ -28,7 +28,7 @@ class Settings(BaseSettings):
     # Ollama takes context from the server / Modelfile — do not send num_ctx.
     model_context_length: int = 131072
     model_temperature: float | None = None
-    llm_timeout: int = 180
+    llm_timeout: int = 360
     llm_ready_timeout_seconds: int = 120
     log_level: str = "INFO"
     # Empty = stdout only. Compose sets /app/logs (bind-mounted to ./logs).

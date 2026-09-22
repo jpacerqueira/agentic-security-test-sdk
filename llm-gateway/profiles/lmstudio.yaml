@@ -9,7 +9,7 @@ model_list:
       api_key: os.environ/LMSTUDIO_API_KEY
       extra_body:
         num_ctx: 131072
-      timeout: 180
+      timeout: 360
   - model_name: openai/gemma4:latest
     litellm_params:
       model: os.environ/LMSTUDIO_LITELLM_MODEL
@@ -17,11 +17,11 @@ model_list:
       api_key: os.environ/LMSTUDIO_API_KEY
       extra_body:
         num_ctx: 131072
-      timeout: 180
+      timeout: 360
 
 litellm_settings:
   drop_params: true
-  request_timeout: 180
+  request_timeout: 360
   json_logs: true
   set_verbose: true
   callbacks: custom_callbacks.proxy_handler_instance

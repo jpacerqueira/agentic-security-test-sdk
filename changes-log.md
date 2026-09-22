@@ -5,6 +5,12 @@ No git operations in this tree (owner instruction, 2026-09-17).
 
 ---
 
+## 2026-09-22 — Double llm-gateway timeout (180s → 360s)
+
+Live Ollama/gemma4 jailbreak enrich hit `litellm.Timeout: Timeout passed=180.0` on `ollama_chat/gemma4:latest` after ~180s (LiteLLM retried twice). Doubled proxy `timeout` / `request_timeout` on every profile YAML and the app `LLM_TIMEOUT` so they stay aligned. Restart `llm-gateway` to pick up YAML (bind-mounted).
+
+---
+
 ## 2026-09-22 — Pentest-grade report depth (all standard runs)
 
 Reports were heading-complete but shallow (A4 packs ~76–98 KB vs a 95-page sample pentest). Deterministic scanners now emit a WSTG result matrix, negative findings, OWASP Top 10 result paragraphs, reconstructed PoCs, and a real methodology narrative. LLM mode expands that prose (min lengths; never invents AS/CVE ids). `pentest-assessment.html` inlines §5.2 CIS chapters and §5.3 jailbreak when the plan entitles them; §4 mixes AppSec + Trivy HIGH+ + CIS. Client chrome stays the launch-form name.

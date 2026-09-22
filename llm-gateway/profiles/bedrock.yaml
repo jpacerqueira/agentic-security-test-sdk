@@ -6,16 +6,16 @@ model_list:
     litellm_params:
       model: os.environ/BEDROCK_LITELLM_MODEL
       aws_region_name: os.environ/AWS_REGION
-      timeout: 180
+      timeout: 360
   - model_name: openai/gemma4:latest
     litellm_params:
       model: os.environ/BEDROCK_LITELLM_MODEL
       aws_region_name: os.environ/AWS_REGION
-      timeout: 180
+      timeout: 360
 
 litellm_settings:
   drop_params: true
-  request_timeout: 180
+  request_timeout: 360
   json_logs: true
   set_verbose: true
   callbacks: custom_callbacks.proxy_handler_instance
