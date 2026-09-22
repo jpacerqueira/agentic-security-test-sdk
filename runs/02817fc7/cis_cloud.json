@@ -1,0 +1,305 @@
+{
+  "benchmark": "CIS Microsoft Azure Foundations (catalogue)",
+  "controls": [
+    {
+      "id": "1.4",
+      "domain": "IAM",
+      "title": "Ensure guest users are reviewed on a regular basis",
+      "status": "not-in-scope",
+      "severity": "MEDIUM",
+      "report_chapter": "Identity and Access Management",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: open the identity directory \u2192 Users / Groups \u2192 apply the guest, owner-count, and group-creation reviews in this control. Remove unused guest accounts.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "1.17",
+      "domain": "IAM",
+      "title": "Users cannot create security groups",
+      "status": "not-in-scope",
+      "severity": "LOW",
+      "report_chapter": "Identity and Access Management",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: open the identity directory \u2192 Users / Groups \u2192 apply the guest, owner-count, and group-creation reviews in this control. Remove unused guest accounts.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "IAM-MI",
+      "domain": "IAM",
+      "title": "Managed identity should be used in function apps",
+      "status": "not-in-scope",
+      "severity": "MEDIUM",
+      "report_chapter": "Identity and Access Management",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: open the identity directory \u2192 Users / Groups \u2192 apply the guest, owner-count, and group-creation reviews in this control. Remove unused guest accounts.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "IAM-OWN",
+      "domain": "IAM",
+      "title": "Maximum of 3 owners per subscription",
+      "status": "not-in-scope",
+      "severity": "MEDIUM",
+      "report_chapter": "Identity and Access Management",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: open the identity directory \u2192 Users / Groups \u2192 apply the guest, owner-count, and group-creation reviews in this control. Remove unused guest accounts.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "IAM-GUEST",
+      "domain": "IAM",
+      "title": "Guest accounts with owner permissions removed",
+      "status": "not-in-scope",
+      "severity": "HIGH",
+      "report_chapter": "Identity and Access Management",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: open the identity directory \u2192 Users / Groups \u2192 apply the guest, owner-count, and group-creation reviews in this control. Remove unused guest accounts.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "ST-1",
+      "domain": "Storage",
+      "title": "Storage account uses private link",
+      "status": "not-in-scope",
+      "severity": "HIGH",
+      "report_chapter": "Storage Accounts",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: open the storage account \u2192 Networking / Firewalls and virtual networks \u2192 disable public blob access and require private endpoints.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "ST-2",
+      "domain": "Storage",
+      "title": "Restrict network access with VNet rules",
+      "status": "not-in-scope",
+      "severity": "HIGH",
+      "report_chapter": "Storage Accounts",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: open the storage account \u2192 Networking / Firewalls and virtual networks \u2192 disable public blob access and require private endpoints.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "ST-3",
+      "domain": "Storage",
+      "title": "Public blob access disallowed",
+      "status": "not-in-scope",
+      "severity": "HIGH",
+      "report_chapter": "Storage Accounts",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: open the storage account \u2192 Networking / Firewalls and virtual networks \u2192 disable public blob access and require private endpoints.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "KV-FW",
+      "domain": "Key Vault",
+      "title": "Key vault firewall enabled",
+      "status": "not-in-scope",
+      "severity": "HIGH",
+      "report_chapter": "Key Vault",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: open Key Vault \u2192 Networking \u2192 enable firewall / private endpoint; deny public access.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "LOG-1",
+      "domain": "Logging",
+      "title": "Log Analytics agent on VMs",
+      "status": "not-in-scope",
+      "severity": "MEDIUM",
+      "report_chapter": "Logging and Monitoring",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: enable the platform log agent / auto-provisioning on compute and forward logs to a central workspace.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "LOG-2",
+      "domain": "Logging",
+      "title": "Auto-provision Log Analytics agent",
+      "status": "not-in-scope",
+      "severity": "MEDIUM",
+      "report_chapter": "Logging and Monitoring",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: enable the platform log agent / auto-provisioning on compute and forward logs to a central workspace.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "NET-1",
+      "domain": "Networking",
+      "title": "Adaptive network hardening applied",
+      "status": "not-in-scope",
+      "severity": "HIGH",
+      "report_chapter": "Networking",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: review NSGs and firewall policies \u2192 restrict management ports, require JIT or equivalent, and deny 0.0.0.0/0 on sensitive services.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "NET-2",
+      "domain": "Networking",
+      "title": "All network ports restricted on NSGs",
+      "status": "not-in-scope",
+      "severity": "HIGH",
+      "report_chapter": "Networking",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: review NSGs and firewall policies \u2192 restrict management ports, require JIT or equivalent, and deny 0.0.0.0/0 on sensitive services.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "NET-3",
+      "domain": "Networking",
+      "title": "Private endpoint for Key Vault",
+      "status": "not-in-scope",
+      "severity": "HIGH",
+      "report_chapter": "Networking",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: review NSGs and firewall policies \u2192 restrict management ports, require JIT or equivalent, and deny 0.0.0.0/0 on sensitive services.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "NET-4",
+      "domain": "Networking",
+      "title": "Container registries not unrestricted",
+      "status": "not-in-scope",
+      "severity": "HIGH",
+      "report_chapter": "Networking",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: review NSGs and firewall policies \u2192 restrict management ports, require JIT or equivalent, and deny 0.0.0.0/0 on sensitive services.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "NET-5",
+      "domain": "Networking",
+      "title": "Kubernetes API server restricted access",
+      "status": "not-in-scope",
+      "severity": "HIGH",
+      "report_chapter": "Networking",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: review NSGs and firewall policies \u2192 restrict management ports, require JIT or equivalent, and deny 0.0.0.0/0 on sensitive services.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "NET-6",
+      "domain": "Networking",
+      "title": "Management ports closed / JIT access",
+      "status": "not-in-scope",
+      "severity": "CRITICAL",
+      "report_chapter": "Networking",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: review NSGs and firewall policies \u2192 restrict management ports, require JIT or equivalent, and deny 0.0.0.0/0 on sensitive services.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "NET-7",
+      "domain": "Networking",
+      "title": "Virtual networks protected by Azure Firewall",
+      "status": "not-in-scope",
+      "severity": "MEDIUM",
+      "report_chapter": "Networking",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: review NSGs and firewall policies \u2192 restrict management ports, require JIT or equivalent, and deny 0.0.0.0/0 on sensitive services.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "VM-1",
+      "domain": "Virtual Machines",
+      "title": "Encrypt temp disks, caches, and data flows",
+      "status": "not-in-scope",
+      "severity": "MEDIUM",
+      "report_chapter": "Virtual Machines",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: open the VM \u2192 Disks / Encryption \u2192 encrypt temp disks and caches.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "APP-9.2",
+      "domain": "App Service",
+      "title": "Redirect all HTTP traffic to HTTPS",
+      "status": "not-in-scope",
+      "severity": "MEDIUM",
+      "report_chapter": "App Service",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: open the App Service \u2192 TLS/SSL and Configuration \u2192 force HTTPS, disable FTP, set HTTP/2.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "APP-9.4",
+      "domain": "App Service",
+      "title": "Incoming client certificates on",
+      "status": "not-in-scope",
+      "severity": "LOW",
+      "report_chapter": "App Service",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: open the App Service \u2192 TLS/SSL and Configuration \u2192 force HTTPS, disable FTP, set HTTP/2.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "APP-9.9",
+      "domain": "App Service",
+      "title": "HTTP version is latest (2.0)",
+      "status": "not-in-scope",
+      "severity": "LOW",
+      "report_chapter": "App Service",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: open the App Service \u2192 TLS/SSL and Configuration \u2192 force HTTPS, disable FTP, set HTTP/2.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "APP-9.10",
+      "domain": "App Service",
+      "title": "FTP deployments disabled / FTPS only",
+      "status": "not-in-scope",
+      "severity": "HIGH",
+      "report_chapter": "App Service",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: open the App Service \u2192 TLS/SSL and Configuration \u2192 force HTTPS, disable FTP, set HTTP/2.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "DB-1",
+      "domain": "Database",
+      "title": "Database public network access disabled",
+      "status": "not-in-scope",
+      "severity": "HIGH",
+      "report_chapter": "Database Services",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: open the database server \u2192 Networking \u2192 disable public network access; enable auditing to a locked log store.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    },
+    {
+      "id": "DB-2",
+      "domain": "Database",
+      "title": "SQL auditing enabled on the server",
+      "status": "not-in-scope",
+      "severity": "MEDIUM",
+      "report_chapter": "Database Services",
+      "rationale": "CIS Microsoft Azure Foundations \u2014 control as listed in the CIS catalogue.",
+      "remediation": "From the cloud portal: open the database server \u2192 Networking \u2192 disable public network access; enable auditing to a locked log store.",
+      "evidence": "No Azure/Terraform/Bicep IaC in the scanned tree."
+    }
+  ],
+  "by_domain": {
+    "IAM": 5,
+    "Storage": 3,
+    "Key Vault": 1,
+    "Logging": 2,
+    "Networking": 7,
+    "Virtual Machines": 1,
+    "App Service": 4,
+    "Database": 2
+  },
+  "report_chapters": [
+    "Identity and Access Management",
+    "Storage Accounts",
+    "Key Vault",
+    "Logging and Monitoring",
+    "Networking",
+    "Virtual Machines",
+    "App Service",
+    "Database Services"
+  ],
+  "note": "Live Azure API audit is still out of scope. Controls are marked not-in-scope when the tree has no cloud IaC, so the catalogue is complete rather than an empty 'manual' list.",
+  "by_status": {
+    "not-in-scope": 25
+  },
+  "in_scope": false
+}

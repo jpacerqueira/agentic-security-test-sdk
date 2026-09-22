@@ -1,0 +1,345 @@
+{
+  "findings": [],
+  "by_severity": {
+    "CRITICAL": 0,
+    "HIGH": 0,
+    "MEDIUM": 0,
+    "LOW": 0,
+    "INFO": 0
+  },
+  "root_causes": {},
+  "test_cases": {
+    "information_gathering": [
+      "site review",
+      "fingerprint",
+      "entry points",
+      "user roles"
+    ],
+    "configuration_management": [
+      "HTTP methods",
+      "security headers",
+      "backup files"
+    ],
+    "authentication": [
+      "password quality",
+      "MFA",
+      "brute-force protection",
+      "user enumeration"
+    ],
+    "session_management": [
+      "cookie flags",
+      "timeout",
+      "CSRF",
+      "session puzzling"
+    ],
+    "authorization": [
+      "vertical/horizontal access",
+      "IDOR",
+      "path traversal"
+    ],
+    "data_validation": [
+      "SQLi",
+      "XSS",
+      "XXE",
+      "command injection",
+      "open redirect"
+    ],
+    "denial_of_service": [
+      "anti-automation",
+      "account lockout"
+    ],
+    "risky_functionality": [
+      "file uploads",
+      "malicious types"
+    ],
+    "error_handling": [
+      "stack traces",
+      "error codes"
+    ]
+  },
+  "owasp_top10": [
+    "A1 Injection",
+    "A2 Broken Authentication",
+    "A3 Sensitive Data Exposure",
+    "A4 XML External Entities (XXE)",
+    "A5 Broken Access Control",
+    "A6 Security Misconfiguration",
+    "A7 Cross-Site Scripting (XSS)",
+    "A8 Insecure Deserialization",
+    "A9 Using Components with Known Vulnerabilities",
+    "A10 Insufficient Logging & Monitoring"
+  ],
+  "owasp_top10_results": [
+    {
+      "id": "A1",
+      "title": "A1 Injection",
+      "status": "tested-not-found",
+      "result": "A1 Injection was included in the test pack. No source marker supporting a finding was observed in this snapshot.",
+      "linked": []
+    },
+    {
+      "id": "A2",
+      "title": "A2 Broken Authentication",
+      "status": "tested-not-found",
+      "result": "A2 Broken Authentication was included in the test pack. No source marker supporting a finding was observed in this snapshot.",
+      "linked": []
+    },
+    {
+      "id": "A3",
+      "title": "A3 Sensitive Data Exposure",
+      "status": "tested-not-found",
+      "result": "A3 Sensitive Data Exposure was included in the test pack. No source marker supporting a finding was observed in this snapshot.",
+      "linked": []
+    },
+    {
+      "id": "A4",
+      "title": "A4 XML External Entities (XXE)",
+      "status": "tested-not-found",
+      "result": "A4 XML External Entities (XXE) was included in the test pack. No source marker supporting a finding was observed in this snapshot.",
+      "linked": []
+    },
+    {
+      "id": "A5",
+      "title": "A5 Broken Access Control",
+      "status": "tested-not-found",
+      "result": "A5 Broken Access Control was included in the test pack. No source marker supporting a finding was observed in this snapshot.",
+      "linked": []
+    },
+    {
+      "id": "A6",
+      "title": "A6 Security Misconfiguration",
+      "status": "tested-not-found",
+      "result": "A6 Security Misconfiguration was included in the test pack. No source marker supporting a finding was observed in this snapshot.",
+      "linked": []
+    },
+    {
+      "id": "A7",
+      "title": "A7 Cross-Site Scripting (XSS)",
+      "status": "tested-not-found",
+      "result": "A7 Cross-Site Scripting (XSS) was included in the test pack. No source marker supporting a finding was observed in this snapshot.",
+      "linked": []
+    },
+    {
+      "id": "A8",
+      "title": "A8 Insecure Deserialization",
+      "status": "tested-not-found",
+      "result": "A8 Insecure Deserialization was included in the test pack. No source marker supporting a finding was observed in this snapshot.",
+      "linked": []
+    },
+    {
+      "id": "A9",
+      "title": "A9 Using Components with Known Vulnerabilities",
+      "status": "see-trivy",
+      "result": "Known-vulnerable components are scored by the Trivy filesystem scan in this run, not duplicated as AS-ids. See \u00a74 and the Trivy report for CVE rows.",
+      "linked": []
+    },
+    {
+      "id": "A10",
+      "title": "A10 Insufficient Logging & Monitoring",
+      "status": "tested-not-found",
+      "result": "A10 Insufficient Logging & Monitoring was included in the test pack. No source marker supporting a finding was observed in this snapshot.",
+      "linked": []
+    }
+  ],
+  "wstg_matrix": [
+    {
+      "family": "information_gathering",
+      "wstg": "WSTG-INFO",
+      "cases": [
+        "site review",
+        "fingerprint",
+        "entry points",
+        "user roles"
+      ],
+      "result": "not-observed",
+      "linked": [],
+      "note": "Family exercised against the source tree; no supporting marker was found."
+    },
+    {
+      "family": "configuration_management",
+      "wstg": "WSTG-CONF",
+      "cases": [
+        "HTTP methods",
+        "security headers",
+        "backup files"
+      ],
+      "result": "not-observed",
+      "linked": [],
+      "note": "Family exercised against the source tree; no supporting marker was found."
+    },
+    {
+      "family": "authentication",
+      "wstg": "WSTG-ATHN",
+      "cases": [
+        "password quality",
+        "MFA",
+        "brute-force protection",
+        "user enumeration"
+      ],
+      "result": "not-observed",
+      "linked": [],
+      "note": "Family exercised against the source tree; no supporting marker was found."
+    },
+    {
+      "family": "session_management",
+      "wstg": "WSTG-SESS",
+      "cases": [
+        "cookie flags",
+        "timeout",
+        "CSRF",
+        "session puzzling"
+      ],
+      "result": "not-observed",
+      "linked": [],
+      "note": "Family exercised against the source tree; no supporting marker was found."
+    },
+    {
+      "family": "authorization",
+      "wstg": "WSTG-ATHZ",
+      "cases": [
+        "vertical/horizontal access",
+        "IDOR",
+        "path traversal"
+      ],
+      "result": "not-observed",
+      "linked": [],
+      "note": "Family exercised against the source tree; no supporting marker was found."
+    },
+    {
+      "family": "data_validation",
+      "wstg": "WSTG-INPV",
+      "cases": [
+        "SQLi",
+        "XSS",
+        "XXE",
+        "command injection",
+        "open redirect"
+      ],
+      "result": "not-observed",
+      "linked": [],
+      "note": "Family exercised against the source tree; no supporting marker was found."
+    },
+    {
+      "family": "denial_of_service",
+      "wstg": "WSTG-BUSL",
+      "cases": [
+        "anti-automation",
+        "account lockout"
+      ],
+      "result": "not-applicable",
+      "linked": [],
+      "note": "Destructive load / DoS tests are out of scope; anti-automation is recorded when evidence exists."
+    },
+    {
+      "family": "risky_functionality",
+      "wstg": "WSTG-BUSL",
+      "cases": [
+        "file uploads",
+        "malicious types"
+      ],
+      "result": "not-observed",
+      "linked": [],
+      "note": "Family exercised against the source tree; no supporting marker was found."
+    },
+    {
+      "family": "error_handling",
+      "wstg": "WSTG-ERRH",
+      "cases": [
+        "stack traces",
+        "error codes"
+      ],
+      "result": "not-observed",
+      "linked": [],
+      "note": "Family exercised against the source tree; no supporting marker was found."
+    }
+  ],
+  "negative_findings": [
+    {
+      "wstg": "WSTG-INFO",
+      "family": "information_gathering",
+      "title": "information gathering",
+      "result": "not-observed",
+      "evidence": "Family exercised against the source tree; no supporting marker was found."
+    },
+    {
+      "wstg": "WSTG-CONF",
+      "family": "configuration_management",
+      "title": "configuration management",
+      "result": "not-observed",
+      "evidence": "Family exercised against the source tree; no supporting marker was found."
+    },
+    {
+      "wstg": "WSTG-ATHN",
+      "family": "authentication",
+      "title": "authentication",
+      "result": "not-observed",
+      "evidence": "Family exercised against the source tree; no supporting marker was found."
+    },
+    {
+      "wstg": "WSTG-SESS",
+      "family": "session_management",
+      "title": "session management",
+      "result": "not-observed",
+      "evidence": "Family exercised against the source tree; no supporting marker was found."
+    },
+    {
+      "wstg": "WSTG-ATHZ",
+      "family": "authorization",
+      "title": "authorization",
+      "result": "not-observed",
+      "evidence": "Family exercised against the source tree; no supporting marker was found."
+    },
+    {
+      "wstg": "WSTG-INPV",
+      "family": "data_validation",
+      "title": "data validation",
+      "result": "not-observed",
+      "evidence": "Family exercised against the source tree; no supporting marker was found."
+    },
+    {
+      "wstg": "WSTG-BUSL",
+      "family": "denial_of_service",
+      "title": "denial of service",
+      "result": "not-applicable",
+      "evidence": "Destructive load / DoS tests are out of scope; anti-automation is recorded when evidence exists."
+    },
+    {
+      "wstg": "WSTG-BUSL",
+      "family": "risky_functionality",
+      "title": "risky functionality",
+      "result": "not-observed",
+      "evidence": "Family exercised against the source tree; no supporting marker was found."
+    },
+    {
+      "wstg": "WSTG-ERRH",
+      "family": "error_handling",
+      "title": "error handling",
+      "result": "not-observed",
+      "evidence": "Family exercised against the source tree; no supporting marker was found."
+    }
+  ],
+  "methodology_narrative": "The assessment focused on analyzing the source code and manifest files of the OAuth2 User Profile web application (G-001, G-002, G-003). The methodology employed a source-assisted heuristic scan (WSTG / ASVS), analyzing the application's structure, dependencies, and authentication flow. We examined the core function of the application, which utilizes Spring Boot (G-001, G-002) to facilitate user login via OAuth2 with GitHub. This involved reviewing the configuration details found in the `application.yml` file (G-001), specifically the client ID and secret placeholders, as well as the overall project structure defined in the Maven POM (G-003). The analysis aimed to identify common development pitfalls, configuration weaknesses, and potential vulnerabilities related to the handling of OAuth2 credentials and user profile data fetched from external services like GitHub.\n\nThe scan covered several file types, including Java, JSON, MD, and YML (Coverage details). We paid close attention to how sensitive credentials, such as `your-github-client-id` and `your-github-client-secret` (G-001), were configured within the resource files (G-001). Our review confirmed that the application relies on Java 17 or higher (G-001, G-002) and uses Spring Boot (G-001, G-002). The analysis utilized the repository's description and feature set (G-001, G-002) to guide the depth of the review.\n\nDue to the nature of the provided code snippets and the absence of live dynamic testing (Coverage: 'live_dast': False), the heuristic analysis primarily focused on static misconfigurations and architectural weaknesses (G-001). Specifically, the report reviewed the integration points between the Spring Security mechanism and the OAuth2 flow, ensuring that the application adhered to best practices for handling external authentication tokens and session management. The depth of the review was guided by the stated purpose of the application: providing a custom user profile view (G-001, G-002).",
+  "coverage_notes": {
+    "files_sampled": 9,
+    "languages": [
+      ".java",
+      ".json",
+      ".md",
+      ".yml"
+    ],
+    "scanner": "source-assisted heuristic (WSTG / ASVS)",
+    "live_dast": false
+  },
+  "cvss_bands": {
+    "critical": "9.0\u201310.0",
+    "high": "7.0\u20138.9",
+    "medium": "4.0\u20136.9",
+    "low": "0.1\u20133.9",
+    "info": "0.0"
+  },
+  "attack_path": "no chained path",
+  "mode": "llm",
+  "llm_ready": "already warm",
+  "grounded": true,
+  "llm_narrative": "This penetration test was conducted utilizing a source-assisted heuristic methodology (WSTG / ASVS) focusing on the Oauth2 User Profile web application (G-001, G-002). The primary goal was to identify architectural weaknesses, misconfigurations, and security vulnerabilities within the application's source code structure and dependencies (G-003). The assessment reviewed the application's use of Spring Boot (G-001, G-002) and its core functionality: allowing users to authenticate via GitHub's OAuth2 flow (G-001). The analysis covered multiple file types, including Java, JSON, Markdown, and YAML files (Coverage details). We paid particular attention to how sensitive configurations, such as the OAuth2 credentials (`your-github-client-id` and `your-github-client-secret`) found within the `application.yml` file (G-001), were handled. The review confirmed that the project requires Java 17 or higher (G-001, G-002) and relies heavily on the Spring Security mechanisms for authentication and user profile data retrieval from GitHub."
+}

@@ -1,0 +1,28 @@
+{
+  "enabled": true,
+  "items": [
+    {
+      "id": "RSK-001",
+      "title": "Prompt-injection / jailbreak of any LLM-backed assistant",
+      "severity": "HIGH",
+      "category": "ai-safety",
+      "likelihood": 4,
+      "impact": 4,
+      "inherent": 16,
+      "residual": 3,
+      "treatment": "mitigate \u2014 live probes + output filtering",
+      "owner": "security",
+      "source": "jailbreak",
+      "linked": "JB-program",
+      "due": "2026-09-29"
+    }
+  ],
+  "by_severity": {
+    "CRITICAL": 0,
+    "HIGH": 1,
+    "MEDIUM": 0,
+    "LOW": 0,
+    "INFO": 0
+  },
+  "methodology": "Likelihood \u00d7 impact 1\u20135 from CVSS band; residual assumes planned mitigation starts."
+}

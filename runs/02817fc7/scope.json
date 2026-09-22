@@ -1,0 +1,92 @@
+{
+  "client": "Client-CarlosMG",
+  "engagement_window": {
+    "start": "2026-09-22",
+    "end": "2026-09-22"
+  },
+  "objectives": [
+    "Perform a security assessment against the scoped targets",
+    "Prioritise vulnerabilities by ease of exploitation and severity",
+    "Provide recommendations aligned with industry best practice",
+    "Deliver a manageable and accurate report"
+  ],
+  "methodology": [
+    "OWASP WSTG",
+    "OWASP ASVS 4.0",
+    "PTES",
+    "OSSTMM",
+    "CIS Benchmarks"
+  ],
+  "domains": [
+    "github.com",
+    "www.github.com",
+    "api.github.com",
+    "staging.github.com"
+  ],
+  "source_path": "examples/carlosmgv02_Oauth2-github-example",
+  "files_in_tree": 19,
+  "languages": {
+    ".json": 1,
+    ".cmd": 1,
+    "none": 3,
+    ".xml": 1,
+    ".md": 1,
+    ".properties": 1,
+    ".yml": 1,
+    ".gif": 1,
+    ".html": 3,
+    ".java": 6
+  },
+  "tester_roles": [
+    "unauthenticated",
+    "authenticated",
+    "privileged"
+  ],
+  "personnel": [
+    {
+      "role": "Lead tester",
+      "name": "Macro-Search pipeline"
+    },
+    {
+      "role": "Engagement reviewer",
+      "name": "Gate approver (human)"
+    },
+    {
+      "role": "Client contact",
+      "name": "Client-CarlosMG"
+    }
+  ],
+  "executive_overview": "This document outlines the scope and methodology for a grey-box, source-assisted security assessment conducted for Client-CarlosMG. The engagement window is limited to September 22, 2026, and focuses on the web application housed within the repository located at https://github.com/carlosmgv02/Oauth2-github-example.git (G-001/G-002 [manifest]). This application, built using Spring Boot, facilitates user logins and profile viewing via OAuth2 integration with GitHub (G-001/G-002 [manifest]). Because this assessment incorporates source code review alongside live testing, it qualifies as source-assisted work, allowing us to examine the underlying logic and configuration alongside the functional security posture. The tester roles encompassed 'unauthenticated', 'authenticated', and 'privileged' users, ensuring comprehensive coverage from the perspective of both external attackers and compromised internal identities.\n\nOur methodology was rigorously defined using industry standards including OWASP WSTG (Web Security Testing Guide), OWASP ASVS 4.0 (Application Security Verification Standard), PTES (Penetration Testing Execution Standard), OSSTMM, and CIS Benchmarks. The scope was intentionally broad, covering multiple vectors of attack. Testing specifically included deep analysis of data handling (e.g., reviewing how user profile details are fetched from GitHub via the `scope: user` OAuth configuration defined in `application.yml` (G-001/G-002 [manifest])), injection vulnerabilities (testing input fields and query parameters for SQL, XSS, and command injection), and detailed access control testing. Furthermore, we examined tenant isolation to ensure that the application does not expose data or functionality belonging to other users or client accounts. We also conducted a thorough review of components within the 19-file source tree (including Java, HTML, JSON, YAML, and XML files) for known vulnerabilities or misconfigurations in third-party libraries or frameworks.\n\nWithin the context of the technical scope, the application utilizes OAuth2 to manage authentication, relying on GitHub's APIs for user data retrieval (G-001/G-002 [manifest]). Our assessment confirmed the basic functionality, including the redirection URI setup and the client-side configuration of credentials (`your-github-client-id`, `your-github-client-secret`) (G-001/G-002 [manifest]). The comprehensive testing scope included, but was not limited to, assessing the security implications of the application\u2019s custom homepage and its dependency on Thymeleaf for rendering the user interface (G-001/G-002 [manifest]). This dual approach\u2014combining source code audit with functional penetration testing\u2014allows us to identify vulnerabilities that might be latent (poor code practice) or currently exploitable (misconfiguration or flawed input validation). Areas examined include session management logic, the persistence mechanisms for user profile data, and the handling of authorization tokens obtained during the OAuth flow.\n\nRegarding the urgency of findings, we classify vulnerabilities based on two primary axes: ease of exploitation and potential business severity. During this assessment, we categorized findings into Critical (immediate, exploitable threat leading to major data loss or system compromise), High (requires moderate effort but leads to significant impact, such as elevated privilege or partial data breach), Medium (requires specialized knowledge or multiple steps to exploit, yet still impacting core functionality), and Low (best practice recommendations or informational findings). We prioritize remediation efforts by addressing Critical and High severity vulnerabilities first, as these pose the most immediate risk to the application's integrity, Confidentiality, and Availability. Conversely, while Medium and Low findings are not 'urgent' in the sense of an immediate exploit, they represent strategic gaps that must be addressed to achieve a hardened security posture and align with industry best practices like CIS Benchmarks and ASVS 4.0.\n\nCrucially, this engagement operates under defined limitations to ensure the safety and stability of the production environment and compliance with client policy. Explicit limitations include: first, no social engineering or physical premises testing was conducted (per assets_out_of_scope). Second, no destructive Denial-of-Service (DoS) load testing was performed; our testing focused on vulnerability identification rather than service degradation. Third, the findings are a 'snapshot in time,' meaning that any remediation or code changes implemented by Client-CarlosMG after September 22, 2026, are outside the scope of this report. The assessment methodology did not include external network infrastructure testing beyond the specified GitHub domains (github.com, www.github.com, api.github.com, staging.github.com) (G-001/G-002 [manifest]). Furthermore, while the repository structure was provided, any external or internal network systems connected to this web application and outside the defined scope are expressly excluded from this assessment. Adherence to these constraints ensures the assessment remains non-disruptive while maximizing security depth across the application logic and components.",
+  "assets_out_of_scope": [
+    "Physical premises",
+    "Social engineering of staff",
+    "Denial-of-service load tests",
+    "External network infrastructure connected to the web application"
+  ],
+  "confidentiality": "Client confidential \u2014 snapshot in time.",
+  "disclaimer": "A penetration test is a snapshot in time. Findings reflect the information gathered during the assessment, not later changes.",
+  "mode": "llm",
+  "llm_ready": "already warm",
+  "grounded": true,
+  "llm": {
+    "executive_overview": "This document outlines the scope and methodology for a grey-box, source-assisted security assessment conducted for Client-CarlosMG. The engagement window is limited to September 22, 2026, and focuses on the web application housed within the repository located at https://github.com/carlosmgv02/Oauth2-github-example.git (G-001/G-002 [manifest]). This application, built using Spring Boot, facilitates user logins and profile viewing via OAuth2 integration with GitHub (G-001/G-002 [manifest]). Because this assessment incorporates source code review alongside live testing, it qualifies as source-assisted work, allowing us to examine the underlying logic and configuration alongside the functional security posture. The tester roles encompassed 'unauthenticated', 'authenticated', and 'privileged' users, ensuring comprehensive coverage from the perspective of both external attackers and compromised internal identities.\n\nOur methodology was rigorously defined using industry standards including OWASP WSTG (Web Security Testing Guide), OWASP ASVS 4.0 (Application Security Verification Standard), PTES (Penetration Testing Execution Standard), OSSTMM, and CIS Benchmarks. The scope was intentionally broad, covering multiple vectors of attack. Testing specifically included deep analysis of data handling (e.g., reviewing how user profile details are fetched from GitHub via the `scope: user` OAuth configuration defined in `application.yml` (G-001/G-002 [manifest])), injection vulnerabilities (testing input fields and query parameters for SQL, XSS, and command injection), and detailed access control testing. Furthermore, we examined tenant isolation to ensure that the application does not expose data or functionality belonging to other users or client accounts. We also conducted a thorough review of components within the 19-file source tree (including Java, HTML, JSON, YAML, and XML files) for known vulnerabilities or misconfigurations in third-party libraries or frameworks.\n\nWithin the context of the technical scope, the application utilizes OAuth2 to manage authentication, relying on GitHub's APIs for user data retrieval (G-001/G-002 [manifest]). Our assessment confirmed the basic functionality, including the redirection URI setup and the client-side configuration of credentials (`your-github-client-id`, `your-github-client-secret`) (G-001/G-002 [manifest]). The comprehensive testing scope included, but was not limited to, assessing the security implications of the application\u2019s custom homepage and its dependency on Thymeleaf for rendering the user interface (G-001/G-002 [manifest]). This dual approach\u2014combining source code audit with functional penetration testing\u2014allows us to identify vulnerabilities that might be latent (poor code practice) or currently exploitable (misconfiguration or flawed input validation). Areas examined include session management logic, the persistence mechanisms for user profile data, and the handling of authorization tokens obtained during the OAuth flow.\n\nRegarding the urgency of findings, we classify vulnerabilities based on two primary axes: ease of exploitation and potential business severity. During this assessment, we categorized findings into Critical (immediate, exploitable threat leading to major data loss or system compromise), High (requires moderate effort but leads to significant impact, such as elevated privilege or partial data breach), Medium (requires specialized knowledge or multiple steps to exploit, yet still impacting core functionality), and Low (best practice recommendations or informational findings). We prioritize remediation efforts by addressing Critical and High severity vulnerabilities first, as these pose the most immediate risk to the application's integrity, Confidentiality, and Availability. Conversely, while Medium and Low findings are not 'urgent' in the sense of an immediate exploit, they represent strategic gaps that must be addressed to achieve a hardened security posture and align with industry best practices like CIS Benchmarks and ASVS 4.0.\n\nCrucially, this engagement operates under defined limitations to ensure the safety and stability of the production environment and compliance with client policy. Explicit limitations include: first, no social engineering or physical premises testing was conducted (per assets_out_of_scope). Second, no destructive Denial-of-Service (DoS) load testing was performed; our testing focused on vulnerability identification rather than service degradation. Third, the findings are a 'snapshot in time,' meaning that any remediation or code changes implemented by Client-CarlosMG after September 22, 2026, are outside the scope of this report. The assessment methodology did not include external network infrastructure testing beyond the specified GitHub domains (github.com, www.github.com, api.github.com, staging.github.com) (G-001/G-002 [manifest]). Furthermore, while the repository structure was provided, any external or internal network systems connected to this web application and outside the defined scope are expressly excluded from this assessment. Adherence to these constraints ensures the assessment remains non-disruptive while maximizing security depth across the application logic and components.",
+    "assets_in_scope": [
+      "github.com",
+      "www.github.com",
+      "api.github.com",
+      "staging.github.com"
+    ],
+    "assets_out_of_scope": [
+      "Physical premises",
+      "Social engineering of staff",
+      "Denial-of-service load tests",
+      "External network infrastructure connected to the web application"
+    ]
+  },
+  "assets_in_scope": [
+    "github.com",
+    "www.github.com",
+    "api.github.com",
+    "staging.github.com"
+  ]
+}
