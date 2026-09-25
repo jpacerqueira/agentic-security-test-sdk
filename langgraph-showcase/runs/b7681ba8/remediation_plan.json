@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "source": "jailbreak",
+      "ref": "JB-program",
+      "title": "Run live jailbreak probes in LLM mode before production agent launch",
+      "severity": "HIGH",
+      "owner": "security",
+      "sla_days": 14
+    }
+  ],
+  "tactical": "Immediately implement and test the live jailbreak probes using a restricted, non-production environment before deploying the agent. This should be prioritized as a critical security measure to prevent model misuse in the live system. Continuously monitor and adjust these probes as the agent's capabilities evolve or the threat landscape changes.",
+  "strategic": "Develop a comprehensive LLM security lifecycle management program that includes dedicated adversarial testing phases (e.g., red teaming) before any significant release. Establish dedicated policies and tooling for monitoring model guardrails, jailbreaks, and behavioral drift post-deployment. Integrate security validation into the entire CI/CD pipeline to ensure proactive detection of misuse vectors.",
+  "quick_wins": [
+    "Implement a dedicated staging environment for adversarial testing.",
+    "Create and execute a structured jailbreak testing suite (e.g., prompt injection, roleplaying).",
+    "Limit the agent's permissions and access scope (Principle of Least Privilege) in production.",
+    "Require human review and sign-off after any material changes to the LLM's system prompt or prompt template."
+  ],
+  "root_causes": {},
+  "mode": "llm",
+  "llm_ready": "already warm",
+  "grounded": true
+}

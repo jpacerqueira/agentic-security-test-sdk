@@ -1,0 +1,24 @@
+{
+  "issues": [
+    {
+      "id": "ISS-001",
+      "title": "Run live jailbreak probes in LLM mode before production agent launch",
+      "source": "jailbreak",
+      "ref": "JB-program",
+      "severity": "HIGH",
+      "priority": "P2",
+      "status": "open",
+      "owner": "security",
+      "sla_days": 14,
+      "opened": "2026-09-25",
+      "due": "2026-10-09"
+    }
+  ],
+  "by_status": {
+    "open": 1,
+    "in-progress": 0,
+    "done": 0
+  },
+  "open_count": 1,
+  "narrative": "Each finding is a tracked issue with SLA. This is the Professional agentic issue board, not a feature list."
+}

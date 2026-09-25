@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Policy and control map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root { --ink:#171D1D; --sage:#E6EAE6; --muted:#91969C; --accent:#ED3A12; --rule:#D5D5D5; --bg:#FFFFFF; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); font-family:"Inter Tight",sans-serif; font-size:14px; line-height:1.55; }
+header.cover { padding:48px 48px 36px; border-top:4px solid var(--ink); }
+.dot { width:14px; height:14px; border-radius:50%; background:var(--accent); margin-bottom:28px; }
+.cls { font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+h1,h2,h3 { font-family:"Instrument Serif",Georgia,serif; font-weight:400; letter-spacing:-.005em; margin:0 0 .45em; }
+h1 { font-size:2.4rem; }
+h2 { font-size:1.5rem; margin-top:36px; }
+h3 { font-size:1.2rem; margin-top:24px; }
+h4 { font-size:1.05rem; font-family:"Inter Tight",sans-serif; font-weight:600; margin-top:18px; }
+main { padding:0 48px 64px; max-width:1100px; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th,td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--rule); vertical-align:top; }
+th { font-family:"IBM Plex Mono",monospace; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); }
+.badge { display:inline-block; padding:2px 7px; font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.04em; text-transform:uppercase; }
+.CRITICAL,.HIGH { background:#FDECEA; color:#C0392B; border:1px solid #F5C6C2; }
+.MEDIUM { background:#FEF3E2; color:#A0522D; border:1px solid #F5DFB8; }
+.LOW,.INFO,.UNKNOWN,.PASS,.pass,.met,.collected,.in-progress { background:#EAF4EA; color:#2E7D32; border:1px solid #B8DDB8; }
+.fail,.gap,.catalogue { background:#FEF3E2; color:#A0522D; border:1px solid #F5DFB8; }
+.evidence { background:var(--sage); padding:10px 12px; font-family:"IBM Plex Mono",monospace; font-size:12px; white-space:pre-wrap; margin:8px 0 16px; }
+.statrow { display:flex; gap:18px; flex-wrap:wrap; margin:18px 0 28px; }
+.stat { background:var(--sage); padding:14px 18px; min-width:110px; }
+.stat b { display:block; font-family:"Instrument Serif",serif; font-size:1.8rem; font-weight:400; }
+.stat span { font-family:"IBM Plex Mono",monospace; font-size:11px; text-transform:uppercase; color:var(--muted); letter-spacing:.06em; }
+.callout { background:#FEF3E2; border-left:3px solid var(--accent); padding:14px 18px; margin:20px 0; }
+.footer { font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--muted); padding:24px 48px; border-top:1px solid var(--rule); }
+code { font-family:"IBM Plex Mono",monospace; background:var(--sage); padding:0 4px; }
+</style>
+</head>
+<body>
+<header class="cover">
+  <div class="dot"></div>
+  <p class="cls">Client-CarlosMG confidential · Macro-Search - Agentic Security Scan (LangGraph)</p>
+  <h1>Policy and control map</h1>
+</header>
+<main>
+<p>Plan <code>ultra-professional</code> · questionnaires / year: 144 · client <strong>Client-CarlosMG</strong>.</p>
+<h2>Frameworks</h2><ul><li>SOC 2</li><li>ISO 27001</li><li>ISO 27701</li><li>PCI DSS</li><li>HIPAA</li><li>GDPR</li></ul>
+<h2>Policies</h2>
+<h3>POL-ISMS Information security policy <span class="badge ADOPTED-DRAFT">ADOPTED-DRAFT</span></h3>
+<p>Owner security · review 2026-12-24</p>
+<p>Information shall be protected according to classification. This assessment is the snapshot-in-time input to the ISMS statement of applicability.</p>
+<h3>POL-ACCESS Access control policy <span class="badge ADOPTED-DRAFT">ADOPTED-DRAFT</span></h3>
+<p>Owner security · review 2026-12-24</p>
+<p>Access is least-privilege, recertified on a published cadence, and revoked on leaver within 24 hours. Secrets are not identities.</p>
+<h3>POL-VULN Vulnerability management policy <span class="badge ADOPTED-DRAFT">ADOPTED-DRAFT</span></h3>
+<p>Owner security · review 2026-12-24</p>
+<p>Critical CVEs: 2 days. High: 7 days. Medium: 30 days. Trivy (or equivalent) runs on every release candidate.</p>
+<h3>POL-AI Acceptable use of AI / LLM systems <span class="badge ADOPTED-DRAFT">ADOPTED-DRAFT</span></h3>
+<p>Owner security · review 2026-12-24</p>
+<p>LLM features require system-prompt isolation, output filtering, and a jailbreak regression pack before production. Live probes are mandatory in LLM-mode runs.</p>
+<h2>Controls</h2>
+<table><tr><th>ID</th><th>Framework</th><th>Title</th><th>Status</th><th>Owner</th><th>Tests</th><th>Last tested</th></tr><tr><td>CC6.1</td><td>SOC 2</td><td>Logical access</td><td><span class="badge IN-PROGRESS">IN-PROGRESS</span></td><td>security</td><td>Identity inventory, Privileged review AR-001, No hardcoded credentials</td><td>2026-09-25</td></tr><tr><td>CC6.6</td><td>SOC 2</td><td>Encryption in transit</td><td><span class="badge IN-PROGRESS">IN-PROGRESS</span></td><td>engineering</td><td>TLS 1.2+ only, Certificate verification enabled</td><td>2026-09-25</td></tr><tr><td>CC7.2</td><td>SOC 2</td><td>System monitoring</td><td><span class="badge MET">MET</span></td><td>platform</td><td>Trivy filesystem scan, CVE SLA for HIGH+</td><td>2026-09-25</td></tr><tr><td>A.8.2</td><td>GDPR</td><td>Privileged access rights</td><td><span class="badge IN-PROGRESS">IN-PROGRESS</span></td><td>security</td><td>Policy acknowledgement, Access recertification</td><td>2026-09-25</td></tr></table>
+<h2>Evidence map</h2>
+<table><tr><th>ID</th><th>Control</th><th>Artifact</th><th>Status</th></tr><tr><td>EV-TRIVY</td><td>CC7.2</td><td>trivy_report.json</td><td><span class="badge COLLECTED">COLLECTED</span></td></tr><tr><td>EV-APPSEC</td><td>CC6.1</td><td>appsec_findings.json</td><td><span class="badge COLLECTED">COLLECTED</span></td></tr><tr><td>EV-JAIL</td><td>POL-AI</td><td>jailbreak_assessment.json</td><td><span class="badge COLLECTED-LIVE">COLLECTED-LIVE</span></td></tr></table>
+<h2>Questionnaires</h2>
+<table><tr><th>ID</th><th>Name</th><th>Status</th></tr><tr><td>Q-SOC2</td><td>SOC 2 Type II security questionnaire</td><td><span class="badge TEMPLATE-READY">TEMPLATE-READY</span></td></tr><tr><td>Q-SIG</td><td>SIG Core / Lite</td><td><span class="badge ENTITLED">ENTITLED</span></td></tr><tr><td>Q-CAIQ</td><td>CAIQ v4</td><td><span class="badge ENTITLED">ENTITLED</span></td></tr></table>
+</main>
+<div class="footer">Macro-Search - Agentic Security Scan (LangGraph) · snapshot in time</div>
+</body></html>

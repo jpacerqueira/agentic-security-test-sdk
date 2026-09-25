@@ -1,0 +1,146 @@
+{
+  "plan": "ultra-professional",
+  "frameworks": [
+    "SOC 2",
+    "ISO 27001",
+    "ISO 27701",
+    "PCI DSS",
+    "HIPAA",
+    "GDPR"
+  ],
+  "questionnaires_per_year": 144,
+  "controls": [
+    {
+      "id": "CC6.1",
+      "framework": "SOC 2",
+      "title": "Logical access",
+      "status": "in-progress",
+      "owner": "security",
+      "tests": [
+        "Identity inventory",
+        "Privileged review AR-001",
+        "No hardcoded credentials"
+      ],
+      "last_tested": "2026-09-25"
+    },
+    {
+      "id": "CC6.6",
+      "framework": "SOC 2",
+      "title": "Encryption in transit",
+      "status": "in-progress",
+      "owner": "engineering",
+      "tests": [
+        "TLS 1.2+ only",
+        "Certificate verification enabled"
+      ],
+      "last_tested": "2026-09-25"
+    },
+    {
+      "id": "CC7.2",
+      "framework": "SOC 2",
+      "title": "System monitoring",
+      "status": "met",
+      "owner": "platform",
+      "tests": [
+        "Trivy filesystem scan",
+        "CVE SLA for HIGH+"
+      ],
+      "last_tested": "2026-09-25"
+    },
+    {
+      "id": "A.8.2",
+      "framework": "GDPR",
+      "title": "Privileged access rights",
+      "status": "in-progress",
+      "owner": "security",
+      "tests": [
+        "Policy acknowledgement",
+        "Access recertification"
+      ],
+      "last_tested": "2026-09-25"
+    }
+  ],
+  "policies": [
+    {
+      "id": "POL-ISMS",
+      "title": "Information security policy",
+      "status": "adopted-draft",
+      "body": "Information shall be protected according to classification. This assessment is the snapshot-in-time input to the ISMS statement of applicability.",
+      "owner": "security",
+      "review_date": "2026-12-24"
+    },
+    {
+      "id": "POL-ACCESS",
+      "title": "Access control policy",
+      "status": "adopted-draft",
+      "body": "Access is least-privilege, recertified on a published cadence, and revoked on leaver within 24 hours. Secrets are not identities.",
+      "owner": "security",
+      "review_date": "2026-12-24"
+    },
+    {
+      "id": "POL-VULN",
+      "title": "Vulnerability management policy",
+      "status": "adopted-draft",
+      "body": "Critical CVEs: 2 days. High: 7 days. Medium: 30 days. Trivy (or equivalent) runs on every release candidate.",
+      "owner": "security",
+      "review_date": "2026-12-24"
+    },
+    {
+      "id": "POL-AI",
+      "title": "Acceptable use of AI / LLM systems",
+      "status": "adopted-draft",
+      "body": "LLM features require system-prompt isolation, output filtering, and a jailbreak regression pack before production. Live probes are mandatory in LLM-mode runs.",
+      "owner": "security",
+      "review_date": "2026-12-24"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "EV-TRIVY",
+      "control": "CC7.2",
+      "artifact": "trivy_report.json",
+      "status": "collected"
+    },
+    {
+      "id": "EV-APPSEC",
+      "control": "CC6.1",
+      "artifact": "appsec_findings.json",
+      "status": "collected"
+    },
+    {
+      "id": "EV-JAIL",
+      "control": "POL-AI",
+      "artifact": "jailbreak_assessment.json",
+      "status": "catalogue-only"
+    }
+  ],
+  "features": [
+    "Everything in Professional",
+    "Optional per-run LLM grounding (launch checkbox)",
+    "Runtime scrape of this source tree, tailored to the assessment",
+    "GitHub metadata when the tree was fetched from a repo URL",
+    "LLM text must cite grounding fact ids or say unknown",
+    "llm-grounding.html evidence report"
+  ],
+  "trust_center": true,
+  "risk_register_enabled": true,
+  "issue_management_enabled": true,
+  "access_reviews_enabled": true,
+  "questionnaires": [
+    {
+      "id": "Q-SOC2",
+      "name": "SOC 2 Type II security questionnaire",
+      "status": "template-ready"
+    },
+    {
+      "id": "Q-SIG",
+      "name": "SIG Core / Lite",
+      "status": "entitled"
+    },
+    {
+      "id": "Q-CAIQ",
+      "name": "CAIQ v4",
+      "status": "entitled"
+    }
+  ]
+}

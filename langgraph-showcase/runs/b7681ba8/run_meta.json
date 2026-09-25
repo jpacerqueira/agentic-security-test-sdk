@@ -1,0 +1,12 @@
+{
+  "run_id": "b7681ba8",
+  "plan": "ultra-professional",
+  "skip_llm": false,
+  "auto_approve_gates": true,
+  "reviewer_name": "Security Analyst JJPACC",
+  "client_name": "Client-CarlosMG",
+  "target_url": "https://github.com/carlosmgv02/Oauth2-github-example",
+  "source_path": "examples/carlosmgv02_Oauth2-github-example",
+  "llm_grounding": true,
+  "created": "2026-09-25T10:55:37.787155Z"
+}

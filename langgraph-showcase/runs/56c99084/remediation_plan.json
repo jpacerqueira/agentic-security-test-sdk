@@ -1,0 +1,21 @@
+{
+  "items": [
+    {
+      "source": "jailbreak",
+      "ref": "JB-program",
+      "title": "Run live jailbreak probes in LLM mode before production agent launch",
+      "severity": "HIGH",
+      "owner": "security",
+      "sla_days": 14
+    }
+  ],
+  "tactical": "Remediate observed vulnerabilities in SLA order (Critical 2d, High 7d, Medium 30d).",
+  "strategic": "Address root causes (insecure configuration, coding practice, patch cadence, architecture).",
+  "quick_wins": [
+    "Remove hardcoded credentials and rotate anything committed.",
+    "Re-enable TLS certificate verification in HTTP clients.",
+    "Pin and upgrade Trivy HIGH+ packages."
+  ],
+  "root_causes": {},
+  "mode": "deterministic"
+}

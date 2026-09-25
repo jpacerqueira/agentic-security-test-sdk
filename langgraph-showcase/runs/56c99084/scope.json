@@ -1,0 +1,68 @@
+{
+  "client": "Client-CarlosMG",
+  "engagement_window": {
+    "start": "2026-09-25",
+    "end": "2026-09-25"
+  },
+  "objectives": [
+    "Perform a security assessment against the scoped targets",
+    "Prioritise vulnerabilities by ease of exploitation and severity",
+    "Provide recommendations aligned with industry best practice",
+    "Deliver a manageable and accurate report"
+  ],
+  "methodology": [
+    "OWASP WSTG",
+    "OWASP ASVS 4.0",
+    "PTES",
+    "OSSTMM",
+    "CIS Benchmarks"
+  ],
+  "domains": [
+    "github.com",
+    "www.github.com",
+    "api.github.com",
+    "staging.github.com"
+  ],
+  "source_path": "examples/carlosmgv02_Oauth2-github-example",
+  "files_in_tree": 19,
+  "languages": {
+    ".json": 1,
+    ".cmd": 1,
+    "none": 3,
+    ".xml": 1,
+    ".md": 1,
+    ".properties": 1,
+    ".yml": 1,
+    ".gif": 1,
+    ".html": 3,
+    ".java": 6
+  },
+  "tester_roles": [
+    "unauthenticated",
+    "authenticated",
+    "privileged"
+  ],
+  "personnel": [
+    {
+      "role": "Lead tester",
+      "name": "Macro-Search pipeline"
+    },
+    {
+      "role": "Engagement reviewer",
+      "name": "Gate approver (human)"
+    },
+    {
+      "role": "Client contact",
+      "name": "Client-CarlosMG"
+    }
+  ],
+  "executive_overview": "This engagement is a grey-box / source-assisted security assessment for Client-CarlosMG. The scoped tree contains 19 files (.java (6), none (3), .html (3), .json (1), .cmd (1), .xml (1), .md (1), .properties (1)). The named application target is https://github.com/carlosmgv02/Oauth2-github-example.\n\nWork in this run covers (1) filesystem vulnerability scanning of third-party components, (2) source-assisted application tests mapped to OWASP WSTG and ASVS 4.0, (3) a jailbreak / prompt-injection probe catalogue (executed live only in LLM mode), and (4) a CIS cloud-control catalogue scored against IaC presence in the tree.\n\nDestructive denial-of-service, social engineering of staff, and physical premises testing are out of scope. Findings are a snapshot in time: they reflect evidence gathered during this assessment, not later code or configuration changes.\n\nWhere a WSTG family was exercised and no supporting evidence was found, the appendix records the result as not-observed rather than omitting the test. Absence of an AS-id is not silence.",
+  "assets_out_of_scope": [
+    "Physical premises",
+    "Social engineering of staff",
+    "Denial-of-service load tests"
+  ],
+  "confidentiality": "Client confidential \u2014 snapshot in time.",
+  "disclaimer": "A penetration test is a snapshot in time. Findings reflect the information gathered during the assessment, not later changes.",
+  "mode": "deterministic"
+}

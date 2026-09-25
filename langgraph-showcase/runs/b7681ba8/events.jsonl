@@ -1,0 +1,47 @@
+{"kind": "llm_wait", "phase": "scope", "payload": {"engine": "gateway", "via": "langgraph+langchain_openai.ChatOpenAI"}}
+{"kind": "llm_ready", "phase": "scope", "payload": {"ready": true, "message": "ready (['gemma4:latest', 'openai/gemma4:latest']); warmed gemma4:latest", "langgraph": true}}
+{"kind": "phase_started", "phase": "scope", "payload": {}}
+{"kind": "artifact", "phase": "scope", "payload": {"key": "grounding.json", "gate_id": "gate_1"}}
+{"kind": "artifact", "phase": "scope", "payload": {"key": "scope.json", "gate_id": "gate_1"}}
+{"kind": "gate_opened", "phase": "gate_1", "payload": {"gate_id": "gate_1"}}
+{"kind": "gate_resolved", "phase": "gate_1", "payload": {"gate_id": "gate_1", "decision": "approved", "reviewer_name": "Security Analyst JJPACC"}}
+{"kind": "phase_started", "phase": "vuln_scan", "payload": {}}
+{"kind": "artifact", "phase": "vuln_scan", "payload": {"key": "trivy_report.json", "gate_id": "gate_2"}}
+{"kind": "gate_opened", "phase": "gate_2", "payload": {"gate_id": "gate_2"}}
+{"kind": "gate_resolved", "phase": "gate_2", "payload": {"gate_id": "gate_2", "decision": "approved", "reviewer_name": "Security Analyst JJPACC"}}
+{"kind": "phase_started", "phase": "appsec", "payload": {}}
+{"kind": "artifact", "phase": "appsec", "payload": {"key": "appsec_findings.json", "gate_id": "gate_3"}}
+{"kind": "gate_opened", "phase": "gate_3", "payload": {"gate_id": "gate_3"}}
+{"kind": "gate_resolved", "phase": "gate_3", "payload": {"gate_id": "gate_3", "decision": "approved", "reviewer_name": "Security Analyst JJPACC"}}
+{"kind": "phase_started", "phase": "jailbreak", "payload": {}}
+{"kind": "artifact", "phase": "jailbreak", "payload": {"key": "jailbreak_assessment.json", "gate_id": "gate_4"}}
+{"kind": "gate_opened", "phase": "gate_4", "payload": {"gate_id": "gate_4"}}
+{"kind": "gate_resolved", "phase": "gate_4", "payload": {"gate_id": "gate_4", "decision": "approved", "reviewer_name": "Security Analyst JJPACC"}}
+{"kind": "phase_started", "phase": "cis_cloud", "payload": {}}
+{"kind": "artifact", "phase": "cis_cloud", "payload": {"key": "cis_cloud.json", "gate_id": "gate_5"}}
+{"kind": "artifact", "phase": "gate_5", "payload": {"key": "remediation_plan.json", "gate_id": "gate_5"}}
+{"kind": "gate_opened", "phase": "gate_5", "payload": {"gate_id": "gate_5"}}
+{"kind": "gate_resolved", "phase": "gate_5", "payload": {"gate_id": "gate_5", "decision": "approved", "reviewer_name": "Security Analyst JJPACC"}}
+{"kind": "phase_started", "phase": "compliance", "payload": {}}
+{"kind": "artifact", "phase": "compliance", "payload": {"key": "compliance.json", "gate_id": "gate_6"}}
+{"kind": "artifact", "phase": "compliance", "payload": {"key": "access_management.json", "gate_id": "gate_6"}}
+{"kind": "artifact", "phase": "compliance", "payload": {"key": "risk_register.json", "gate_id": "gate_6"}}
+{"kind": "artifact", "phase": "compliance", "payload": {"key": "issues.json", "gate_id": "gate_6"}}
+{"kind": "artifact", "phase": "compliance", "payload": {"key": "asvs_coverage.json", "gate_id": "gate_6"}}
+{"kind": "gate_opened", "phase": "gate_6", "payload": {"gate_id": "gate_6"}}
+{"kind": "gate_resolved", "phase": "gate_6", "payload": {"gate_id": "gate_6", "decision": "approved", "reviewer_name": "Security Analyst JJPACC"}}
+{"kind": "phase_started", "phase": "writer", "payload": {}}
+{"kind": "artifact", "phase": "writer", "payload": {"key": "reports_index.json", "gate_id": "gate_6"}}
+{"kind": "artifact", "phase": "writer", "payload": {"key": "pentest-assessment.html", "gate_id": ""}}
+{"kind": "artifact", "phase": "writer", "payload": {"key": "trivy-scan.html", "gate_id": ""}}
+{"kind": "artifact", "phase": "writer", "payload": {"key": "executive-summary.html", "gate_id": ""}}
+{"kind": "artifact", "phase": "writer", "payload": {"key": "jailbreak-assessment.html", "gate_id": ""}}
+{"kind": "artifact", "phase": "writer", "payload": {"key": "access-management.html", "gate_id": ""}}
+{"kind": "artifact", "phase": "writer", "payload": {"key": "policy-control-map.html", "gate_id": ""}}
+{"kind": "artifact", "phase": "writer", "payload": {"key": "risk-register.html", "gate_id": ""}}
+{"kind": "artifact", "phase": "writer", "payload": {"key": "cis-cloud.html", "gate_id": ""}}
+{"kind": "artifact", "phase": "writer", "payload": {"key": "owasp-asvs.html", "gate_id": ""}}
+{"kind": "artifact", "phase": "writer", "payload": {"key": "issue-management.html", "gate_id": ""}}
+{"kind": "artifact", "phase": "writer", "payload": {"key": "llm-grounding.html", "gate_id": ""}}
+{"kind": "artifact", "phase": "writer", "payload": {"key": "full-security-report.html", "gate_id": ""}}
+{"kind": "pipeline_completed", "phase": "done", "payload": {"artifacts": ["grounding.json", "scope.json", "gate_1_decision.json", "trivy_report.json", "gate_2_decision.json", "appsec_findings.json", "gate_3_decision.json", "jailbreak_assessment.json", "gate_4_decision.json", "cis_cloud.json", "remediation_plan.json", "gate_5_decision.json", "compliance.json", "access_management.json", "risk_register.json", "issues.json", "asvs_coverage.json", "gate_6_decision.json", "reports_index.json"], "reports": ["pentest-assessment.html", "trivy-scan.html", "executive-summary.html", "jailbreak-assessment.html", "access-management.html", "policy-control-map.html", "risk-register.html", "cis-cloud.html", "owasp-asvs.html", "issue-management.html", "llm-grounding.html", "full-security-report.html"]}}

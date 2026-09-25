@@ -1,0 +1,27 @@
+{
+  "scanner": "trivy-fallback",
+  "results_count": 0,
+  "vulnerability_count": 0,
+  "by_severity": {
+    "CRITICAL": 0,
+    "HIGH": 0,
+    "MEDIUM": 0,
+    "LOW": 0,
+    "UNKNOWN": 0,
+    "INFO": 1
+  },
+  "vulnerabilities": [
+    {
+      "id": "DEP-MANIFEST",
+      "severity": "INFO",
+      "title": "Dependency manifests present \u2014 Trivy not installed in this environment",
+      "pkg": null,
+      "target": "examples/carlosmgv02_Oauth2-github-example/pom.xml"
+    }
+  ],
+  "manifests": [
+    "examples/carlosmgv02_Oauth2-github-example/pom.xml"
+  ],
+  "raw_present": false,
+  "note": "Install trivy on PATH for a live CVE scan of this tree."
+}

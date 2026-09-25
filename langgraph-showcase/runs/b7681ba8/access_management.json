@@ -1,0 +1,154 @@
+{
+  "enabled": true,
+  "directory": "local-only",
+  "connectors": [
+    {
+      "name": "Local source inventory",
+      "status": "connected",
+      "note": "Derived from the scanned tree"
+    },
+    {
+      "name": "Okta / Entra / Google Workspace",
+      "status": "not-configured",
+      "note": "No tenant connector in this run"
+    }
+  ],
+  "identities": [
+    {
+      "id": "ID-001",
+      "principal": "app-runtime",
+      "type": "service-account",
+      "roles": [
+        "process-owner"
+      ],
+      "mfa": "not-applicable",
+      "privileged": true,
+      "source": "runtime of the scanned tree",
+      "last_review": null,
+      "status": "active"
+    },
+    {
+      "id": "ID-002",
+      "principal": "unauthenticated-client",
+      "type": "external",
+      "roles": [
+        "unauthenticated"
+      ],
+      "mfa": "none",
+      "privileged": false,
+      "source": "public HTTP surface",
+      "last_review": null,
+      "status": "active"
+    },
+    {
+      "id": "ID-003",
+      "principal": "authenticated-user",
+      "type": "human",
+      "roles": [
+        "authenticated"
+      ],
+      "mfa": "not-found-in-source",
+      "privileged": false,
+      "source": "application session (inferred)",
+      "last_review": null,
+      "status": "needs-review"
+    },
+    {
+      "id": "ID-004",
+      "principal": "privileged-operator",
+      "type": "human",
+      "roles": [
+        "privileged"
+      ],
+      "mfa": "not-found-in-source",
+      "privileged": true,
+      "source": "tester_roles.privileged",
+      "last_review": null,
+      "status": "needs-review"
+    }
+  ],
+  "privileged_count": 2,
+  "identity_count": 4,
+  "mfa_coverage": "0/2 human principals",
+  "reviews": [
+    {
+      "id": "AR-001",
+      "scope": "privileged operators",
+      "cadence": "quarterly",
+      "due": "2026-10-09",
+      "owner": "security",
+      "status": "scheduled"
+    },
+    {
+      "id": "AR-002",
+      "scope": "service accounts / secrets",
+      "cadence": "monthly",
+      "due": "2026-10-02",
+      "owner": "platform",
+      "status": "scheduled"
+    },
+    {
+      "id": "AR-003",
+      "scope": "guest / unauthenticated surface",
+      "cadence": "semi-annual",
+      "due": "2026-11-09",
+      "owner": "engineering",
+      "status": "scheduled"
+    }
+  ],
+  "joiner_mover_leaver": [
+    {
+      "stage": "joiner",
+      "control": "Provision least-privilege role from an approved template",
+      "status": "documented"
+    },
+    {
+      "stage": "mover",
+      "control": "Re-certify roles within 7 days of team change",
+      "status": "documented"
+    },
+    {
+      "stage": "leaver",
+      "control": "Disable IdP + rotate service secrets within 24h",
+      "status": "documented"
+    }
+  ],
+  "break_glass": {
+    "defined": false,
+    "note": "No break-glass runbook in-tree."
+  },
+  "soc2_cc6": [
+    {
+      "id": "CC6.1",
+      "framework": "SOC 2",
+      "title": "Logical access",
+      "status": "in-progress",
+      "owner": "security",
+      "tests": [
+        "Identity inventory",
+        "Privileged review AR-001",
+        "No hardcoded credentials"
+      ],
+      "last_tested": "2026-09-25"
+    },
+    {
+      "id": "CC6.6",
+      "framework": "SOC 2",
+      "title": "Encryption in transit",
+      "status": "in-progress",
+      "owner": "engineering",
+      "tests": [
+        "TLS 1.2+ only",
+        "Certificate verification enabled"
+      ],
+      "last_tested": "2026-09-25"
+    }
+  ],
+  "narrative": "The web application facilitates user access through OAuth2 authentication with GitHub [G-001]. Access pathways include public interaction via an unauthenticated client [ID-002] and internal processes managed by the active service-account 'app-runtime' [ID-001]. User roles are represented by 'authenticated-user' (ID-003) and 'privileged-operator' (ID-004); however, both of these critical human identities currently require review [ID-003, ID-004]. The system must ensure robust access controls for the `process-owner` service account while mitigating risk associated with users whose roles and access scopes have not been recently validated.",
+  "mode": "llm",
+  "llm_ready": "already warm",
+  "grounded": true,
+  "priority_actions": [
+    "Review the access permissions for ID-003 (authenticated-user) and ID-004 (privileged-operator) immediately due to their 'needs-review' status."
+  ]
+}

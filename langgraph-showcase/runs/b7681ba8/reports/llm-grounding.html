@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LLM grounding pack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root { --ink:#171D1D; --sage:#E6EAE6; --muted:#91969C; --accent:#ED3A12; --rule:#D5D5D5; --bg:#FFFFFF; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); font-family:"Inter Tight",sans-serif; font-size:14px; line-height:1.55; }
+header.cover { padding:48px 48px 36px; border-top:4px solid var(--ink); }
+.dot { width:14px; height:14px; border-radius:50%; background:var(--accent); margin-bottom:28px; }
+.cls { font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+h1,h2,h3 { font-family:"Instrument Serif",Georgia,serif; font-weight:400; letter-spacing:-.005em; margin:0 0 .45em; }
+h1 { font-size:2.4rem; }
+h2 { font-size:1.5rem; margin-top:36px; }
+h3 { font-size:1.2rem; margin-top:24px; }
+h4 { font-size:1.05rem; font-family:"Inter Tight",sans-serif; font-weight:600; margin-top:18px; }
+main { padding:0 48px 64px; max-width:1100px; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th,td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--rule); vertical-align:top; }
+th { font-family:"IBM Plex Mono",monospace; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); }
+.badge { display:inline-block; padding:2px 7px; font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.04em; text-transform:uppercase; }
+.CRITICAL,.HIGH { background:#FDECEA; color:#C0392B; border:1px solid #F5C6C2; }
+.MEDIUM { background:#FEF3E2; color:#A0522D; border:1px solid #F5DFB8; }
+.LOW,.INFO,.UNKNOWN,.PASS,.pass,.met,.collected,.in-progress { background:#EAF4EA; color:#2E7D32; border:1px solid #B8DDB8; }
+.fail,.gap,.catalogue { background:#FEF3E2; color:#A0522D; border:1px solid #F5DFB8; }
+.evidence { background:var(--sage); padding:10px 12px; font-family:"IBM Plex Mono",monospace; font-size:12px; white-space:pre-wrap; margin:8px 0 16px; }
+.statrow { display:flex; gap:18px; flex-wrap:wrap; margin:18px 0 28px; }
+.stat { background:var(--sage); padding:14px 18px; min-width:110px; }
+.stat b { display:block; font-family:"Instrument Serif",serif; font-size:1.8rem; font-weight:400; }
+.stat span { font-family:"IBM Plex Mono",monospace; font-size:11px; text-transform:uppercase; color:var(--muted); letter-spacing:.06em; }
+.callout { background:#FEF3E2; border-left:3px solid var(--accent); padding:14px 18px; margin:20px 0; }
+.footer { font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--muted); padding:24px 48px; border-top:1px solid var(--rule); }
+code { font-family:"IBM Plex Mono",monospace; background:var(--sage); padding:0 4px; }
+</style>
+</head>
+<body>
+<header class="cover">
+  <div class="dot"></div>
+  <p class="cls">Client-CarlosMG confidential · Macro-Search - Agentic Security Scan (LangGraph)</p>
+  <h1>LLM grounding pack</h1>
+</header>
+<main>
+
+<p>Facts scraped for <strong>Client-CarlosMG</strong> from <code>examples/carlosmgv02_Oauth2-github-example</code>
+at run time. LLM narrative on this tier must cite <code>G-00n</code> ids or say unknown.</p>
+<p class="callout">Use only the facts below. Cite fact ids (G-00n) next to any claim. If a detail is not in this pack, write unknown — do not invent hosts, CVEs, staff names, or product features.</p>
+<div class="statrow">
+  <div class="stat"><b>19</b><span>Files inventoried</span></div>
+  <div class="stat"><b>8</b><span>Grounding facts</span></div>
+</div>
+<h2>GitHub metadata</h2><p>carlosmgv02/Oauth2-github-example — A simple web app that lets users log in with GitHub OAuth2 and view detailed profile information fetched from their GitHub account, including name, bio, avatar, and repository stats, all in a modern UI. (Java)</p>
+<h2>Facts</h2>
+<table><tr><th>ID</th><th>Kind</th><th>Path</th><th>Excerpt</th></tr><tr><td>G-001</td><td>manifest</td><td>README.md</td><td># OAuth2 User Profile with Spring Boot
+
+## Description
+
+This project is a simple web application built with Spring Boot that allows users to log in using OAuth2 with GitHub. After authenticating, users can view a detailed profile displaying information directly pulled from their </td></tr><tr><td>G-002</td><td>manifest</td><td>readme.md</td><td># OAuth2 User Profile with Spring Boot
+
+## Description
+
+This project is a simple web application built with Spring Boot that allows users to log in using OAuth2 with GitHub. After authenticating, users can view a detailed profile displaying information directly pulled from their </td></tr><tr><td>G-003</td><td>manifest</td><td>pom.xml</td><td><?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</m</td></tr><tr><td>G-004</td><td>manifest</td><td>Dockerfile</td><td>FROM amazoncorretto:17
+
+WORKDIR /app
+
+COPY target/Oauth2-0.0.1-SNAPSHOT.jar app.jar
+
+EXPOSE 8080
+
+# Run the JAR file
+ENTRYPOINT [&quot;java&quot;,&quot;-jar&quot;,&quot;/app/app.jar&quot;]</td></tr><tr><td>G-005</td><td>manifest</td><td>.source.json</td><td>{
+  &quot;github_url&quot;: &quot;https://github.com/carlosmgv02/Oauth2-github-example&quot;
+}</td></tr><tr><td>G-006</td><td>route</td><td>src/main/java/org/example/oauth2/config/SecurityConfig.java</td><td>/login**</td></tr><tr><td>G-007</td><td>route</td><td>src/main/java/org/example/oauth2/controller/UserController.java</td><td>/login</td></tr><tr><td>G-008</td><td>github</td><td>https://github.com/carlosmgv02/Oauth2-github-example</td><td>{
+  &quot;full_name&quot;: &quot;carlosmgv02/Oauth2-github-example&quot;,
+  &quot;description&quot;: &quot;A simple web app that lets users log in with GitHub OAuth2 and view detailed profile information fetched from their GitHub account, including name, bio, avatar, and repository stats, all in a modern UI.&quot;,
+  &quot;</td></tr></table>
+
+</main>
+<div class="footer">Macro-Search - Agentic Security Scan (LangGraph) · snapshot in time</div>
+</body></html>

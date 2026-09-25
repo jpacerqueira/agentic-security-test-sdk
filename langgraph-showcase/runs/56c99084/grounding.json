@@ -1,0 +1,110 @@
+{
+  "enabled": true,
+  "client": "Client-CarlosMG",
+  "source_path": "examples/carlosmgv02_Oauth2-github-example",
+  "target_url": "https://github.com/carlosmgv02/Oauth2-github-example",
+  "github_url": "https://github.com/carlosmgv02/Oauth2-github-example",
+  "github_meta": {
+    "full_name": "carlosmgv02/Oauth2-github-example",
+    "description": "A simple web app that lets users log in with GitHub OAuth2 and view detailed profile information fetched from their GitHub account, including name, bio, avatar, and repository stats, all in a modern UI.",
+    "language": "Java",
+    "topics": [
+      "github",
+      "java",
+      "oauth2",
+      "security",
+      "spring-boot",
+      "thymeleaf"
+    ],
+    "default_branch": "master",
+    "html_url": "https://github.com/carlosmgv02/Oauth2-github-example",
+    "license": ""
+  },
+  "inventory": {
+    "files": 19,
+    "extensions": {
+      ".java": 6,
+      "none": 3,
+      ".html": 3,
+      ".json": 1,
+      ".cmd": 1,
+      ".xml": 1,
+      ".md": 1,
+      ".properties": 1,
+      ".yml": 1,
+      ".gif": 1
+    },
+    "top_files": [
+      ".gitignore",
+      ".mvn/wrapper/maven-wrapper.properties",
+      ".source.json",
+      "Dockerfile",
+      "README.md",
+      "mvnw",
+      "mvnw.cmd",
+      "pom.xml",
+      "src/main/java/org/example/oauth2/Oauth2Application.java",
+      "src/main/java/org/example/oauth2/config/RestTemplateConfig.java",
+      "src/main/java/org/example/oauth2/config/SecurityConfig.java",
+      "src/main/java/org/example/oauth2/controller/UserController.java",
+      "src/main/java/org/example/oauth2/exception/RestExceptionHandler.java",
+      "src/main/java/org/example/oauth2/service/GitHubService.java",
+      "src/main/resources/application.yml",
+      "src/main/resources/static/demo.gif",
+      "src/main/resources/templates/home.html",
+      "src/main/resources/templates/login.html",
+      "src/main/resources/templates/profile.html"
+    ]
+  },
+  "facts": [
+    {
+      "id": "G-001",
+      "kind": "manifest",
+      "path": "README.md",
+      "text": "# OAuth2 User Profile with Spring Boot\n\n## Description\n\nThis project is a simple web application built with Spring Boot that allows users to log in using OAuth2 with GitHub. After authenticating, users can view a detailed profile displaying information directly pulled from their GitHub account, such as their name, bio, avatar, and repository statistics.\n\n## Features\n\n- **Login with OAuth2 (GitHub)**\n- **User profile view with details fetched from GitHub**\n- **Custom homepage displaying authentication status**\n- **Attractive and modern user interface using Thymeleaf**\n\n## Prerequisites\n\nBefore you begin, make sure you have the following installed:\n\n- **Java 17 or higher**\n- **Maven 3.6.3 or higher**\n- **A GitHub account with an OAuth app configured** ([GitHub OAuth App Setup Instructions](https://docs.github.com/en/developers/apps/building-oauth-apps/creating-an-oauth-app))\n\n## Setup\n\n1. **Clone the repository**\n\n   ```bash\n   git clone https://github.com/carlosmgv02/Oauth2-github-example.git\n   cd Oauth2-github-example\n```\n \n1. **Configure OAuth2 credentials** Open the `src/main/resources/application.yml` file and replace `your-github-client-id` and `your-github-client-secret` with your GitHub OAuth app credentials.\n\n```yaml\nspring:\n  thymeleaf:\n    prefix: classpath:/templates/\n    suffix: .html\n  security:\n    oauth2:\n      client:\n        registration:\n          github:\n            client-id: your-github-client-id\n            client-secret: your-github-client-secret\n            scope: user\n            redirect-uri: \"{baseUrl}/login/oauth2/code/{registrationId}\"\n        provider:\n          github:\n            authorization-uri: https://github.com/login/oauth/authorize\n            token-uri: https://github.com/login/oauth/access_token\n            user-info-uri: https:/"
+    },
+    {
+      "id": "G-002",
+      "kind": "manifest",
+      "path": "readme.md",
+      "text": "# OAuth2 User Profile with Spring Boot\n\n## Description\n\nThis project is a simple web application built with Spring Boot that allows users to log in using OAuth2 with GitHub. After authenticating, users can view a detailed profile displaying information directly pulled from their GitHub account, such as their name, bio, avatar, and repository statistics.\n\n## Features\n\n- **Login with OAuth2 (GitHub)**\n- **User profile view with details fetched from GitHub**\n- **Custom homepage displaying authentication status**\n- **Attractive and modern user interface using Thymeleaf**\n\n## Prerequisites\n\nBefore you begin, make sure you have the following installed:\n\n- **Java 17 or higher**\n- **Maven 3.6.3 or higher**\n- **A GitHub account with an OAuth app configured** ([GitHub OAuth App Setup Instructions](https://docs.github.com/en/developers/apps/building-oauth-apps/creating-an-oauth-app))\n\n## Setup\n\n1. **Clone the repository**\n\n   ```bash\n   git clone https://github.com/carlosmgv02/Oauth2-github-example.git\n   cd Oauth2-github-example\n```\n \n1. **Configure OAuth2 credentials** Open the `src/main/resources/application.yml` file and replace `your-github-client-id` and `your-github-client-secret` with your GitHub OAuth app credentials.\n\n```yaml\nspring:\n  thymeleaf:\n    prefix: classpath:/templates/\n    suffix: .html\n  security:\n    oauth2:\n      client:\n        registration:\n          github:\n            client-id: your-github-client-id\n            client-secret: your-github-client-secret\n            scope: user\n            redirect-uri: \"{baseUrl}/login/oauth2/code/{registrationId}\"\n        provider:\n          github:\n            authorization-uri: https://github.com/login/oauth/authorize\n            token-uri: https://github.com/login/oauth/access_token\n            user-info-uri: https:/"
+    },
+    {
+      "id": "G-003",
+      "kind": "manifest",
+      "path": "pom.xml",
+      "text": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">\n    <modelVersion>4.0.0</modelVersion>\n    <parent>\n        <groupId>org.springframework.boot</groupId>\n        <artifactId>spring-boot-starter-parent</artifactId>\n        <version>2.7.13</version>\n        <relativePath/>\n    </parent>\n    <groupId>org.example</groupId>\n    <artifactId>Oauth2</artifactId>\n    <version>0.0.1-SNAPSHOT</version>\n    <name>Oauth2</name>\n    <description>Oauth2</description>\n    <url/>\n    <licenses>\n        <license/>\n    </licenses>\n    <developers>\n        <developer/>\n    </developers>\n    <scm>\n        <connection/>\n        <developerConnection/>\n        <tag/>\n        <url/>\n    </scm>\n    <properties>\n        <java.version>17</java.version>\n    </properties>\n    <dependencies>\n        <dependency>\n            <groupId>javax.servlet</groupId>\n            <artifactId>javax.servlet-api</artifactId>\n            <version>4.0.1</version>\n            <scope>provided</scope>\n        </dependency>\n        <dependency>\n            <groupId>org.springframework.boot</groupId>\n            <artifactId>spring-boot-starter-web</artifactId>\n        </dependency>\n        <dependency>\n            <groupId>org.springframework.boot</groupId>\n            <artifactId>spring-boot-starter-oauth2-client</artifactId>\n        </dependency>\n        <dependency>\n            <groupId>org.springframework.boot</groupId>\n            <artifactId>spring-boot-starter-security</artifactId>\n        </dependency>\n        <dependency>\n            <groupId>org.springframework.boot</groupId>\n            <artifactId>spring-boot-"
+    },
+    {
+      "id": "G-004",
+      "kind": "manifest",
+      "path": "Dockerfile",
+      "text": "FROM amazoncorretto:17\n\nWORKDIR /app\n\nCOPY target/Oauth2-0.0.1-SNAPSHOT.jar app.jar\n\nEXPOSE 8080\n\n# Run the JAR file\nENTRYPOINT [\"java\",\"-jar\",\"/app/app.jar\"]"
+    },
+    {
+      "id": "G-005",
+      "kind": "manifest",
+      "path": ".source.json",
+      "text": "{\n  \"github_url\": \"https://github.com/carlosmgv02/Oauth2-github-example\"\n}"
+    },
+    {
+      "id": "G-006",
+      "kind": "route",
+      "path": "src/main/java/org/example/oauth2/config/SecurityConfig.java",
+      "text": "/login**"
+    },
+    {
+      "id": "G-007",
+      "kind": "route",
+      "path": "src/main/java/org/example/oauth2/controller/UserController.java",
+      "text": "/login"
+    },
+    {
+      "id": "G-008",
+      "kind": "github",
+      "path": "https://github.com/carlosmgv02/Oauth2-github-example",
+      "text": "{\n  \"full_name\": \"carlosmgv02/Oauth2-github-example\",\n  \"description\": \"A simple web app that lets users log in with GitHub OAuth2 and view detailed profile information fetched from their GitHub account, including name, bio, avatar, and repository stats, all in a modern UI.\",\n  \"language\": \"Java\",\n  \"topics\": [\n    \"github\",\n    \"java\",\n    \"oauth2\",\n    \"security\",\n    \"spring-boot\",\n    \"thymeleaf\"\n  ],\n  \"license\": \"\"\n}"
+    }
+  ],
+  "contract": "Use only the facts below. Cite fact ids (G-00n) next to any claim. If a detail is not in this pack, write unknown \u2014 do not invent hosts, CVEs, staff names, or product features."
+}
