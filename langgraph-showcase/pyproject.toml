@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentic-security"
+version = "0.0.1"
+description = "Macro-Search - Agentic Security Scan — LangGraph pipeline for pentest, vulnerability, jailbreak and trust-management reviews"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Macro-Search - Agentic Security Scan" }]
+
+dependencies = [
+    "pydantic>=2.7",
+    "pydantic-settings>=2.3",
+    "fastapi>=0.115",
+    "starlette>=0.41,<1.0",
+    "uvicorn[standard]>=0.30",
+    "jinja2>=3.1",
+    "python-multipart>=0.0.9",
+    "itsdangerous>=2.1",
+    "typer>=0.12",
+    "httpx>=0.27",
+    "weasyprint>=63.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-asyncio>=0.23", "ruff>=0.6"]
+llm = [
+    "langgraph>=0.2.60",
+    "langchain-core>=0.3.0",
+    "langchain-openai>=0.2.0",
+]
+
+[project.scripts]
+agentic-security = "agentic_security.cli:app"
+agentic-security-run = "agentic_security.cli:app"
+
+[tool.setuptools.packages.find]
+include = ["agentic_security*"]
+
+[tool.setuptools.package-data]
+agentic_security = ["web/templates/*", "web/static/css/*", "web/static/js/*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"

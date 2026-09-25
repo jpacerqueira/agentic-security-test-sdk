@@ -1,0 +1,30 @@
+# DORMANT until LLM_PROFILE=lmstudio. Host LM Studio OpenAI-compat /v1.
+# Alias gemma4:latest → LMSTUDIO_LITELLM_MODEL (set to the loaded LM Studio id).
+
+model_list:
+  - model_name: gemma4:latest
+    litellm_params:
+      model: os.environ/LMSTUDIO_LITELLM_MODEL
+      api_base: os.environ/LMSTUDIO_API_BASE
+      api_key: os.environ/LMSTUDIO_API_KEY
+      extra_body:
+        num_ctx: 131072
+      timeout: 360
+  - model_name: openai/gemma4:latest
+    litellm_params:
+      model: os.environ/LMSTUDIO_LITELLM_MODEL
+      api_base: os.environ/LMSTUDIO_API_BASE
+      api_key: os.environ/LMSTUDIO_API_KEY
+      extra_body:
+        num_ctx: 131072
+      timeout: 360
+
+litellm_settings:
+  drop_params: true
+  request_timeout: 360
+  json_logs: true
+  set_verbose: true
+  callbacks: custom_callbacks.proxy_handler_instance
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY

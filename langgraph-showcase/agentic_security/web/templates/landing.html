@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}Launch assessment · {{ app_name }}{% endblock %}
+{% block body %}
+<section class="demo-hero">
+  <p class="classification">Find your plan · then launch an assessment</p>
+  <h1>{{ app_name }}</h1>
+  <p class="lede">Security review, vulnerability review, and jailbreak assessment — with gate reviews and a remediation plan. Reports speak the language of a pentest pack, a Trivy scan, and a Vanta-style trust program.</p>
+</section>
+
+<section class="plans">
+  {% for p in plans %}
+  <article class="plan-card" data-plan="{{ p.id }}">
+    <p class="classification">{{ p.id }}</p>
+    <h2>{{ p.name }}</h2>
+    <p>{{ p.tagline }}</p>
+    <ul>
+      {% for f in p.features %}
+      <li>{{ f }}</li>
+      {% endfor %}
+    </ul>
+    <p class="hint">{{ p.reports | length }} HTML reports in this tier.</p>
+  </article>
+  {% endfor %}
+</section>
+
+<div class="demo-shell">
+  <div>
+    <h2>Choose a source tree</h2>
+    <form id="github-fetch-form" class="github-fetch">
+      <label>Source from new URL REPO
+        <input id="github-url" name="github_url" placeholder="https://github.com/owner/repo" autocomplete="off">
+      </label>
+      <button type="submit" id="github-fetch-btn">Download zip into examples</button>
+      <p class="hint" id="github-fetch-status">Public GitHub only. The archive is extracted under examples/, then click the new card to analyse that tree. The run does not use a static example unless you click one.</p>
+    </form>
+    <div class="demo-picker" id="demo-picker">
+      {% for ex in examples %}
+      <button type="button" class="demo-card" data-path="{{ ex.path }}" data-github-url="{{ ex.github_url or '' }}">
+        <div class="demo-card-name">{{ ex.name }}</div>
+        <p class="hint">{{ ex.path }}</p>
+      </button>
+      {% endfor %}
+    </div>
+  </div>
+  <form class="demo-form" method="post" action="/runs">
+    <h2>Launch analysis</h2>
+    <input type="hidden" name="plan" id="plan-input" value="essentials">
+    <input type="hidden" name="source_path" id="source-path" value="">
+    <input type="hidden" name="target_url" id="target-url" value="">
+    <p class="hint" id="selected-source">No source tree selected — click a card, or download a repo first.</p>
+    <label>Client name <input name="client_name" value="Client"></label>
+    <div class="launch-toggles">
+      <div class="demo-field">
+        <span class="toggle-label-text">Mode</span>
+        <input type="hidden" name="skip_llm" id="skip-llm-hidden"
+               value="{% if skip_llm_default %}true{% else %}false{% endif %}">
+        <label class="switch-toggle skip-llm-toggle" for="skip-llm-input">
+          <input type="checkbox" id="skip-llm-input"
+                 {% if skip_llm_default %}checked{% endif %}>
+          <span class="toggle-label-text">
+            <span class="mode-llm">LLM (LangGraph / gateway)</span>
+            <span class="mode-det">Deterministic</span>
+          </span>
+        </label>
+        <p class="hint">On = scanners only. Off = LangGraph ChatOpenAI against the LiteLLM gateway OpenAI-compatible /v1. A new run after flipping this toggle is independent of the previous run.</p>
+      </div>
+      <div class="demo-field" id="grounding-field" hidden>
+        <span class="toggle-label-text">LLM grounding (this run)</span>
+        <input type="hidden" name="llm_grounding" id="llm-grounding-hidden" value="false">
+        <label class="switch-toggle" for="llm-grounding-input">
+          <input type="checkbox" id="llm-grounding-input">
+          <span class="toggle-label-text">
+            <span class="mode-off">Off</span>
+            <span class="mode-on">On</span>
+          </span>
+        </label>
+        <p class="hint">Ultra-Professional only. Scrapes this source tree (and GitHub metadata if the tree came from a repo URL) so LLM text must cite those facts instead of inventing them.</p>
+      </div>
+      <div class="demo-field" id="auto-approve-field">
+        <span class="toggle-label-text">Auto-approve</span>
+        <input type="hidden" name="auto_approve_gates" id="auto-approve-hidden" value="false">
+        <label class="switch-toggle" for="auto-approve-input">
+          <input type="checkbox" id="auto-approve-input">
+          <span class="toggle-label-text">
+            <span class="mode-off">Off</span>
+            <span class="mode-on">On</span>
+          </span>
+        </label>
+        <input name="auto_approve_reviewer_name" id="auto-approve-reviewer"
+               placeholder="Approver name (required if on)">
+        <p class="hint">On = every gate is approved with the name above. Off = wait for a reviewer on the run page.</p>
+      </div>
+    </div>
+    <div class="llm-confirm-inline" hidden>
+      <p>This run will call the model through the LiteLLM gateway using LangGraph. Continue?</p>
+      <button type="button" data-modal-action="confirm">Start LLM assessment</button>
+      <button type="button" data-modal-action="cancel">Cancel</button>
+    </div>
+    <button type="submit">Start assessment</button>
+  </form>
+</div>
+<script src="/static/js/landing.js"></script>
+{% endblock %}

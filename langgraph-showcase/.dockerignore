@@ -1,0 +1,13 @@
+.venv
+__pycache__
+.pytest_cache
+.ruff_cache
+.git
+runs
+*.egg-info
+.DS_Store
+.env
+transferable-skills
+images
+changes-log.md
+CLAUDE.md
