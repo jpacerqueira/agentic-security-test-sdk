@@ -2,15 +2,16 @@
 
 Markup index of the Macro-Search - Agentic Security Scan suite. Latest numbers: [RESULTS.md](RESULTS.md). Version **0.0.1**.
 
-Suite: `pytest -v -W error::DeprecationWarning`  
-Where: original Compose container `agentic-security-test-sdk-agentic-security`  
-Python 3.12.14 · pytest 9.1.1 · 2026-09-22 · **110.15s**
+Suite: `docker compose run --no-deps --rm agentic-security pytest -v`  
+Where: this folder’s image `langgraph-showcase-agentic-security`  
+Python 3.12.14 · pytest 9.1.1 · 2026-09-25 · **63 passed**
 
 | File | Tests | Role |
 |---|---|---|
 | `test_github_examples.py` | 16 | GitHub zip → examples/; landing picker; no run-page mode toggle; progress/status; artifacts from disk |
 | `test_grounding.py` | 12 | Ultra-Professional entitlements; scrape pack; launch-only checkbox; Client name default |
-| `test_llm.py` | 9 | OpenAI-compat id, LiteLlm prefix, venv gemma4 defaults, gateway profiles, UTC `/v1` logs |
+| `test_graph.py` | 3 | LangGraph node list, compiled graph, rejected gate stops the run |
+| `test_llm.py` | 9 | Gateway model alias `gemma4:latest`, ChatOpenAI base URL, venv defaults, gateway profiles, UTC `/v1` logs |
 | `test_output_pdf.py` | 2 | PDF order; WeasyPrint A4 pack |
 | `test_pentest_depth.py` | 6 | WSTG matrix, OWASP results, clean-tree HTML, JS eval, LLM merge without dropping AS-ids |
 | `test_pipeline.py` | 8 | Plans, scanners, Professional run, launch Client name, consecutive det→LLM→det, gates 1–6 |
@@ -47,8 +48,8 @@ Python 3.12.14 · pytest 9.1.1 · 2026-09-22 · **110.15s**
 | 26 | `test_grounding.py` | `test_create_run_ignores_grounding_on_lower_tiers` | **passed** | Tamper on Essentials ignored |
 | 27 | `test_grounding.py` | `test_create_run_honours_grounding_on_ultra` | **passed** | Ultra-Professional flag + run badge |
 | 28 | `test_grounding.py` | `test_create_run_blank_client_defaults_to_client` | **passed** | Blank launch name becomes `Client` |
-| 29 | `test_llm.py` | `test_openai_compat_model_id` | **passed** | LiteLlm id is `openai/<tag>` |
-| 30 | `test_llm.py` | `test_build_llm_uses_openai_prefix` | **passed** | Prefix; `build_llm()` when ADK present |
+| 29 | `test_llm.py` | `test_gateway_model_id_is_proxy_alias` | **passed** | ChatOpenAI model id is `gemma4:latest` |
+| 30 | `test_llm.py` | `test_build_chat_model_targets_gateway` | **passed** | `build_chat_model()` base URL is the gateway `/v1` |
 | 31 | `test_llm.py` | `test_code_defaults_gemma4_ollama` | **passed** | Host-venv defaults: engine ollama, gemma4, context 131072 |
 | 32 | `test_llm.py` | `test_ollama_native_base_strips_v1` | **passed** | `/v1` stripped for host-venv `/api/generate` warm |
 | 33 | `test_llm.py` | `test_openai_v1_urls_and_file_log` | **passed** | `/v1` URLs; `openai-v1.log` + `agentic-security.log`; UTC `Z` |
@@ -80,4 +81,8 @@ Python 3.12.14 · pytest 9.1.1 · 2026-09-22 · **110.15s**
 | 59 | `test_run_mode.py` | `test_parse_skip_llm_false_is_llm` | **passed** | `false` means LLM |
 | 60 | `test_run_mode.py` | `test_skip_llm_is_fixed_at_run_creation` | **passed** | skip_llm written at create; no apply_mode |
 
-**60 passed · 0 failed · 0 skipped · 0 errors** (original Compose container, 2026-09-22)
+| 61 | `test_graph.py` | `test_graph_nodes_match_pipeline` | **passed** | Node order matches the six-gate pipeline |
+| 62 | `test_graph.py` | `test_compiled_graph_has_every_node` | **passed** | Compiled graph contains every `GRAPH_NODES` name |
+| 63 | `test_graph.py` | `test_rejected_gate_stops_graph` | **passed** | Gate 1 rejection emits `pipeline_stopped` and writes no pentest HTML |
+
+**63 passed · 0 failed · 0 skipped · 0 errors** (this folder’s Compose image, 2026-09-25)

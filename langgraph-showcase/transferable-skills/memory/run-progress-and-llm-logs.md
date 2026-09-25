@@ -5,7 +5,7 @@ metadata:
   type: project
 ---
 
-The assessment page has `#run-progress` (phase fill) and, **below the gates**, `#run-status`. While the pipeline is live the banner flashes red→orange (`1.4s ease-in-out`). On `pipeline_completed` it turns green **Completed — Deterministic** or **Completed — LLM (Ollama / ADK LiteLLM)** — same in both modes. `pipeline_stopped` is a solid stopped state.
+The assessment page has `#run-progress` (phase fill) and, **below the gates**, `#run-status`. While the pipeline is live the banner flashes red→orange (`1.4s ease-in-out`). On `pipeline_completed` it turns green **Completed — Deterministic** or **Completed — LLM (LangGraph / gateway)** — same in both modes. `pipeline_stopped` is a solid stopped state.
 
 SSE already replays history, so a refresh of a finished run shows green.
 

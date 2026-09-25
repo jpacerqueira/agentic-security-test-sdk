@@ -1,10 +1,10 @@
 # Macro-Search - Agentic Security Scan — Claude / Cursor context
 
-**Project:** Security-only ADK pipeline (pentest + Trivy + jailbreak + Vanta-shaped GRC)  
+**Project:** Security-only LangGraph pipeline (pentest + Trivy + jailbreak + Vanta-shaped GRC)  
 **Version:** 0.0.1  
-**Stack:** Python 3.12, FastAPI, HTMX, Google ADK LiteLlm (optional, via Compose `llm-gateway` OpenAI `/v1`), Trivy when on PATH  
-**Entry:** `uvicorn agentic_security.web.app:app --port 8090` or `docker compose up`  
-**Git home:** `public-git/agentic-security-test-sdk`. The sibling working tree may be file-only.
+**Stack:** Python 3.12, FastAPI, HTMX, LangGraph `StateGraph`, LangChain `ChatOpenAI` (optional, via this folder’s Compose `llm-gateway` OpenAI `/v1`), Trivy when on PATH  
+**Entry:** `uvicorn agentic_security.web.app:app --port 8090` or `docker compose up` from this folder  
+**Git home:** `public-git/agentic-security-test-sdk/langgraph-showcase`. Sibling `google-cloud-showcase` is the Google ADK deployment. Deploy one at a time; both bind host **8090** and **4000**.
 
 ## What this is
 
@@ -19,8 +19,9 @@ Scope → Gate 1 → Vuln/Trivy → Gate 2 → AppSec → Gate 3
 ```
 
 Gates: `agentic_security/orchestration/pipeline.py` `GATES`.  
+Control flow: `agentic_security/orchestration/graph.py` `build_assessment_graph()` (LangGraph). `driver.py` `run_full_pipeline()` only streams that graph’s events. A rejected gate routes to the `stopped` node.  
 Scanners: `agentic_security/scanners.py` (deterministic; Trivy subprocess if installed).  
-LLM: `agentic_security/settings.py` `build_llm()` → `google.adk.models.lite_llm.LiteLlm(model="openai/<tag>", api_base=LLM_BASE_URL)`.  
+LLM: `agentic_security/settings.py` `build_chat_model()` → LangChain `ChatOpenAI(model="<tag>", base_url=LLM_BASE_URL)`. The tag is the gateway `model_name` (`gemma4:latest`), not an `openai/` provider prefix. `llm.llm_stack_available()` checks `langgraph` and `langchain_openai`.  
 Inventories: `agentic_security/inventories.py` (access, ASVS, risk, issues).  
 Reports: `agentic_security/reports/html.py`. Combined A4 PDF: `agentic_security/reports/pdf.py` (`GET /runs/{id}/output-report.pdf`).  
 Plans: `agentic_security/plans.py` (`reports_for_pdf` puts executive summary first). Ultra-Professional adds optional LLM grounding (`agentic_security/grounding.py`) — launch switch only; lower tiers cannot enable it.

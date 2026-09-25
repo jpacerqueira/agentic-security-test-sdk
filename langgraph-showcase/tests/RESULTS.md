@@ -1,36 +1,39 @@
 # Test results
 
-Suite: `pytest -v -W error::DeprecationWarning`  
-Root: `/Users/joaocerqueira/Documents/git/micro-cosmos/agentic-security-test-sdk`  
-Product version: **0.0.1**
+Suite: `docker compose run --no-deps --rm agentic-security pytest -v`  
+Root: `langgraph-showcase/` inside `public-git/agentic-security-test-sdk`  
+Product version: **0.0.1**  
+Stack: LangGraph + LangChain `ChatOpenAI` + this folder’s LiteLLM gateway (default `ollama` / `gemma4:latest`)
 
-## Original Compose container (source of truth)
+## This folder’s Compose image (source of truth)
 
-Image: `agentic-security-test-sdk-agentic-security`  
+Image: `langgraph-showcase-agentic-security`  
 Python: 3.12.14 · pytest 9.1.1  
-Run: 2026-09-22 · **60 passed, 0 failed, 0 skipped** · **110.15s**
+Run: 2026-09-25 · **63 passed, 0 failed, 0 skipped** · **39.68s**
 
-See [README.md](README.md) for the 60-row grid.
+See [README.md](README.md) for the 63-row grid. Three tests are LangGraph-only (`test_graph.py`).
 
-## Totals (Compose)
+## Totals
 
 | Result | Count |
 |---|---|
-| passed | 60 |
+| passed | 63 |
 | failed | 0 |
 | skipped | 0 |
 | errors | 0 |
 
-## Live smoke (same stack, after pentest-depth rebuild)
+## What the LLM tests cover
 
-- `llm-gateway` healthy on **4000**; app **8090**; `GET /healthz` **200**
-- Deterministic Professional auto-approve: 4 AS-ids, 9 WSTG rows, A1–A10 results, pentest HTML ~40k chars, A4 PDF **118744** bytes; no sample-vendor names in chrome
-- Consecutive det→LLM→det pytest path (mocked ADK) completed
-- Live gateway: `GET /v1/models` lists `gemma4:latest`; `ensure_llm_ready` warm OK; `generate_text("PONG")` returned `PONG` (long gemma4 prompts can exceed the previous `LLM_TIMEOUT=180`; proxy + app now wait **360s**)
+- Gateway model id is the bare alias `gemma4:latest` (not `openai/<tag>`)
+- `build_chat_model()` points `ChatOpenAI` at `http://llm-gateway:4000/v1`
+- Consecutive det→LLM→det path completed with the LangGraph stack mocked
+- Gateway warm is `POST /v1/chat/completions`
 
 ## Re-run
 
+From this folder only (do not start `google-cloud-showcase` at the same time; both bind 8090 and 4000):
+
 ```bash
-docker compose up --build -d
-docker compose exec agentic-security pytest -v -W error::DeprecationWarning
+docker compose build agentic-security
+docker compose run --no-deps --rm agentic-security pytest -v
 ```

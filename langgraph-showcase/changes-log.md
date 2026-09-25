@@ -1,7 +1,25 @@
-# Changes log — Macro-Search - Agentic Security Scan
+# Changes log — Macro-Search - Agentic Security Scan (LangGraph)
 
-Working folder: `/Users/joaocerqueira/Documents/git/micro-cosmos/agentic-security-test-sdk`  
-No git operations in this tree (owner instruction, 2026-09-17).
+This folder is the LangGraph deployment. Entries dated before 2026-09-25 describe the Google ADK lineage this tree was copied from. Current stack is LangGraph + LangChain `ChatOpenAI` + this folder’s LiteLLM gateway.
+
+---
+
+## 2026-09-25 — LangGraph instead of Google ADK
+
+Same gated assessment, scanners, reports, and LiteLLM gateway. The app no longer imports `google.adk`.
+
+| Path | Role |
+|---|---|
+| `agentic_security/orchestration/graph.py` | LangGraph `StateGraph`: one node per phase, conditional edge to `stopped` on gate rejection |
+| `agentic_security/orchestration/driver.py` | Streams graph events; does not own phase logic |
+| `agentic_security/settings.py` | `build_chat_model()` → `ChatOpenAI` at `LLM_BASE_URL`, model id `gemma4:latest` |
+| `agentic_security/llm.py` | `llm_stack_available()`, `generate_text` via `ainvoke` |
+| `pyproject.toml` `[llm]` | `langgraph`, `langchain-core`, `langchain-openai` |
+| `docker-compose.yml` | This folder’s own `llm-gateway`; default `LLM_PROFILE=ollama`, `gemma4:latest`; host ports 8090 and 4000 |
+| `transferable-skills/memory/langgraph-gateway.md` | Replaces `ollama-adk-litellm.md` |
+| `.claude/commands/add-pipeline-phase.md` | New phases are graph nodes |
+
+Container pytest (`docker compose run --no-deps --rm agentic-security pytest -v`): **63 passed**, 0 failed (2026-09-25, image `langgraph-showcase-agentic-security`, Python 3.12.14).
 
 ---
 
