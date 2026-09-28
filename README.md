@@ -36,5 +36,15 @@ Stop one stack before starting the other (`docker compose down` in that folder).
 | Scanners and reports | Trivy, heuristic AppSec, WeasyPrint PDF | Same scanners and reports |
 | Compose project | `google-cloud-showcase/docker-compose.yml` | `langgraph-showcase/docker-compose.yml` |
 | Tests | `docker compose run --no-deps --rm agentic-security pytest` in that folder | Same command in that folder |
+| GitHub Actions | `.github/workflows/test.yml` job **Google ADK** | `.github/workflows/test.yml` job **LangGraph** |
+
+## GitHub Actions
+
+`.github/workflows/test.yml` runs on every push to `main` and on pull requests. Each job builds that showcase’s image and runs `pytest` with `SKIP_LLM=true` and `-W error::DeprecationWarning`. The gateway is not started, so the jobs do not bind **8090** or **4000**.
+
+`.github/workflows/deploy.yml` is manual. Pick one showcase. After its tests pass, only that image is pushed:
+
+- `ghcr.io/jpacerqueira/agentic-security-test-sdk:google-cloud-showcase`
+- `ghcr.io/jpacerqueira/agentic-security-test-sdk:langgraph-showcase`
 
 Switching cloud only changes `LLM_PROFILE` in that folder’s `.env` and restarts that folder’s `llm-gateway`. The app keeps talking to `http://llm-gateway:4000/v1` on its own compose network.

@@ -1,0 +1,46 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: test-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Google ADK
+            showcase: google-cloud-showcase
+          - name: LangGraph
+            showcase: langgraph-showcase
+    defaults:
+      run:
+        working-directory: ${{ matrix.showcase }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Free disk space
+        working-directory: .
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          sudo docker image prune -af || true
+
+      - name: Build the app image
+        run: docker compose build agentic-security
+
+      - name: Run the suite inside the image
+        env:
+          SKIP_LLM: "true"
+        run: docker compose run --no-deps --rm -e SKIP_LLM=true agentic-security pytest -q --tb=line -W error::DeprecationWarning
