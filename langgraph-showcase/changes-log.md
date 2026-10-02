@@ -4,6 +4,12 @@ This folder is the LangGraph deployment. Entries dated before 2026-09-25 describ
 
 ---
 
+## 2026-10-02 — Showcase themes
+
+This showcase: lighter blue-slate field `#1B2838`, panel `#243447`, blue accent `#6CB0FF`. The Google ADK sibling stays white, with Google blue actions and a red/yellow/green/blue top bar. Layout and pipeline behaviour are unchanged. Skill: `transferable-skills/memory/ui-theme.md`.
+
+---
+
 ## 2026-09-25 — LangGraph instead of Google ADK
 
 Same gated assessment, scanners, reports, and LiteLLM gateway. The app no longer imports `google.adk`.

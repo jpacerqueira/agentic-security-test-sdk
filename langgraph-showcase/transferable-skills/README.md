@@ -11,6 +11,7 @@ Project skills for Macro-Search - Agentic Security Scan. They travel as markdown
 | File | When |
 |---|---|
 | `memory/product-shape.md` | What this app is (and is not) |
+| `memory/ui-theme.md` | Lighter blue-slate LangGraph palette in this folder; do not copy it onto the ADK showcase |
 | `memory/report-metrics.md` | Pentest + Trivy + Vanta metrics that HTML must carry |
 | `memory/plans-and-gates.md` | Essentials/Plus/Professional/Ultra-Professional and the six gates |
 | `memory/llm-grounding.md` | Optional Ultra-Professional scrape + cite-or-unknown LLM contract |

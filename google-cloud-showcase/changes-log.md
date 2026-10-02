@@ -5,6 +5,12 @@ No git operations in this tree (owner instruction, 2026-09-17).
 
 ---
 
+## 2026-10-02 — Showcase themes
+
+Google ADK showcase: white field, Google blue actions `#1A73E8`, red/yellow/green/blue top bar, green done pills, red reject. LangGraph showcase: lighter blue-slate field `#1B2838` and blue accent `#6CB0FF`. Layout and pipeline behaviour are unchanged. Skill: `transferable-skills/memory/ui-theme.md`.
+
+---
+
 ## 2026-09-22 — Double llm-gateway timeout (180s → 360s)
 
 Live Ollama/gemma4 jailbreak enrich hit `litellm.Timeout: Timeout passed=180.0` on `ollama_chat/gemma4:latest` after ~180s (LiteLLM retried twice). Doubled proxy `timeout` / `request_timeout` on every profile YAML and the app `LLM_TIMEOUT` so they stay aligned. Restart `llm-gateway` to pick up YAML (bind-mounted).
